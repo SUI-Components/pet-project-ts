@@ -1,0 +1,22 @@
+{
+  "name": "@adv-ui/sui-layout-header",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "typing": "lib/index.d.ts",
+  "scripts": {
+    "prepare": "npm run build:js && npm run build:styles",
+    "build:js": "node /Users/andres.alvarez/Projects/adevinta/sui/sui/packages/sui-js-compiler/index.js --ts",
+    "build:styles": "cpx './src/**/*.scss' ./lib"
+  },
+  "peerDependencies": {
+    "@s-ui/theme": "8"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.mpi-internal.com:scmspain/frontend-all--pet-project-skeleton.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT"
+}

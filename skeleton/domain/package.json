@@ -1,0 +1,48 @@
+{
+  "name": "@mv/domain",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./lib/index.js",
+  "scripts": {
+    "lib": "rm -Rf ./lib && babel ./src -d lib",
+    "lint": "sui-lint js --fix",
+    "test": "NODE_ENV=test npm run test:client && NODE_ENV=test npm run test:server",
+    "test:ci": "NODE_ENV=test ./node_modules/.bin/karma start --single-run --browsers Firefox",
+    "test:client": "NODE_ENV=test sui-test browser",
+    "test:client:watch": "npm run test:client -- --watch",
+    "test:server": "NODE_ENV=test sui-test server",
+    "test:server:watch": "npm run test:server -- --watch"
+  },
+  "keywords": [],
+  "author": "Andres Alvarez",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.17.10",
+    "@s-ui/lint": "^4.19.0",
+    "@s-ui/mockmock": "^2.1.0",
+    "@s-ui/mono": "^2.27.0",
+    "@s-ui/precommit": "^3.1.0",
+    "@s-ui/test": "^8.18.0",
+    "babel-preset-sui": "^3.43.0",
+    "nock": "9.4.2",
+    "sinon": "10"
+  },
+  "dependencies": {
+    "@s-ui/domain": "^2.5.0",
+    "just-merge": "1.1.0",
+    "path-to-regexp": "1.5.3"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "description": "",
+  "eslintConfig": {
+    "extends": [
+      "./node_modules/@s-ui/lint/eslintrc.js"
+    ]
+  },
+  "prettier": "./node_modules/@s-ui/lint/.prettierrc.js",
+  "stylelint": {
+    "extends": "./node_modules/@s-ui/lint/stylelint.config.js"
+  }
+}
