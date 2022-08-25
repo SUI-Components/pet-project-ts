@@ -14,7 +14,7 @@ export default function HomePage(): JSX.Element {
       <Helmet>
         <link rel="canonical" href="http://spa.mock/" />
       </Helmet>
-      <LayoutHeader name="Jon" lastname="Snow" dni="3213342" />
+      <LayoutHeader name="Jon" lastname="Snow" dni={324324} />
       <h1>Home page test title</h1>
     </>
   )

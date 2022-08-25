@@ -3,7 +3,7 @@
 export interface LayoutHeaderProps {
   name: string
   lastname: string
-  dni: string
+  dni?: number
   isActive?: boolean
 }
 

@@ -1,7 +1,3 @@
-/*
- * Remember: YOUR COMPONENT IS DEFINED GLOBALLY
- * */
-
 /* eslint react/jsx-no-undef:0 */
 /* eslint no-undef:0 */
 
@@ -9,7 +5,7 @@ import ReactDOM from 'react-dom'
 
 import chai, {expect} from 'chai'
 import chaiDOM from 'chai-dom'
-import Component from '../src/index'
+import Component from '../src/index.tsx'
 
 chai.use(chaiDOM)
 
@@ -41,16 +37,17 @@ describe('LayoutHeader', () => {
     expect(container.innerHTML).to.not.have.lengthOf(0)
   })
 
-  it.skip('should NOT extend classNames', () => {
+  it('should render component', () => {
     // Given
-    const props = {className: 'extended-classNames'}
-    const findSentence = str => string => string.match(new RegExp(`S*${str}S*`))
+    const props = {
+      name: 'Jon',
+      lastname: 'Snow'
+    }
 
     // When
-    const {container} = setup(props)
-    const findClassName = findSentence(props.className)
+    const {getByText} = setup(props)
 
     // Then
-    expect(findClassName(container.innerHTML)).to.be.null
+    expect(getByText('Jon - Snow')).to.be.visible
   })
 })

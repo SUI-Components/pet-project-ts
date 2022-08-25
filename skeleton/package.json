@@ -15,7 +15,7 @@
     "dev": "node /Users/andres.alvarez/Projects/adevinta/sui/sui/packages/sui-bundler/bin/sui-bundler.js dev",
     "ssr": "sui-bundler build -C && sui-ssr build -C && node server/index.js --inspect `pbpaste`",
     "phoenix": "npx @s-ui/mono@2 run 'rm -rf ./node_modules' && rm -rf ./node_modules && npm install --legacy-peer-deps",
-    "studio:dev": "sui-studio dev",
+    "studio:dev": "node /Users/andres.alvarez/Projects/adevinta/sui/sui/packages/sui-studio/bin/sui-studio-dev.js",
     "studio:generate": "sui-studio generate -P sui -S adv-ui --swc"
   },
   "repository": {
