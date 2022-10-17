@@ -1,0 +1,19 @@
+{
+  "name": "theme",
+  "version": "1.0.0",
+  "description": "<h1 align=\"center\">   🎨 Let's go with Movies theme!   <br/><br/> </h1>",
+  "main": "lib/",
+  "scripts": {
+    "lib:styles": "copyfiles -u 1 './src/**/*.scss' lib",
+    "lib": "npm run lib:styles",
+    "lint:sass": "sui-lint sass",
+    "lint": "npm run lint:sass",
+    "prepare": "npm run lib"
+  },
+  "author": "Andres Alvarez",
+  "license": "ISC",
+  "dependencies": {
+    "@s-ui/theme": "8.122.0",
+    "copyfiles": "2.4.1"
+  }
+}

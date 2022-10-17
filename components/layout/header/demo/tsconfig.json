@@ -1,0 +1,8 @@
+{
+  "extends": "../../../../tsconfig.json",
+  "compilerOptions": {
+    "types": ["react"],
+    "rootDir": "."
+  },
+  "exclude": ["node_modules", "lib"]
+}
