@@ -1,2 +1,13 @@
+node_modules
+npm-debug.json
+npm-debug.log
+npm-debug.log.*
+COMMANDS
+.npmrc
+.DS_Store
+/public
+/distServer
+package-lock.json
 .idea
-server
+.vscode
+lib

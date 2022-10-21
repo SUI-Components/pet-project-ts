@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "es5",
     "allowJs": true,
+    "declaration": true,
     "skipLibCheck": true,
     "noImplicitAny": false,
     "strict": false,
@@ -12,8 +13,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "incremental": true
+    "incremental": true,
+    "strictNullChecks": true,
+    "rootDir": "./src"
   },
   "exclude": ["node_modules", "lib"],
-  "typeAcquisition": { "enable": true }
+  "typeAcquisition": {"enable": true}
 }
