@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "co": "sui-mono commit",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "exit 0",
     "dev": "TS=true sui-bundler dev",
     "ssr": "sui-bundler build -C && sui-ssr build -C && node server/index.js --inspect `pbpaste`",
     "phoenix": "npx @s-ui/mono@2 run 'rm -rf ./node_modules' && rm -rf ./node_modules && npm install --legacy-peer-deps",
