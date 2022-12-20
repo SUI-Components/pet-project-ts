@@ -38,7 +38,7 @@
   },
   "prettier": "./node_modules/@s-ui/lint/.prettierrc.js",
   "devDependencies": {
-    "@s-ui/lint": "4.19.0",
+    "@s-ui/lint": "^4.28.1",
     "@s-ui/mono": "2.27.0",
     "@s-ui/ssr": "8.3.0",
     "@types/chai": "4.3.3",
@@ -58,7 +58,7 @@
     "@s-ui/react-head": "1.7.0",
     "@s-ui/react-initial-props": "2.15.0",
     "@s-ui/react-router": "1.9.0",
-    "@s-ui/studio": "11.14.0",
+    "@s-ui/studio": "^11.21.1",
     "@s-ui/studio-utils": "1.10.0",
     "@types/react": "18.0.21",
     "tslint-no-unused-expression-chai": "0.1.4"
