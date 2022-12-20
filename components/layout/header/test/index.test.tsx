@@ -52,6 +52,6 @@ describe('LayoutHeader', () => {
     const {getByText} = setup(props)
 
     // Then
-    expect(getByText('Jon - Snow')).to.be.visible()
+    expect(getByText('Jon - Snow')).to.be.visible
   })
 })
