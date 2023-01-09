@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "prepare": "npm run build:js && npm run build:styles",
-    "build:js": "node /users/marian.lucaci/adevinta/repos/work/apps/sui/packages/sui-js-compiler/index.js --ts",
+    "build:js": "sui-js-compiler --ts",
     "build:styles": "cpx './src/**/*.scss' ./lib"
   },
   "peerDependencies": {

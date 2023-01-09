@@ -9,16 +9,13 @@ import Component from '../src/index'
 
 chai.use(chaiDOM)
 
-describe('LayoutHeader', () => {
+describe('LayoutFooter', () => {
   // @ts-expect-error
   const setup = setupEnvironment(Component)
 
   it('should render without crashing', () => {
     // Given
-    const props = {
-      name: 'name',
-      lastname: 'lastname'
-    }
+    const props = {}
 
     // When
     const component = <Component {...props} />
@@ -41,17 +38,16 @@ describe('LayoutHeader', () => {
     expect(container.innerHTML).to.not.have.lengthOf(0)
   })
 
-  it('should render component', () => {
+  it.skip('should NOT extend classNames', () => {
     // Given
-    const props = {
-      name: 'Jon',
-      lastname: 'Snow'
-    }
+    const props = {className: 'extended-classNames'}
+    const findSentence = str => string => string.match(new RegExp(`S*${str}S*`))
 
     // When
-    const {getByText} = setup(props)
+    const {container} = setup(props)
+    const findClassName = findSentence(props.className)
 
     // Then
-    expect(getByText('Jon - Snow')).to.be.visible
+    expect(findClassName(container.innerHTML)).to.be.null
   })
 })
