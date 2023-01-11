@@ -12,10 +12,10 @@
   "scripts": {
     "co": "sui-mono commit",
     "test": "exit 0",
-    "dev": "TS=true sui-bundler dev",
+    "dev": "sui-bundler dev",
     "ssr": "sui-bundler build -C && sui-ssr build -C && node server/index.js --inspect `pbpaste`",
     "phoenix": "npx @s-ui/mono@2 run 'rm -rf ./node_modules' && rm -rf ./node_modules && npm install --legacy-peer-deps",
-    "studio:dev": "TS=true sui-studio dev",
+    "studio:dev": "sui-studio dev",
     "studio:generate": "sui-studio generate -P sui -S adv-ui --swc",
     "lint": "sui-lint js --staged && sui-lint sass --staged",
     "pre-commit": "npm run lint",
@@ -28,6 +28,13 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "config": {
+    "sui-bundler": {
+      "parser": {
+        "syntax": "typescript"
+      }
+    }
+  },
   "eslintConfig": {
     "extends": [
       "./node_modules/@s-ui/lint/eslintrc.js"
