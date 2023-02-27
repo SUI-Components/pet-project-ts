@@ -18,7 +18,7 @@
   "license": "ISC",
   "devDependencies": {
     "@babel/cli": "^7.17.10",
-    "@s-ui/lint": "^4.19.0",
+    "@s-ui/lint": "4.29.0-typescript.1",
     "@s-ui/mockmock": "^2.1.0",
     "@s-ui/mono": "^2.27.0",
     "@s-ui/precommit": "^3.1.0",
