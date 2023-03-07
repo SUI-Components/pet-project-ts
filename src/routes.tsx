@@ -6,7 +6,9 @@ import contextFactory from './contextFactory.js'
 const LoadHomePage = loadPage(
   contextFactory,
   async () =>
-    await import(/* webpackChunkName: "HomePage" */ './pages/Home/index.js')
+    // TODO: Fix this
+    // eslint-disable-next-line import/extensions
+    await import(/* webpackChunkName: "HomePage" */ './pages/Home/index')
 )
 
 export default (

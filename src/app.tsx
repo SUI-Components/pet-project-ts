@@ -5,7 +5,9 @@ import Context from '@s-ui/react-context'
 import {match, Router} from '@s-ui/react-router'
 
 import contextFactory from './contextFactory.js'
-import routes from './routes.js'
+// TODO: Fix this
+// eslint-disable-next-line import/extensions
+import routes from './routes'
 
 import './index.scss'
 
