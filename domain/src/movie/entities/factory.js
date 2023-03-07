@@ -1,4 +1,4 @@
-import MovieEntity from './MovieEntity'
+import MovieEntity from './MovieEntity.js'
 
 export const movieEntity = ({
   description,

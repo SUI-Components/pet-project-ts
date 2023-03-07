@@ -1,5 +1,3 @@
-// import PropTypes from 'prop-types'
-
 export default function LayoutFooter() {
   return (
     <div className="sui-LayoutFooter">
@@ -9,4 +7,3 @@ export default function LayoutFooter() {
 }
 
 LayoutFooter.displayName = 'LayoutFooter'
-LayoutFooter.propTypes = {}
