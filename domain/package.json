@@ -32,17 +32,5 @@
     "just-merge": "1.1.0",
     "path-to-regexp": "1.5.3"
   },
-  "directories": {
-    "lib": "lib"
-  },
-  "description": "",
-  "eslintConfig": {
-    "extends": [
-      "./node_modules/@s-ui/lint/eslintrc.js"
-    ]
-  },
-  "prettier": "./node_modules/@s-ui/lint/.prettierrc.js",
-  "stylelint": {
-    "extends": "./node_modules/@s-ui/lint/stylelint.config.js"
-  }
+  "description": ""
 }
