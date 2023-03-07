@@ -1,12 +1,12 @@
 import {loadPage} from '@s-ui/react-initial-props'
 import {IndexRoute, Route} from '@s-ui/react-router'
 
-import contextFactory from './contextFactory'
+import contextFactory from './contextFactory.js'
 
 const LoadHomePage = loadPage(
   contextFactory,
   async () =>
-    await import(/* webpackChunkName: "HomePage" */ './pages/Home/index')
+    await import(/* webpackChunkName: "HomePage" */ './pages/Home/index.js')
 )
 
 export default (
