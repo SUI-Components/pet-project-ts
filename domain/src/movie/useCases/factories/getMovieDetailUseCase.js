@@ -1,5 +1,5 @@
-import GetMovieDetailUseCase from '../GetMovieDetailUseCase'
-import {httpMovieRepository} from '../../repositories/factory'
+import {httpMovieRepository} from '../../repositories/factory.js'
+import GetMovieDetailUseCase from '../GetMovieDetailUseCase.js'
 
 export default ({config}) => {
   return new GetMovieDetailUseCase({
