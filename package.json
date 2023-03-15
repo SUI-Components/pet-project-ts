@@ -4,6 +4,7 @@
   "private": true,
   "description": "Pet project used as a explanation for the landing project of the newcomers.",
   "main": "index.js",
+  "type": "module",
   "workspaces": [
     "components/**",
     "domain",
@@ -48,10 +49,10 @@
     "@s-ui/lint": "4.29.0-typescript.2",
     "@s-ui/mono": "2.27.0",
     "@s-ui/ssr": "8.3.0",
-    "@types/chai": "4.3.3",
+    "@types/chai": "^4.3.3",
     "@types/chai-dom": "0.0.13",
     "@types/mocha": "10.0.0",
-    "typescript": "4.3.2"
+    "typescript": "^5.0.1-rc"
   },
   "dependencies": {
     "@adv-ui/sui-layout-header": "1",
@@ -67,7 +68,8 @@
     "@s-ui/react-router": "1.9.0",
     "@s-ui/studio": "11.33.0-typescript.1",
     "@s-ui/studio-utils": "1.10.0",
-    "@types/react": "18.0.21",
+    "@types/react": "^18.0.21",
+    "@types/react-dom": "^18.0.11",
     "eslint-config-standard-react": "^13.0.0",
     "tslint-no-unused-expression-chai": "0.1.4"
   }
