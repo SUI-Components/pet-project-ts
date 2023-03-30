@@ -1,4 +1,4 @@
-import ReactDOM from 'react-dom'
+import * as ReactDOM from 'react-dom'
 
 import {withContext} from '@s-ui/hoc'
 import Context from '@s-ui/react-context'
