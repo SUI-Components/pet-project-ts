@@ -16,6 +16,5 @@ export default (
     <Route path="/">
       <IndexRoute getComponent={LoadHomePage} />
     </Route>
-    -
   </Route>
 )
