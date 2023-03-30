@@ -1,3 +1,3 @@
-import domain from '../domain/src/index.ts'
+import domain from '@mv/domain'
 
 export default async () => ({domain})

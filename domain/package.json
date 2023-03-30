@@ -4,7 +4,8 @@
   "private": true,
   "main": "./lib/index.js",
   "scripts": {
-    "lib": "rm -Rf ./lib && babel ./src -d lib",
+    "lib": "sui-js-compiler",
+    "prepublishOnly": "npm run lib",
     "lint": "sui-lint js --fix",
     "test": "NODE_ENV=test npm run test:client && NODE_ENV=test npm run test:server",
     "test:ci": "NODE_ENV=test ./node_modules/.bin/karma start --single-run --browsers Firefox",
