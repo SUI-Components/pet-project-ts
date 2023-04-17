@@ -1,7 +1,7 @@
 import {loadPage} from '@s-ui/react-initial-props'
 import {IndexRoute, Route} from '@s-ui/react-router'
 
-import contextFactory from './contextFactory.js'
+import contextFactory from './contextFactory.ts'
 
 const LoadHomePage = loadPage(
   contextFactory,
@@ -16,6 +16,5 @@ export default (
     <Route path="/">
       <IndexRoute getComponent={LoadHomePage} />
     </Route>
-    -
   </Route>
 )

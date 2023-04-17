@@ -4,11 +4,14 @@ import Helmet from 'react-helmet'
 import Context from '@s-ui/react-context'
 import LayoutHeader from '@adv-ui/sui-layout-header'
 
+import {computeName} from './utils.ts'
+
 export default function HomePage(): JSX.Element {
-  const {domain} = useContext(Context)
+  const {domain} = useContext<any>(Context)
 
   console.log('domain', domain) // eslint-disable-line no-console
   console.log('domain config', domain.get('config')) // eslint-disable-line no-console
+  console.log(computeName('config-', 'dani')) // eslint-disable-line no-console
 
   return (
     <>
