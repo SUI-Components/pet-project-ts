@@ -15,7 +15,7 @@
     "test": "exit 0",
     "dev": "sui-bundler dev",
     "ssr": "sui-bundler build -C && sui-ssr build -C && node server/index.js --inspect `pbpaste`",
-    "phoenix": "npx @s-ui/mono@2 run 'rm -rf ./node_modules' && rm -rf ./node_modules && npm install --legacy-peer-deps",
+    "phoenix": "npx @s-ui/mono@2 phoenix && npx -y ultra-runner --raw --recursive prepublishOnly",
     "studio:dev": "sui-studio dev",
     "studio:generate": "sui-studio generate -P sui -S adv-ui --swc",
     "lint": "sui-lint js && sui-lint sass",
