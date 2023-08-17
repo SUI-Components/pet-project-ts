@@ -5,8 +5,9 @@ export default class HTTPMovieRepository {
     this._movieEntityMapper = movieEntityMapper
   }
 
-  getMovieDetail({id}) {
-    const {BASE_API_URL, API_KEY} = this._config
+  async getMovieDetail({id}: {id: string}): Promise<any> {
+    const {BASE_API_URL, API_KEY}: {BASE_API_URL: string; API_KEY: string} =
+      this._config
     const url = `${BASE_API_URL}/movie/${id}?api_key=${API_KEY}`
 
     return this._fetcher

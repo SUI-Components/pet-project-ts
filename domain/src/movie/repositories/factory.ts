@@ -1,8 +1,8 @@
 import {FetcherFactory} from '@s-ui/domain'
 
-import {movieEntity} from '../entities/factory.js'
-import {fromApiResponseToMovieEntityMapper} from '../mappers/factory.js'
-import HTTPMovieRepository from './HTTPMovieRepository.js'
+import {movieEntity} from '../entities/factory'
+import {fromApiResponseToMovieEntityMapper} from '../mappers/factory'
+import HTTPMovieRepository from './HTTPMovieRepository'
 
 export const httpMovieRepository = ({config}) => {
   return new HTTPMovieRepository({

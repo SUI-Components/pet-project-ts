@@ -1,8 +1,12 @@
 {
   "name": "@mv/domain",
+  "description": "",
+  "author": "Andres Alvarez",
+  "license": "ISC",
+  "keywords": [],
   "version": "1.0.0",
   "private": true,
-  "main": "./lib/index.js",
+  "main": "./lib",
   "scripts": {
     "lib": "sui-js-compiler",
     "prepublishOnly": "npm run lib",
@@ -14,22 +18,27 @@
     "test:server": "NODE_ENV=test sui-test server",
     "test:server:watch": "npm run test:server -- --watch"
   },
-  "keywords": [],
-  "author": "Andres Alvarez",
-  "license": "ISC",
-  "devDependencies": {
-    "@s-ui/lint": "4.29.0-typescript.3",
-    "@s-ui/mockmock": "^2.1.0",
-    "@s-ui/mono": "^2.27.0",
-    "@s-ui/precommit": "^3.1.0",
-    "@s-ui/test": "^8.18.0",
-    "nock": "9.4.2",
-    "sinon": "10"
-  },
   "dependencies": {
-    "@s-ui/domain": "^2.5.0",
+    "@s-ui/decorators": "3",
+    "@s-ui/domain": "2",
     "just-merge": "1.1.0",
     "path-to-regexp": "1.5.3"
   },
-  "description": ""
+  "devDependencies": {
+    "@s-ui/lint": "typescript",
+    "@s-ui/mockmock": "2",
+    "@s-ui/mono": "2",
+    "@s-ui/precommit": "3",
+    "@s-ui/test": "typescript",
+    "nock": "9.4.2",
+    "sinon": "10"
+  },
+  "config": {
+    "sui-test": {
+      "server": {
+        "esmOverride": true,
+        "useLibDir": false
+      }
+    }
+  }
 }

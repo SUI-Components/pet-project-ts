@@ -1,4 +1,4 @@
-import {useContext} from 'react'
+import {useContext, useEffect} from 'react'
 import Helmet from 'react-helmet'
 
 import Context from '@s-ui/react-context'
@@ -12,6 +12,10 @@ export default function HomePage(): JSX.Element {
   console.log('domain', domain) // eslint-disable-line no-console
   console.log('domain config', domain.get('config')) // eslint-disable-line no-console
   console.log(computeName('config-', 'dani')) // eslint-disable-line no-console
+
+  useEffect(() => {
+    domain.get('get_movie_detail_use_case').execute({id: 'tt0068646'})
+  }, [domain])
 
   return (
     <>
