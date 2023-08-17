@@ -1,25 +1,7 @@
 {
+  "extends": "@s-ui/bundler/tsconfig.json",
   "compilerOptions": {
-    "allowJs": true,
-    "skipLibCheck": true,
-    "noImplicitAny": false,
-    "strict": false,
-    "strictNullChecks": true,
-    "declaration": true,
-    "emitDeclarationOnly": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "allowImportingTsExtensions": true,
-    "moduleResolution": "bundler",
-    "isolatedModules": false,
-    "jsx": "react-jsx",
-    "incremental": true,
-    "rootDir": "./",
-    "outFile": "./lib/index.d.ts"
+    "rootDir": "./"
   },
-  "include": ["src", "domain", "components"],
-  "exclude": ["node_modules", "**/lib"],
-  "typeAcquisition": {
-    "enable": true
-  }
+  "include": ["src", "domain", "components"]
 }
