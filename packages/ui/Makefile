@@ -8,9 +8,8 @@ dev: ## Start a studio development mode
 	NODE_ENV=development npx sui-studio dev
 
 generate: ## Generate a new component
-	$(if $(PREFIX),,$(error Must set PREFIX))
-	$(if $(CATEGORY),,$(error Must set CATEGORY))
-	$(if $(COMPONENT),,$(error Must set COMPONENT))
+	@: $(if $(and $(PREFIX),$(CATEGORY),$(COMPONENT)),, \
+		$(error "Missing one or more required parameters: PREFIX, CATEGORY, COMPONENT"))
 	npx sui-studio generate -P $(PREFIX) -S adv-ui --swc $(CATEGORY) $(COMPONENT)
 
 start: ## Start a studio in Demo mode
