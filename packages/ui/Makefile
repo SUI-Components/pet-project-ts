@@ -1,0 +1,22 @@
+.PHONY: lib
+OWNER=Web Platform <enablers-frontend@adevinta.com>
+
+SHELL := /bin/bash
+.DEFAULT_GOAL := help
+
+dev: ## Start a studio development mode
+	NODE_ENV=development npx sui-studio dev
+
+generate: ## Generate a new component
+	$(if $(PREFIX),,$(error Must set PREFIX))
+	$(if $(CATEGORY),,$(error Must set CATEGORY))
+	$(if $(COMPONENT),,$(error Must set COMPONENT))
+	npx sui-studio generate -P $(PREFIX) -S adv-ui --swc $(CATEGORY) $(COMPONENT)
+
+start: ## Start a studio in Demo mode
+	NODE_ENV=development npx sui-studio start
+
+help: ## show help
+	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+
+

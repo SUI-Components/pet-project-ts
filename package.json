@@ -1,5 +1,5 @@
 {
-  "name": "web-platform-movies",
+  "name": "@mv/web-platform-movies",
   "version": "0.0.0",
   "private": true,
   "description": "the representation on earth of our golden path",
@@ -12,14 +12,15 @@
     "type": "git",
     "url": "git@github.mpi-internal.com:scmspain/frontend-all--pet-project-ts.git"
   },
-  "keywords": ["Golden Path", "Template"],
-  "author": "Wen Platform <enablers-frontend@adevinta.com> (https://github.mpi-internal.com/scmspain/es-td-agreements/tree/master/30-Frontend)",
+  "keywords": [
+    "Golden Path",
+    "Template"
+  ],
+  "author": "Web Platform <enablers-frontend@adevinta.com> (https://github.mpi-internal.com/scmspain/es-td-agreements/tree/master/30-Frontend)",
   "license": "MIT",
-  "scripts": {
-  },
-  "dependencies": {
-  },
+  "scripts": {},
   "devDependencies": {
+    "@s-ui/lint": "typescript"
   },
   "eslintConfig": {
     "extends": [
@@ -29,5 +30,15 @@
   "stylelint": {
     "extends": "./node_modules/@s-ui/lint/stylelint.config.js"
   },
-  "prettier": "./node_modules/@s-ui/lint/.prettierrc.js"
+  "prettier": "./node_modules/@s-ui/lint/.prettierrc.js",
+  "overrides": {
+    "@s-ui/bundler": "typescript",
+    "@s-ui/helpers": "typescript",
+    "@s-ui/hoc": "typescript",
+    "@s-ui/js-compiler": "typescript",
+    "@s-ui/react-context": "typescript",
+    "@s-ui/studio": "typescript",
+    "@s-ui/lint": "typescript",
+    "@s-ui/test": "typescript"
+  }
 }
