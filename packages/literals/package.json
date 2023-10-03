@@ -1,0 +1,19 @@
+{
+  "name": "@mv/literals",
+  "description": "Set of I18N Dictionaries to be used in our apps",
+  "author": "Web Platform <enablers-frontend@adevinta.com> (https://github.mpi-internal.com/scmspain/es-td-agreements/tree/master/30-Frontend)",
+  "license": "MIT",
+  "version": "1.0.0",
+  "keywords": [
+    "I18N"
+  ],
+  "scripts": {
+    "lib": "make lib",
+    "prepublishOnly": "make prepublishOnly"
+  },
+  "dependencies": {
+    "@s-ui/js-compiler": "typescript"
+  },
+  "devDependencies": {
+  }
+}
