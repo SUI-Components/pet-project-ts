@@ -1,15 +1,9 @@
 import {loadPage} from '@s-ui/react-initial-props'
 import {IndexRoute, Route} from '@s-ui/react-router'
 
-import contextFactory from './contextFactory.ts'
+import contextFactory from './contextFactory'
 
-const LoadHomePage = loadPage(
-  contextFactory,
-  async () =>
-    // TODO: Fix this
-    // eslint-disable-next-line import/extensions
-    await import(/* webpackChunkName: "HomePage" */ './pages/Home/index')
-)
+const LoadHomePage = loadPage(contextFactory, async () => import(/* webpackChunkName: "HomePage" */ './pages/Home')) // eslint-disable-line 
 
 export default (
   <Route>

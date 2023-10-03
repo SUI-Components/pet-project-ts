@@ -9,10 +9,20 @@
     "IMDB",
     "Pet Project"
   ],
-  "scripts": {},
+  "scripts": {
+    "dev": "make dev",
+    "ssr:preview": "make preview_ssr"
+  },
   "dependencies": {
     "@adv-ui/pet-domain": "^1.0.0",
     "@adv-ui/pet-styles": "^1.0.0",
+    "@s-ui/react-head": "^1.13.0",
+    "@s-ui/react-initial-props": "^2.21.0",
+    "@s-ui/react-router": "^1.15.0",
     "@s-ui/ssr": "^8.16.0"
+  },
+  "devDependencies": {
+    "@s-ui/bundler": "typescript",
+    "@types/react-helmet": "^6.1.7"
   }
 }
