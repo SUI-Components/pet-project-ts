@@ -39,6 +39,7 @@
     "@s-ui/react-context": "typescript",
     "@s-ui/studio": "typescript",
     "@s-ui/lint": "typescript",
-    "@s-ui/test": "typescript"
+    "@s-ui/test": "typescript",
+    "@s-ui/mock": "beta"
   }
 }
