@@ -1,9 +1,9 @@
 {
-  "name": "@mv/ui",
+  "name": "@adv-ui/pet-ui",
+  "version": "1.0.0",
   "description": "Set of UI component to be used in our apps",
   "author": "Web Platform <enablers-frontend@adevinta.com> (https://github.mpi-internal.com/scmspain/es-td-agreements/tree/master/30-Frontend)",
   "license": "MIT",
-  "version": "1.0.0",
   "keywords": [
     "UIKit",
     "React"

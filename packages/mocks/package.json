@@ -1,9 +1,9 @@
 {
-  "name": "@mv/mocks",
+  "name": "@adv-ui/pet-mocks",
+  "version": "1.0.0",
   "description": "Set of API end points mocks to be used in our development",
   "author": "Web Platform <enablers-frontend@adevinta.com> (https://github.mpi-internal.com/scmspain/es-td-agreements/tree/master/30-Frontend)",
   "license": "MIT",
-  "version": "1.0.0",
   "keywords": [
     "MSW",
     "API development"

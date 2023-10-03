@@ -1,0 +1,18 @@
+{
+  "name": "@adv-ui/pet-movies",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SPA application about movies",
+  "author": "Web Platform <enablers-frontend@adevinta.com> (https://github.mpi-internal.com/scmspain/es-td-agreements/tree/master/30-Frontend)",
+  "license": "MIT",
+  "keywords": [
+    "IMDB",
+    "Pet Project"
+  ],
+  "scripts": {},
+  "dependencies": {
+    "@adv-ui/pet-domain": "^1.0.0",
+    "@adv-ui/pet-styles": "^1.0.0",
+    "@s-ui/ssr": "^8.16.0"
+  }
+}
