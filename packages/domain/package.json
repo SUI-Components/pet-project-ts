@@ -7,6 +7,7 @@
   "keywords": [
     "Bussiness Logic"
   ],
+  "main": "./lib/index.js",
   "scripts": {
     "lib": "make lib",
     "prepublishOnly": "make prepublishOnly",
