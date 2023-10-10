@@ -22,7 +22,29 @@
     "@s-ui/ssr": "^8.16.0"
   },
   "devDependencies": {
+    "@adv-ui/pet-mocks": "^1.0.0",
     "@s-ui/bundler": "typescript",
     "@types/react-helmet": "^6.1.7"
+  },
+  "config": {
+    "sui-bundler": {
+      "env": [
+        "RELEASE",
+        "VERSION",
+        "STAGE",
+        "TEST_E2E",
+        "CACHE_DISABLED",
+        "MOCK_API_REQUESTS"
+      ],
+      "vendor": [
+        "@s-ui/i18n",
+        "@s-ui/polyfills",
+        "@s-ui/react-head",
+        "@s-ui/react-router",
+        "classnames",
+        "react-dom",
+        "react"
+      ]
+    }
   }
 }

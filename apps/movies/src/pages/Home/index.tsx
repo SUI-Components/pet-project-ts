@@ -1,7 +1,7 @@
 import {useContext, useEffect} from 'react'
-import Helmet from 'react-helmet'
 
 import Context from '@s-ui/react-context'
+import Helmet from '@s-ui/react-head'
 import LayoutHeader from '@adv-ui/sui-layout-header'
 
 export default function HomePage(): JSX.Element {
