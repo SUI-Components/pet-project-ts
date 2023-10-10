@@ -1,5 +1,5 @@
 {
-  "name": "@mv/web-platform-movies",
+  "name": "@adv-ui/pet-web-platform-movies",
   "version": "0.0.0",
   "private": true,
   "description": "the representation on earth of our golden path",
@@ -18,9 +18,18 @@
   ],
   "author": "Web Platform <enablers-frontend@adevinta.com> (https://github.mpi-internal.com/scmspain/es-td-agreements/tree/master/30-Frontend)",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "co": "make co",
+    "lint": "make lint",
+    "test": "make test",
+    "pre-commit": "make precommit",
+    "pre-push": "make prepush"
+  },
   "devDependencies": {
-    "@s-ui/lint": "typescript"
+    "@s-ui/lint": "typescript",
+    "@s-ui/mono": "2",
+    "@s-ui/precommit": "3",
+    "typescript": "5"
   },
   "eslintConfig": {
     "extends": [
