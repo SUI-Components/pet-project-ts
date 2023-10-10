@@ -2,7 +2,7 @@ import {useContext, useEffect} from 'react'
 
 import Context from '@s-ui/react-context'
 import Helmet from '@s-ui/react-head'
-import LayoutHeader from '@adv-ui/sui-layout-header'
+import LayoutHeader from '@adv-ui/pet-layout-header'
 
 export default function HomePage(): JSX.Element {
   const {domain} = useContext<any>(Context)
