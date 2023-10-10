@@ -1,6 +1,6 @@
 {
   "name": "@adv-ui/pet-styles",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Theme using SASS",
   "author": "Web Platform <enablers-frontend@adevinta.com> (https://github.mpi-internal.com/scmspain/es-td-agreements/tree/master/30-Frontend)",
   "license": "MIT",
@@ -11,7 +11,7 @@
   "scripts": {
     "lib": "make lib",
     "lint": "make lint",
-    "prepublishOnly" : "make prepublishOnly"
+    "prepublishOnly": "make prepublishOnly"
   },
   "dependencies": {
     "@s-ui/theme": "8"
