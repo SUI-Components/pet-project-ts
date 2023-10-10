@@ -1,5 +1,14 @@
 # CHANGELOG
 
+# 1.3.0 (2023-10-10)
+
+
+### Features
+
+* **packages/ui/components/layout/footer:** change package name ([62416a8](https://github.mpi-internal.com/scmspain/frontend-all--pet-project-skeleton/commit/62416a85d29ceeeafd964e74365c1dde99512f1a))
+
+
+
 # 1.2.0 (2023-10-10)
 
 
