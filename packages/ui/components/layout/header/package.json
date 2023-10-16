@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "typing": "lib/index.d.ts",
   "scripts": {
-    "prepare": "npm run build:js && npm run build:styles",
+    "prepublishOnly": "npm run build:js && npm run build:styles",
     "build:js": "sui-js-compiler",
     "build:styles": "cpx './src/**/*.scss' ./lib"
   },
