@@ -23,13 +23,15 @@
     "lint": "make lint",
     "test": "make test",
     "pre-commit": "make precommit",
-    "pre-push": "make prepush"
+    "pre-push": "make prepush",
+    "postinstall": "make postinstall"
   },
   "devDependencies": {
     "@s-ui/lint": "typescript",
     "@s-ui/mono": "2",
     "@s-ui/precommit": "3",
-    "typescript": "5"
+    "typescript": "5.0",
+    "ultra-runner": "3.10.5"
   },
   "eslintConfig": {
     "extends": [

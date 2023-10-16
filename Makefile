@@ -4,17 +4,20 @@ OWNER=Web Platform <enablers-frontend@adevinta.com>
 SHELL := /bin/bash
 .DEFAULT_GOAL := help
 
-co:
+co: ## Commit a new change using our wizard
 	npx sui-mono commit
 
 lint: 
 	npx sui-lint js --staged
 	npx sui-lint sass --staged
 
-test:
+test: ## Tests all aour packages and apps in browser and server
 	@echo \"Skipping tests as they are not present\"
 
 precommit: lint
+
+postinstall: ## Execute any prepublishOnly taks in all packages
+	npx -y ultra-runner --raw --recursive prepublishOnly
 
 prepush: test
 
