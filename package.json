@@ -52,6 +52,6 @@
     "@s-ui/lint": "typescript",
     "@s-ui/test": "typescript",
     "@s-ui/mock": "beta",
-    "typescript": "5"
+    "typescript": "5.0"
   }
 }
