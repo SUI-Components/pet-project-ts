@@ -10,6 +10,7 @@
     "Pet Project"
   ],
   "scripts": {
+    "build": "make build",
     "dev": "make dev",
     "ssr:preview": "make preview_ssr"
   },

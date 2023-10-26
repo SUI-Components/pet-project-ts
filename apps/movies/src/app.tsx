@@ -5,13 +5,13 @@ import Context from '@s-ui/react-context'
 import {HeadProvider} from '@s-ui/react-head'
 import {match, Router} from '@s-ui/react-router'
 
-import contextFactory from './contextFactory.ts'
-import routes from './routes.tsx'
+import contextFactory from './contextFactory'
+import routes from './routes'
 
 import './index.scss'
 
 export default contextFactory().then(context => {
-  match({routes}, async (err: Error | null, _: any, renderProps) => {
+  match({routes}, async (err: Error | null, _: any, renderProps: any) => {
     if (err != null) console.error(err) // eslint-disable-line no-console
 
     const App = withContext(context)(Router)
