@@ -13,8 +13,6 @@ env:
   ARTIFACTORY_CONTEXT: https://artifactory.mpi-internal.com/artifactory
   ARTIFACTORY_USER: ${{ secrets.ARTIFACTORY_USER }}
   ARTIFACTORY_PWD: ${{ secrets.ARTIFACTORY_PWD }}
-  DOCKER_COMPOSE_VERSION: "1.29.2"
-  DOCKER_BUILDKIT: 1
 
 jobs:
   build-image:
