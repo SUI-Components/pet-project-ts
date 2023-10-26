@@ -25,8 +25,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Link
-        run: ln -s $PWD/.docker/Dockerfile $PWD/Dockerfile
+          # - name: Link
+          #   run: ln -s $PWD/.docker/Dockerfile $PWD/Dockerfile
 
       - name: Tap
         run: ls -pal .
