@@ -25,12 +25,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Tap
-        run: ls -pal .
-
       - name: Link
         run: ln -s $PWD/.docker/Dockerfile $PWD/Dockerfile
 
+      - name: Tap
+        run: ls -pal .
 
       - name: Build docker image
         id: build-image
