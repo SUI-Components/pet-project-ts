@@ -1,0 +1,14 @@
+{
+  "name": "@adv-ui/pet-e2e",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Set of E2E tests for our apps",
+  "author": "Web Platform <enablers-frontend@adevinta.com> (https://github.mpi-internal.com/scmspain/es-td-agreements/tree/master/30-Frontend)",
+  "license": "MIT",
+  "keywords": [
+    "Cypress",
+    "E2E"
+  ],
+  "scripts": {}
+}
+

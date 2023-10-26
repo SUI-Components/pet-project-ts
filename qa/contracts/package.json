@@ -1,0 +1,15 @@
+{
+  "name": "@adv-ui/pet-contracts",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Set of contract testing for our APIs used in the apps",
+  "author": "Web Platform <enablers-frontend@adevinta.com> (https://github.mpi-internal.com/scmspain/es-td-agreements/tree/master/30-Frontend)",
+  "license": "MIT",
+  "keywords": [
+    "Pact",
+    "contrat testing"
+  ],
+  "scripts": {}
+}
+
+
