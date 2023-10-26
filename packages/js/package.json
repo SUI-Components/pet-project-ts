@@ -18,10 +18,9 @@
     "test:server": "make test_server",
     "test:server:watch": "make test_server_watch"
   },
-  "dependencies": {
-    "@s-ui/js-compiler": "typescript"
-  },
   "devDependencies": {
+    "@carlosvillu/linter": "^1.1.0",
+    "@s-ui/js-compiler": "typescript",
     "@s-ui/mockmock": "2",
     "@s-ui/test": "typescript",
     "@types/chai": "4.3.6",
