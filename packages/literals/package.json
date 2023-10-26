@@ -11,8 +11,7 @@
     "lib": "make lib",
     "prepublishOnly": "make prepublishOnly"
   },
-  "dependencies": {
+  "devDependencies": {
     "@s-ui/js-compiler": "typescript"
-  },
-  "devDependencies": {}
+  }
 }
