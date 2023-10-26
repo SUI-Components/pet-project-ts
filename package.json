@@ -24,7 +24,8 @@
     "test": "make test",
     "pre-commit": "make precommit",
     "pre-push": "make prepush",
-    "postinstall": "make postinstall"
+    "postinstall": "make postinstall",
+    "phoenix": "make phoenix"
   },
   "devDependencies": {
     "@s-ui/lint": "typescript",

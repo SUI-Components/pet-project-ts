@@ -1,0 +1,14 @@
+# https://github.com/docker/awesome-compose
+services:
+  movies:
+    build:
+      dockerfile: "${PWD}/.docker/Dockerfile"
+      context: "${PWD}"
+      args:
+        CONSOLE: true
+        STAGE: production
+        NODE_ENV: production
+    environment:
+      PORT: 2023
+    ports:
+      - 2023:2023
