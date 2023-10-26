@@ -7,7 +7,6 @@ COMMANDS
 .DS_Store
 public
 distServer
-package-lock.json
 .idea
 .vscode
 lib
