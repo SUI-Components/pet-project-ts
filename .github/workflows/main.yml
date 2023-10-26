@@ -30,5 +30,4 @@ jobs:
         uses: common-platform/actions/build-image@v0
         with:
           dockerfile-path: ./.docker/Dockerfile
-          build-path: .
           push-image: true
