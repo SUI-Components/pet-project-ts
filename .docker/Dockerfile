@@ -51,8 +51,8 @@ COPY qa/contracts/package.json qa/contracts/package.json
 COPY qa/e2e/package.json qa/e2e/package.json
 COPY qa/mocks/package.json qa/mocks/package.json
 
-RUN --mount=type=cache,target=/root/.npm \ 
-    npm ci --include=dev --ignore-scripts
+# RUN --mount=type=cache,target=/root/.npm \ 
+RUN npm ci --include=dev --ignore-scripts
 
 ################################################################################
 # Create a stage for building the application.
