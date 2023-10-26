@@ -25,6 +25,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Tap
+        run: ls -pal .
+
       - name: Build docker image
         id: build-image
         uses: common-platform/actions/build-image@v0
