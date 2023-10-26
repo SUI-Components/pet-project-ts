@@ -21,10 +21,10 @@
   },
   "dependencies": {
     "@s-ui/decorators": "3",
-    "@s-ui/domain": "2",
-    "@s-ui/js-compiler": "typescript"
+    "@s-ui/domain": "2"
   },
   "devDependencies": {
+    "@s-ui/js-compiler": "typescript",
     "@s-ui/mockmock": "2",
     "@s-ui/test": "typescript",
     "@types/chai": "4.3.6",
