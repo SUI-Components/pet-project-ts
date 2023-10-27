@@ -29,7 +29,8 @@ jobs:
 
       - name: Build docker image
         id: build-image
-        uses: common-platform/actions/build-image@maiao.I5080c45907f7db964568678ff72e4f74828d0b4f
+        uses: common-platform/actions/build-image@v0
         with:
           dockerfile-path: ./.docker/Dockerfile
           push-image: true
+          additional-tags: '["latest"]'
