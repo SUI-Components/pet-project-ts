@@ -1,0 +1,1 @@
+echo "Upload folder public!!"
