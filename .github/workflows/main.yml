@@ -37,5 +37,5 @@ jobs:
           dockerfile-path: ./.docker/Dockerfile
           push-image: true
           additional-tags: '["latest"]'
-          build-args: '{\"STAGE\": \"${{ matrix.environment }}\"}'
+          build-args: '{"STAGE": "${{ matrix.environment }}"}'
           suffix: ${{ matrix.environment }}
