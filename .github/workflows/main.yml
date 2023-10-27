@@ -34,3 +34,4 @@ jobs:
           dockerfile-path: ./.docker/Dockerfile
           push-image: true
           additional-tags: '["latest"]'
+          suffix: 'production'
