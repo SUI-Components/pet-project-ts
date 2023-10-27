@@ -18,8 +18,6 @@ jobs:
   build-image:
     runs-on: medium
     if: github.ref != 'refs/heads/master'
-    outputs:
-      image-tag: ${{ steps.build-image.outputs.image-tag }}
     strategy:
       matrix:
         environment: ['production', 'development']
@@ -28,7 +26,9 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Tap
-        run: ls -pal .
+        run: |
+          echo $GITHUB_SHA
+          ls -pal .
 
       - name: Build docker image
         id: build-image
