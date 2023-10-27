@@ -18,9 +18,11 @@ env:
 jobs:
   build-image:
     runs-on: medium
+    if: github.ref != 'refs/heads/master'
     strategy:
       matrix:
         environment: ['production', 'development']
+        application: ['movies']
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -36,7 +38,20 @@ jobs:
         with:
           dockerfile-path: ./.docker/Dockerfile
           push-image: true
-          additional-tags: '["${{github.sha}}"]'
-          build-args: '{"STAGE": "${{ matrix.environment }}"}'
-          suffix: ${{ matrix.environment }}
+          additional-tags: '["${{ github.sha }}"]'
+          build-args: '{"STAGE": "${{ matrix.environment }}", "APPLICATION": "${{ matrix.environment }}"}'
+          suffix: '${{ matrix.application }}-${{ matrix.environment }}'
 
+            # validate-and-publish:
+            #   needs: build-image
+            #   strategy:
+            #     matrix:
+            #       environment: ['production', 'development']
+            #   uses: scmspain/platform-common--actions/.github/workflows/validate-and-publish.yml@v0
+            #   with:
+            #     image-tag: ${{ DOCKER_IMAGE_BASENAME }}-${{ matrix.environment }}:${{ github.sha }}
+            #     application-name: ms-movies--sandbox
+            #     bounded-context: es-microtest
+            #   secrets:
+            #     artifactory-user: ${{ secrets.ARTIFACTORY_USER }}
+            #     artifactory-pwd: ${{ secrets.ARTIFACTORY_PWD }}
