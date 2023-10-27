@@ -39,7 +39,7 @@ jobs:
           dockerfile-path: ./.docker/Dockerfile
           push-image: true
           additional-tags: '["${{ github.sha }}"]'
-          build-args: '{"STAGE": "${{ matrix.environment }}", "APPLICATION": "${{ matrix.environment }}"}'
+          build-args: '{"STAGE": "${{ matrix.environment }}", "APPLICATION": "${{ matrix.application }}"}'
           suffix: '${{ matrix.application }}-${{ matrix.environment }}'
 
             # validate-and-publish:
