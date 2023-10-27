@@ -62,6 +62,7 @@ FROM deps as build
 ARG APPLICATION=movies
 ARG NODE_ENV=production
 ARG STAGE=production
+ARG CDN=/
 
 # Copy the rest of the source files into the image.
 COPY . .
@@ -72,6 +73,7 @@ WORKDIR /usr/src/app/apps/${APPLICATION}
 
 ENV NODE_ENV ${NODE_ENV}
 ENV STAGE ${STAGE}
+ENV CDN ${CDN}
 
 RUN make build
 

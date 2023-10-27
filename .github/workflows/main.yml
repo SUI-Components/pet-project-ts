@@ -18,7 +18,6 @@ env:
 jobs:
   build-image:
     runs-on: medium
-    if: github.ref != 'refs/heads/master'
     strategy:
       matrix:
         environment: ['production', 'development']
@@ -33,7 +32,6 @@ jobs:
           ls -pal .
 
       - name: Build docker image
-        id: build-image
         uses: common-platform/actions/build-image@v0
         with:
           dockerfile-path: ./.docker/Dockerfile
@@ -41,3 +39,4 @@ jobs:
           additional-tags: '["${{github.sha}}"]'
           build-args: '{"STAGE": "${{ matrix.environment }}"}'
           suffix: ${{ matrix.environment }}
+
