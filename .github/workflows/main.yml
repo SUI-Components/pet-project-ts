@@ -50,7 +50,7 @@ jobs:
         application: ['movies']
     uses: scmspain/platform-common--actions/.github/workflows/validate-and-publish.yml@v0
     with:
-      image-tag: ${{ env.DOCKER_IMAGE_BASENAME }}-${{ matrix.application }}-${{ matrix.environment }}:${{ github.sha }}
+      image-tag: $DOCKER_IMAGE_BASENAME-${{ matrix.application }}-${{ matrix.environment }}:${{ github.sha }}
       application-name: ms-pet-${{ matrix.application }}--sandbox
       bounded-context: es-microtest
     secrets:
