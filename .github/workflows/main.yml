@@ -36,6 +36,6 @@ jobs:
         with:
           dockerfile-path: ./.docker/Dockerfile
           push-image: true
-          additional-tags: '["latest"]'
+          additional-tags: '["${{github.sha}}"]'
           build-args: '{"STAGE": "${{ matrix.environment }}"}'
           suffix: ${{ matrix.environment }}
