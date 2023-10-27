@@ -42,16 +42,17 @@ jobs:
           build-args: '{"STAGE": "${{ matrix.environment }}", "APPLICATION": "${{ matrix.application }}"}'
           suffix: '${{ matrix.application }}-${{ matrix.environment }}'
 
-            # validate-and-publish:
-            #   needs: build-image
-            #   strategy:
-            #     matrix:
-            #       environment: ['production', 'development']
-            #   uses: scmspain/platform-common--actions/.github/workflows/validate-and-publish.yml@v0
-            #   with:
-            #     image-tag: ${{ DOCKER_IMAGE_BASENAME }}-${{ matrix.environment }}:${{ github.sha }}
-            #     application-name: ms-movies--sandbox
-            #     bounded-context: es-microtest
-            #   secrets:
-            #     artifactory-user: ${{ secrets.ARTIFACTORY_USER }}
-            #     artifactory-pwd: ${{ secrets.ARTIFACTORY_PWD }}
+  validate-and-publish:
+    needs: build-image
+    strategy:
+      matrix:
+        environment: ['production', 'development']
+        application: ['movies']
+    uses: scmspain/platform-common--actions/.github/workflows/validate-and-publish.yml@v0
+    with:
+      image-tag: ${{ DOCKER_IMAGE_BASENAME }}-${{ matrix.application }}-${{ matrix.environment }}:${{ github.sha }}
+      application-name: ms-pet-${{ matrix.application }}--sandbox
+      bounded-context: es-microtest
+    secrets:
+      artifactory-user: ${{ secrets.ARTIFACTORY_USER }}
+      artifactory-pwd: ${{ secrets.ARTIFACTORY_PWD }}
