@@ -50,8 +50,9 @@ jobs:
         application: ['movies']
     uses: scmspain/platform-common--actions/.github/workflows/validate-and-publish.yml@v0
     with:
+      environment: ${{ matrix.application }}-${{ matrix.environment }}
       image-tag: containers.mpi-internal.com/${{ github.repository }}-${{ matrix.application }}-${{ matrix.environment }}:${{ github.sha }}
-      application-name: ms-pet-${{ matrix.application }}--sandbox
+      application-name: ms-pet-${{ matrix.application }}-${{ matrix.environment }}--sandbox
       bounded-context: es-microtest
     secrets:
       artifactory-user: ${{ secrets.ARTIFACTORY_USER }}
