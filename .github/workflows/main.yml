@@ -20,6 +20,9 @@ jobs:
     if: github.ref != 'refs/heads/master'
     outputs:
       image-tag: ${{ steps.build-image.outputs.image-tag }}
+    strategy:
+      matrix:
+        environment: ['production', 'development']
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -34,4 +37,5 @@ jobs:
           dockerfile-path: ./.docker/Dockerfile
           push-image: true
           additional-tags: '["latest"]'
-          suffix: 'production'
+          build-args: '{\"STAGE\": \"${{ matrix.environment }}\"}'
+          suffix: ${{ matrix.environment }}
