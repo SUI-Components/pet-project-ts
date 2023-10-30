@@ -58,7 +58,7 @@ jobs:
             application: 'movies'
     uses: scmspain/platform-common--actions/.github/workflows/validate-and-publish.yml@v0
     with:
-      environments: ${{ matrix.application }}-${{ matrix.environment }}
+      environments: ${{ matrix.environment }} # We can use an environment by application x environment. We dont have multisite deployment
       image-tag: containers.mpi-internal.com/${{ github.repository }}-${{ matrix.application }}-${{ matrix.stage }}:${{ github.sha }}
       application-name: ms-pet-${{ matrix.application }}-${{ matrix.environment }}--sandbox
       bounded-context: es-microtest
