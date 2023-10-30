@@ -1,6 +1,6 @@
 movies-development:
-  team: 'es-web-platform'
-  owner: 'es-web-platform'
+  team: 'es-ma-frontend'
+  owner: 'es-ma-frontend'
 movies-production:
-  team: 'es-web-platform'
-  owner: 'es-web-platform'
+  team: 'es-ma-frontend'
+  owner: 'es-ma-frontend'
