@@ -21,7 +21,7 @@ jobs:
     if: github.ref != 'refs/heads/master'
     strategy:
       matrix:
-        environment: ['pro', 'pre']
+        environment: ['development', 'production']
         application: ['movies']
     steps:
       - name: Checkout
@@ -46,12 +46,20 @@ jobs:
     needs: build-image
     strategy:
       matrix:
-        environment: ['pro', 'pre']
-        application: ['movies']
+        include:
+          - environment: 'pr'
+            stage: 'development'
+            application: 'movies'
+          - environment: 'pre'
+            stage: 'development'
+            application: 'movies'
+          - environment: 'pre'
+            stage: 'production'
+            application: 'movies'
     uses: scmspain/platform-common--actions/.github/workflows/validate-and-publish.yml@v0
     with:
       environments: ${{ matrix.application }}-${{ matrix.environment }}
-      image-tag: containers.mpi-internal.com/${{ github.repository }}-${{ matrix.application }}-${{ matrix.environment }}:${{ github.sha }}
+      image-tag: containers.mpi-internal.com/${{ github.repository }}-${{ matrix.application }}-${{ matrix.stage }}:${{ github.sha }}
       application-name: ms-pet-${{ matrix.application }}-${{ matrix.environment }}--sandbox
       bounded-context: es-microtest
     secrets:
