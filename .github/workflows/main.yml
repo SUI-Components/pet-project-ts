@@ -53,7 +53,7 @@ jobs:
           - environment: 'pre'
             stage: 'development'
             application: 'movies'
-          - environment: 'pre'
+          - environment: 'pro'
             stage: 'production'
             application: 'movies'
     uses: scmspain/platform-common--actions/.github/workflows/validate-and-publish.yml@v0
