@@ -16,34 +16,34 @@ env:
   DOCKER_IMAGE_BASENAME: containers.mpi-internal.com/${{ github.repository }}
 
 jobs:
-  build-image:
-    runs-on: medium
-    if: github.ref != 'refs/heads/master'
-    strategy:
-      matrix:
-        environment: ['development', 'production']
-        application: ['movies']
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+  #build-image:
+  #  runs-on: medium
+  #  if: github.ref != 'refs/heads/master'
+  #  strategy:
+  #    matrix:
+  #      environment: ['development', 'production']
+  #      application: ['movies']
+  #  steps:
+  #    - name: Checkout
+  #      uses: actions/checkout@v3
 
-      - name: Tap
-        run: |
-          echo $GITHUB_SHA
-          echo ${{ github.repository }}
-          ls -pal .
+  #    - name: Tap
+  #      run: |
+  #        echo $GITHUB_SHA
+  #        echo ${{ github.repository }}
+  #        ls -pal .
 
-      - name: Build docker image
-        uses: common-platform/actions/build-image@v0
-        with:
-          dockerfile-path: ./.docker/Dockerfile
-          push-image: true
-          additional-tags: '["${{ github.sha }}"]'
-          build-args: '{"STAGE": "${{ matrix.environment }}", "APPLICATION": "${{ matrix.application }}"}'
-          suffix: '${{ matrix.application }}-${{ matrix.environment }}'
+  #    - name: Build docker image
+  #      uses: common-platform/actions/build-image@v0
+  #      with:
+  #        dockerfile-path: ./.docker/Dockerfile
+  #        push-image: true
+  #        additional-tags: '["${{ github.sha }}"]'
+  #        build-args: '{"STAGE": "${{ matrix.environment }}", "APPLICATION": "${{ matrix.application }}"}'
+  #        suffix: '${{ matrix.application }}-${{ matrix.environment }}'
 
   validate-and-publish:
-    needs: build-image
+    #needs: build-image
     strategy:
       matrix:
         include:
@@ -59,9 +59,18 @@ jobs:
     uses: scmspain/platform-common--actions/.github/workflows/validate-and-publish.yml@v0
     with:
       environments: ${{ matrix.environment }} # We can not use an environment with ${{application}}-${{environment}}. We dont have multisite deployment. The env should be only pre|pro
-      image-tag: containers.mpi-internal.com/${{ github.repository }}-movies-${{ matrix.stage }}:${{ github.sha }}
+      #image-tag: containers.mpi-internal.com/${{ github.repository }}-movies-${{ matrix.stage }}:${{ github.sha }}
+      image-tag: containers.mpi-internal.com/scmspain/frontend-all--pet-project-ts-movies-development:24589eff905a18f37e9fadefa3927835cd2c97b8
       application-name: ms-pet-movies${{ matrix.application_name_suffix }}
       bounded-context: es-microtest
     secrets:
       artifactory-user: ${{ secrets.ARTIFACTORY_USER }}
       artifactory-pwd: ${{ secrets.ARTIFACTORY_PWD }}
+
+  deploy:
+    needs: validate-and-publish
+    runs-on: medium
+    steps:
+      - name: Tap
+        run: |
+          echo ${{ needs.validate-and-publish.outputs }}
