@@ -44,7 +44,7 @@ jobs:
 
   validate-and-publish:
     needs: build-image
-    uses: scmspain/platform-common--actions/.github/workflows/validate-and-publish.yml@v0
+    uses: scmspain/platform-common--actions/.github/workflows/validate-and-publish.yml@debug-prepare-manifest
     with:
       environments: pro
       image-tag: containers.mpi-internal.com/${{ github.repository }}-movies-production:${{ github.sha }}
