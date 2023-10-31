@@ -43,7 +43,7 @@ jobs:
   #        suffix: '${{ matrix.application }}-${{ matrix.environment }}'
 
   validate-and-publish:
-    needs: build-image
+    #needs: build-image
     uses: scmspain/platform-common--actions/.github/workflows/validate-and-publish.yml@debug-prepare-manifests
     with:
       environments: pro
