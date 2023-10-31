@@ -1,4 +1,4 @@
-NODE_ENV=production
-STAGE=development
-CDN=/
+NODE_ENV:production
+STAGE:development
+CDN:/
 
