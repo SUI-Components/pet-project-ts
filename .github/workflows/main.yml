@@ -47,9 +47,9 @@ jobs:
     strategy:
       matrix:
         include:
-          - environment: 'pr'
-            stage: 'development'
-            application: 'movies'
+          #- environment: 'pr'
+          #  stage: 'development'
+          #  application: 'movies'
           - environment: 'pre'
             stage: 'development'
             application: 'movies'
