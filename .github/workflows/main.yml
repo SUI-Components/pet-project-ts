@@ -49,7 +49,7 @@ jobs:
         include:
           - environment: 'pr'
             stage: 'development'
-            application_name_suffix: '-pr'
+            application_name_suffix: '-pr-${{ github.event.number }}'
           - environment: 'pre'
             stage: 'development'
             application_name_suffix: ''
