@@ -47,20 +47,20 @@ jobs:
     strategy:
       matrix:
         include:
-          #- environment: 'pr'
-          #  stage: 'development'
-          #  application: 'movies'
+          - environment: 'pr'
+            stage: 'development'
+            application_name_suffix: '-pr'
           - environment: 'pre'
             stage: 'development'
-            application: 'movies'
+            application_name_suffix: ''
           - environment: 'pro'
             stage: 'production'
-            application: 'movies'
+            application_name_suffix: ''
     uses: scmspain/platform-common--actions/.github/workflows/validate-and-publish.yml@v0
     with:
       environments: ${{ matrix.environment }} # We can not use an environment with ${{application}}-${{environment}}. We dont have multisite deployment. The env should be only pre|pro
-      image-tag: containers.mpi-internal.com/${{ github.repository }}-${{ matrix.application }}-${{ matrix.stage }}:${{ github.sha }}
-      application-name: ms-pet-${{ matrix.application }}-${{ matrix.environment }}--sandbox
+      image-tag: containers.mpi-internal.com/${{ github.repository }}-movies-${{ matrix.stage }}:${{ github.sha }}
+      application-name: ms-pet-movies${{ matrix.application_name_suffix }}--sandbox
       bounded-context: es-microtest
     secrets:
       artifactory-user: ${{ secrets.ARTIFACTORY_USER }}
