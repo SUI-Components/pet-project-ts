@@ -59,9 +59,9 @@ jobs:
     strategy:
       matrix:
         include:
-          - environment: 'pr'
-            stage: 'development'
-            application_name_suffix: '--sandbox-pr-${{ github.event.number }}'
+          #- environment: 'pr'
+          #  stage: 'development'
+          #  application_name_suffix: '--sandbox-pr-${{ github.event.number }}'
           - environment: 'pre'
             stage: 'development'
             application_name_suffix: '--sandbox'
