@@ -75,4 +75,4 @@ jobs:
         env:
           JSON: ${{ toJSON(needs.validate-and-publish) }}
         run: |
-          echo ${{ JSON }}
+          echo $JSON
