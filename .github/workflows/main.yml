@@ -16,38 +16,38 @@ env:
   DOCKER_IMAGE_BASENAME: containers.mpi-internal.com/${{ github.repository }}
 
 jobs:
-  build-image:
-    runs-on: medium
-    if: github.ref != 'refs/heads/master'
-    strategy:
-      matrix:
-        environment: ['development', 'production']
-        application: ['movies']
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+  #build-image:
+  #  runs-on: medium
+  #  if: github.ref != 'refs/heads/master'
+  #  strategy:
+  #    matrix:
+  #      environment: ['development', 'production']
+  #      application: ['movies']
+  #  steps:
+  #    - name: Checkout
+  #      uses: actions/checkout@v3
 
-      - name: Tap
-        run: |
-          echo $GITHUB_SHA
-          echo ${{ github.repository }}
-          ls -pal .
+  #    - name: Tap
+  #      run: |
+  #        echo $GITHUB_SHA
+  #        echo ${{ github.repository }}
+  #        ls -pal .
 
-      - name: Build docker image
-        uses: common-platform/actions/build-image@v0
-        with:
-          dockerfile-path: ./.docker/Dockerfile
-          push-image: true
-          additional-tags: '["${{ github.sha }}"]'
-          build-args: '{"STAGE": "${{ matrix.environment }}", "APPLICATION": "${{ matrix.application }}"}'
-          suffix: '${{ matrix.application }}-${{ matrix.environment }}'
+  #    - name: Build docker image
+  #      uses: common-platform/actions/build-image@v0
+  #      with:
+  #        dockerfile-path: ./.docker/Dockerfile
+  #        push-image: true
+  #        additional-tags: '["${{ github.sha }}"]'
+  #        build-args: '{"STAGE": "${{ matrix.environment }}", "APPLICATION": "${{ matrix.application }}"}'
+  #        suffix: '${{ matrix.application }}-${{ matrix.environment }}'
 
   validate-and-publish:
     needs: build-image
     uses: scmspain/platform-common--actions/.github/workflows/validate-and-publish.yml@debug-prepare-manifests
     with:
       environments: pro
-      image-tag: containers.mpi-internal.com/${{ github.repository }}-movies-production:${{ github.sha }}
+      image-tag: containers.mpi-internal.com/scmspain/frontend-all--pet-project-ts-movies-production:5c3ad88d179a5328f44bb91753bbb019baa66fd4
       application-name: ms-pet-movies--sandbox
       bounded-context: es-microtest
     secrets:
