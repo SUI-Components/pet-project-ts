@@ -72,5 +72,7 @@ jobs:
     runs-on: medium
     steps:
       - name: Tap
+        env:
+          JSON: ${{ toJSON(needs.validate-and-publish) }}
         run: |
-          echo ${{ fromJSON(needs.validate-and-publish.outputs) }}
+          echo ${{ JSON }}
