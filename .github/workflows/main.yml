@@ -76,3 +76,4 @@ jobs:
           JSON: ${{ toJSON(needs.validate-and-publish) }}
         run: |
           echo $JSON
+          echo ${{ needs.validate-and-publish.outputs.manifests-path }}
