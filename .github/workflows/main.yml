@@ -70,15 +70,14 @@ jobs:
   deploy:
     needs: validate-and-publish
     runs-on: medium
-      #strategy:
-      #  matrix:
-      #    environment: ['pre', 'pro']
+    strategy:
+      matrix:
+        environment: ['pre', 'pro']
     uses: scmspain/platform-common--actions/.github/workflows/deploy.yml@v0
     with:
-      environment: 'pre' #${{ matrix.environment }}
+      environment: ${{ matrix.environment }}
       manifests-path: ${{ needs.validate-and-publish.outputs.manifests-path }}
       bounded-context: es-microtest
     secrets:
       artifactory-user: ${{ secrets.ARTIFACTORY_USER }}
       artifactory-pwd: ${{ secrets.ARTIFACTORY_PWD }}
-      
