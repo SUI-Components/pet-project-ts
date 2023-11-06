@@ -76,7 +76,6 @@ jobs:
     uses: scmspain/platform-common--actions/.github/workflows/deploy.yml@v0
     with:
       environment: ${{ matrix.environment }}
-      parallel-infra-jobs: 4
       manifests-path: ${{ needs.validate-and-publish.outputs.manifests-path }}
       bounded-context: es-microtest
     secrets:
