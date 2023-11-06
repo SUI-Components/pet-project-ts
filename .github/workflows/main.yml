@@ -70,12 +70,12 @@ jobs:
   deploy:
     needs: validate-and-publish
     runs-on: medium
-    strategy:
-      matrix:
-        environment: ['pre', 'pro']
+      #strategy:
+      #  matrix:
+      #    environment: ['pre', 'pro']
     uses: scmspain/platform-common--actions/.github/workflows/deploy.yml@v0
     with:
-      environment: ${{ matrix.environment }}
+      environment: 'pre' #${{ matrix.environment }}
       manifests-path: ${{ needs.validate-and-publish.outputs.manifests-path }}
       bounded-context: es-microtest
     secrets:
