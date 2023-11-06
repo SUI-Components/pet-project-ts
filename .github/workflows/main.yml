@@ -70,10 +70,16 @@ jobs:
   deploy:
     needs: validate-and-publish
     runs-on: medium
-    steps:
-      - name: Tap
-        env:
-          JSON: ${{ toJSON(needs.validate-and-publish) }}
-        run: |
-          echo $JSON
-          echo ${{ needs.validate-and-publish.outputs.manifests-path }}
+    strategy:
+      matrix:
+        environment: ['pre', 'pro']
+    uses: scmspain/platform-common--actions/.github/workflows/deploy.yml@v0
+    with:
+      environment: ${{ matrix.environment }}
+      parallel-infra-jobs: 4
+      manifests-path: ${{ needs.validate-and-publish.outputs.manifests-path }}
+      bounded-context: es-microtest
+    secrets:
+      artifactory-user: ${{ secrets.ARTIFACTORY_USER }}
+      artifactory-pwd: ${{ secrets.ARTIFACTORY_PWD }}
+      
