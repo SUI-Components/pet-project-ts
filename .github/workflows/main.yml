@@ -69,6 +69,7 @@ jobs:
 
   deploy:
     needs: validate-and-publish
+    runs-on: medium
     strategy:
       matrix:
         environment: ['pre', 'pro']
