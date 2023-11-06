@@ -46,6 +46,7 @@ metrics:
 annotations:
   ingress:
     kubernetes.io/ingress.class: nginx
+    common-platform.io/allowlist-group: global-protect
 
 extensions:
   tls:
