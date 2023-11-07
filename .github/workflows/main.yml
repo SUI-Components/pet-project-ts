@@ -18,7 +18,7 @@ env:
 jobs:
   build-image:
     runs-on: medium
-    if: github.ref != 'refs/heads/master'
+    if: github.ref = 'refs/heads/master'
     strategy:
       matrix:
         environment: ['development', 'production']
@@ -52,16 +52,13 @@ jobs:
           #  application_name_suffix: '--sandbox-pr-${{ github.event.number }}'
           - environment: 'pre'
             stage: 'development'
-            application_name_suffix: '--sandbox'
           - environment: 'pro'
             stage: 'production'
-            application_name_suffix: '--sandbox'
     uses: scmspain/platform-common--actions/.github/workflows/validate-and-publish.yml@v0
     with:
       environments: ${{ matrix.environment }} # We can not use an environment with ${{application}}-${{environment}}. We dont have multisite deployment. The env should be only pre|pro
       image-tag: containers.mpi-internal.com/${{ github.repository }}-movies-${{ matrix.stage }}:${{ github.sha }}
-      #image-tag: containers.mpi-internal.com/scmspain/frontend-all--pet-project-ts-movies-development:24589eff905a18f37e9fadefa3927835cd2c97b8
-      application-name: ms-pet-movies${{ matrix.application_name_suffix }}
+      application-name: ms-pet-movies--sandbox
       bounded-context: es-microtest
     secrets:
       artifactory-user: ${{ secrets.ARTIFACTORY_USER }}
