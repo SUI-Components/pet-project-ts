@@ -19,14 +19,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install
-        uses: scmspain/platform-common--actions/frontend/install@v0
-        with:
-          build: 'true'
+      - name: action
+        uses: ./.github/composite/lint-and-test
 
-      - name: Lint
-        shell: bash
-        run: make lint
+          #- name: Install
+          #  uses: scmspain/platform-common--actions/frontend/install@v0
+          #  with:
+          #    build: 'true'
+
+          #- name: Lint
+          #  shell: bash
+          #  run: make lint
 
   build-image:
     runs-on: medium
