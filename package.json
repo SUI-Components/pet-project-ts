@@ -20,6 +20,7 @@
   "license": "MIT",
   "scripts": {
     "co": "make co",
+    "ci": "make ci",
     "lint": "make lint",
     "test": "make test",
     "pre-commit": "make precommit",
