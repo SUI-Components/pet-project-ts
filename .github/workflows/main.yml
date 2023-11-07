@@ -16,7 +16,6 @@ env:
 jobs:
   build-image:
     runs-on: medium
-    if: github.ref == 'refs/heads/master'
     strategy:
       matrix:
         environment: ['development', 'production']

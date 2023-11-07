@@ -15,7 +15,6 @@ env:
 jobs:
   build-image:
     runs-on: medium
-    if: github.ref != 'refs/heads/master'
     steps:
       - name: Checkout
         uses: actions/checkout@v3
