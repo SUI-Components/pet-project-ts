@@ -37,16 +37,6 @@ jobs:
 
   validate-and-publish:
     needs: build-image
-    strategy:
-      matrix:
-        include:
-          #- environment: 'pr'
-          #  stage: 'development'
-          #  application_name_suffix: '--sandbox-pr-${{ github.event.number }}'
-          - environment: 'pre'
-            stage: 'development'
-          - environment: 'pro'
-            stage: 'production'
     uses: scmspain/platform-common--actions/.github/workflows/validate-and-publish.yml@v0
     with:
       environments: pr
