@@ -18,7 +18,7 @@ jobs:
     steps:
       - name: lint-test
         # uses: ./.github/composite/lint-and-test
-        uses: frontend-all--pet-project-ts/.github/composite/lint-and-test/action.yml@migrato-top-golden-path
+        uses: frontend-all--pet-project-ts/.github/composite/lint-and-test/action.yml@migrate-to-golden-path
 
   build-image:
     runs-on: medium
