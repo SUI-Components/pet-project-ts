@@ -25,3 +25,4 @@ runs:
         CHROME_BIN: ${{ steps.setup-chrome.outputs.chrome-path }}
         NODE_ENV: production
         STAGE: development
+        TEST_FLAG: --headless
