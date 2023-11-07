@@ -14,6 +14,12 @@ runs:
           #  shell: bash
           #  run: npm run lint
 
+    - name: Setup Chrome
+      id: setup-chrome
+      uses: scmspain/platform-common--actions/frontend/setup-chrome@v0
+
     - name: Test
       shell: bash
       run: npm run test
+      env:
+        CHROME_BIN: ${{ steps.setup-chrome.outputs.chrome-path }}
