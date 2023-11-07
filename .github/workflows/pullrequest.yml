@@ -1,4 +1,4 @@
-name: Movies Project
+name: Movies Project Pull Request
 
 on:
   workflow_dispatch:
