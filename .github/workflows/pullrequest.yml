@@ -14,7 +14,10 @@ env:
 
 jobs:
   lint-and-test:
-    uses: ./.github/composite/lint-and-test
+    runs-on: big
+    steps:
+      - name: lint-test
+        uses: ./.github/composite/lint-and-test
 
   build-image:
     runs-on: medium
