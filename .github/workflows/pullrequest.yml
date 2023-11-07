@@ -22,15 +22,6 @@ jobs:
       - name: action
         uses: ./.github/composite/lint-and-test
 
-          #- name: Install
-          #  uses: scmspain/platform-common--actions/frontend/install@v0
-          #  with:
-          #    build: 'true'
-
-          #- name: Lint
-          #  shell: bash
-          #  run: make lint
-
   build-image:
     runs-on: medium
     steps:
