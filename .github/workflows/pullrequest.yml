@@ -16,9 +16,17 @@ jobs:
   lint-and-test:
     runs-on: big
     steps:
-      - name: lint-test
-        # uses: ./.github/composite/lint-and-test
-        uses: frontend-all--pet-project-ts/.github/composite/lint-and-test/action.yml@migrate-to-golden-path
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install
+        uses: scmspain/platform-common--actions/frontend/install@v0
+        with:
+          build: 'true'
+
+      - name: Lint
+        shell: bash
+        run: make lint
 
   build-image:
     runs-on: medium
