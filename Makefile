@@ -8,8 +8,8 @@ co: ## Commit a new change using our wizard
 	npx sui-mono commit
 
 lint: 
-	npx sui-lint js --staged
-	npx sui-lint sass --staged
+	npx sui-lint js
+	npx sui-lint sass
 
 test: ## Tests all aour packages and apps in browser and server
 	npx -y ultra-runner --raw --recursive test

@@ -1,6 +1,6 @@
 import {expect} from 'chai'
 
-import {formatDuration} from '../src'
+import {formatDuration} from '../src' // eslint-disable-line
 
 describe('Format Duration', () => {
   it('Should format the number', () => {
