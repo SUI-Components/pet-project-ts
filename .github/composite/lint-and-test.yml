@@ -1,0 +1,18 @@
+name: 'Lint and test monorepo'
+description: 'Testing not include the E2E tests'
+
+runs:
+  using: composite
+
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Install
+      uses: scmspain/platform-common--actions/frontend/install@v0
+      with:
+        build: 'true'
+
+    - name: Lint
+      shell: bash
+      run: make lint

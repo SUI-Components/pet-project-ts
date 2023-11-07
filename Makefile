@@ -12,7 +12,7 @@ lint:
 	npx sui-lint sass --staged
 
 test: ## Tests all aour packages and apps in browser and server
-	@echo \"Skipping tests as they are not present\"
+	npx -y ultra-runner --raw --recursive test
 
 precommit: lint
 

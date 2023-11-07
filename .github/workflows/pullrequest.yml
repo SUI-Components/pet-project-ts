@@ -13,6 +13,9 @@ env:
   DOCKER_IMAGE_BASENAME: containers.mpi-internal.com/${{ github.repository }}
 
 jobs:
+  lint-and-test:
+    uses: ./.github/composite/lint-and-test.yml
+
   build-image:
     runs-on: medium
     steps:
