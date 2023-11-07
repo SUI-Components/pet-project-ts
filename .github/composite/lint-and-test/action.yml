@@ -23,3 +23,5 @@ runs:
       run: npm run test
       env:
         CHROME_BIN: ${{ steps.setup-chrome.outputs.chrome-path }}
+        NODE_ENV: production
+        STAGE: development
