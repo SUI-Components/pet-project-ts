@@ -14,7 +14,7 @@ env:
 
 jobs:
   lint-and-test:
-    uses: ./.github/composite/lint-and-test.yml
+    uses: ./.github/composite/lint-and-test
 
   build-image:
     runs-on: medium
