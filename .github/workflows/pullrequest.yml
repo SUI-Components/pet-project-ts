@@ -66,9 +66,6 @@ jobs:
     needs:
       - deploy
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v2
         with:
