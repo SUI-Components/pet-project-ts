@@ -14,12 +14,20 @@ env:
   DOCKER_IMAGE_BASENAME: containers.mpi-internal.com/${{ github.repository }}
 
 jobs:
+  lint-and-test:
+    runs-on: big
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: action
+        uses: ./.github/composite/lint-and-test
+
   build-image:
     runs-on: medium
     strategy:
       matrix:
-        environment: ['development', 'production']
-        application: ['movies']
+        stage: ['development', 'production']
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -36,8 +44,8 @@ jobs:
           dockerfile-path: ./.docker/Dockerfile
           push-image: true
           additional-tags: '["${{ github.sha }}"]'
-          build-args: '{"STAGE": "${{ matrix.environment }}", "APPLICATION": "${{ matrix.application }}"}'
-          suffix: '${{ matrix.application }}-${{ matrix.environment }}'
+          build-args: '{"STAGE": "${{ matrix.stage }}", "APPLICATION": "movies"}'
+          suffix: 'movies-${{ matrix.stage }}'
 
   validate-and-publish:
     needs: build-image
