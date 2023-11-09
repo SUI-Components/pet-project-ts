@@ -5,9 +5,6 @@ runs:
   using: composite
 
   steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-
     - name: Install
       uses: scmspain/platform-common--actions/frontend/install@v0
       with:
