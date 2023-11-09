@@ -1,7 +1,14 @@
 # https://github.com/docker/awesome-compose
 services:
   movies:
-    image: ${APP_IMG}
+    build:
+      dockerfile: "${PWD}/.docker/Dockerfile"
+      context: "${PWD}"
+      args:
+        CONSOLE: true
+        STAGE: production
+        NODE_ENV: production
+        APPLICATION: movies
     environment:
       PORT: 2023
     ports:
@@ -16,4 +23,5 @@ services:
       - movies
     depends_on:
       - movies
-    command: npx sui-test-e2e --baseUrl=http://movies:2023
+    command: npx sui-test-e2e --baseUrl=http://movies:2023 ${E2E_FLAGS}
+

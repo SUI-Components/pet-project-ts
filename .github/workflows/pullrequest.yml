@@ -46,12 +46,17 @@ jobs:
   e2e:
     runs-on: big
     needs: build-image
+    strategy:
+      matrix:
+        scope: ['integration/home', 'integration/detail']
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
       - name: action
         uses: ./.github/composite/e2e
+        with:
+          scope: ${{ matrix.scope }}
 
   validate-and-publish:
     needs: build-image
