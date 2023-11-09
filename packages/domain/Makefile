@@ -20,10 +20,10 @@ lint: ## Lint and fix JS/TS code
 test: test_client test_server ## Run client and server tests
 
 test_client: ## run client tests
-	NODE_ENV=test npx sui-test browser $(TEST_FLAG) $(TEST_FLAG_CLIENT)
+	STAGE=test npx sui-test browser $(TEST_FLAG) $(TEST_FLAG_CLIENT)
 
 test_server: ## run server tests
-	NODE_ENV=test npx sui-test server $(TEST_FLAG) $(TEST_FLAG_SERVER)
+	STAGE=test npx sui-test server $(TEST_FLAG) $(TEST_FLAG_SERVER)
 
 test_client_watch: ## run client test in watch mode
 	TEST_FLAG=--watch $(MAKE) test_client

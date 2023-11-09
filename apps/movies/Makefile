@@ -22,7 +22,6 @@ echo: ## Just print important env var after execute other task
 	@echo "NODE_ENV => ${NODE_ENV}"
 	@echo "MOCK_API_REQUESTS => ${MOCK_API_REQUESTS}"
 
-
 build: echo ## Build public and server folder to be deployed
 	@NODE_ENV=$(NODE_ENV) STAGE=$(STAGE) npx sui-bundler build -C
 	@NODE_ENV=$(NODE_ENV) STAGE=$(STAGE) npx sui-ssr build -C
