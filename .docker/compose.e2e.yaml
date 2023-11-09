@@ -1,14 +1,15 @@
 # https://github.com/docker/awesome-compose
 services:
   movies:
-    build:
-      dockerfile: "${PWD}/.docker/Dockerfile"
-      context: "${PWD}"
-      args:
-        CONSOLE: true
-        STAGE: production
-        NODE_ENV: production
-        APPLICATION: movies
+    image: ${APP_IMG}
+    #build:
+    #  dockerfile: "${PWD}/.docker/Dockerfile"
+    #  context: "${PWD}"
+    #  args:
+    #    CONSOLE: true
+    #    STAGE: production
+    #    NODE_ENV: production
+    #    APPLICATION: movies
     environment:
       PORT: 2023
     ports:
