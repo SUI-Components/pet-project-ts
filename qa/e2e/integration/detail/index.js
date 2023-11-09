@@ -5,7 +5,7 @@ describe('detail /lucas ', function () {
     cy.visit(URLS.HOME + 'lucas')
   })
 
-  it('Should render Joan - Lion', function () {
+  it('Should render the name in the URL', function () {
     cy.get('h1').should('be.visible').contains('lucas')
   })
 })

@@ -16,4 +16,4 @@ services:
       - movies
     depends_on:
       - movies
-    command: npx sui-test-e2e --baseUrl=http://movies:2023
+    command: npx sui-test-e2e --baseUrl=http://movies:2023 ${E2E_FLAGS}
