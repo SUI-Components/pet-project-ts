@@ -24,7 +24,7 @@ runs:
       uses: aws-actions/configure-aws-credentials@v2
       with:
         role-to-assume: arn:aws:iam::${{ inputs.aws-account-id }}:role/github-actions-deployments
-        aws-region: ${{ inputs.region }}
+        aws-region: ${{ inputs.aws-region }}
         role-duration-seconds: 1200
 
     - name: Upload
