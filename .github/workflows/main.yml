@@ -77,7 +77,10 @@ jobs:
       artifactory-pwd: ${{ secrets.ARTIFACTORY_PWD }}
 
   deploy:
-    needs: validate-and-publish
+    needs: 
+      - validate-and-publish
+      - lint-and-test
+      - e2e
     permissions:
       id-token: write
       contents: read
