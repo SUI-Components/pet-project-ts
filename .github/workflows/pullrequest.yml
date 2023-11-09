@@ -16,18 +16,6 @@ jobs:
   lint-and-test:
     runs-on: big
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: action
-        uses: ./.github/composite/lint-and-test
-
-  test-e2e:
-    runs-on: big
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
       - name: action
         uses: ./.github/composite/lint-and-test
 
@@ -51,6 +39,13 @@ jobs:
           additional-tags: '["${{ github.sha }}"]'
           build-args: '{"STAGE": "development", "APPLICATION": "movies"}'
           suffix: 'movies-development'
+
+  e2e:
+    runs-on: big
+    needs: build-image
+    steps:
+      - name: action
+        uses: ./.github/composite/e2e
 
   validate-and-publish:
     needs: build-image
