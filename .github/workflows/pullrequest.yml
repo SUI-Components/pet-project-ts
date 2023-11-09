@@ -32,7 +32,6 @@ jobs:
         run: |
           echo $GITHUB_SHA
           echo ${{ github.repository }}
-          ls -pal ~
           ls -pal .
 
       - name: Build docker image
