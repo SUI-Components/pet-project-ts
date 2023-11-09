@@ -13,7 +13,6 @@
     "prepublishOnly": "make prepublishOnly",
     "lint": "make lint",
     "test": "make test",
-    "test:ci": "make test_ci",
     "test:client": "make test_client",
     "test:client:watch": "make test_client_watch",
     "test:server": "make test_server",

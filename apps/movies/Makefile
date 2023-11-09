@@ -27,8 +27,8 @@ build: echo ## Build public and server folder to be deployed
 	@NODE_ENV=$(NODE_ENV) STAGE=$(STAGE) npx sui-bundler build -C
 	@NODE_ENV=$(NODE_ENV) STAGE=$(STAGE) npx sui-ssr build -C
 
-
-dev: ## Start a SPA dev server to develop the webapp
+dev: ## Start a SPA dev server to develop the webapp
+	npx msw init ./public --save
 	STAGE=development \
 				NODE_ENV=development \
 				MOCK_API_REQUESTS=true \

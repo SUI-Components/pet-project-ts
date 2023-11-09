@@ -20,7 +20,6 @@ lint: ## Lint and fix JS/TS code
 test: test_client test_server ## Run client and server tests
 
 test_client: ## run client tests
-	echo $(TEST_FLAG)
 	NODE_ENV=test npx sui-test browser $(TEST_FLAG) $(TEST_FLAG_CLIENT)
 
 test_server: ## run server tests
@@ -31,9 +30,6 @@ test_client_watch: ## run client test in watch mode
 
 test_server_watch: ## run server test in watch mode
 	TEST_FLAG=--watch $(MAKE) test_server
-
-test_ci: ## Execute test using CI mode
-	NODE_ENV=test npx karma start --single-run --browsers Chrome
 
 help: ## show help
 	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'

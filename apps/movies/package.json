@@ -49,5 +49,8 @@
         "react"
       ]
     }
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }

@@ -22,6 +22,15 @@ jobs:
       - name: action
         uses: ./.github/composite/lint-and-test
 
+  test-e2e:
+    runs-on: big
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: action
+        uses: ./.github/composite/lint-and-test
+
   build-image:
     runs-on: medium
     steps:
