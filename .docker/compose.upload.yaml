@@ -5,4 +5,6 @@ services:
       dockerfile: "${PWD}/.docker/Dockerfile.upload"
       context: "${PWD}"
       args:
-        BASE_IMG: containers.mpi-internal.com/scmspain/frontend-all--pet-project-ts-production:f3b990b3d39b9fb7d1571e82a26e36fbe36e1aac
+        BASE_IMG: ${BASE_IMG}
+        AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+        AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}

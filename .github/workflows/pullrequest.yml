@@ -57,6 +57,18 @@ jobs:
         uses: ./.github/composite/e2e
         with:
           scope: ${{ matrix.scope }}
+  cdn:
+    runs-on: medium
+    needs: build-image
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: action
+        uses: ./.github/composite/cdn
+        with:
+          aws-account-id: 060140816915
+          stage: development
 
   validate-and-publish:
     needs: build-image
