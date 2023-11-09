@@ -1,0 +1,13 @@
+name: 'Execute E2E tests for diferents scopes'
+description: 'Use our docker image of the app to tests our code'
+
+runs:
+  using: composite
+
+  steps:
+    - name: Test
+      shell: bash
+      run: docker-compose -f .docker/compose.e2e.yaml up --build --exit-code-from e2e
+      env:
+        APP_IMG: containers.mpi-internal.com/${{ github.repository }}-movies-development:${{ github.sha }}
+
