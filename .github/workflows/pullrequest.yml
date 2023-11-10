@@ -60,6 +60,9 @@ jobs:
   cdn:
     runs-on: medium
     needs: build-image
+    permissions:
+      id-token: write
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v3
