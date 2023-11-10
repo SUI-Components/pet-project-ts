@@ -31,8 +31,6 @@ runs:
       shell: bash
       run: |
         echo "AWS_ACCESS_KEY_ID ${AWS_ACCESS_KEY_ID}"
-        echo ${{ steps.creds.outputs.aws-access-key-id }}
-        echo BASE_IMG $BASE_IMG ${BASE_IMG}
         docker-compose -f .docker/compose.upload.yaml up --exit-code-from uploader
       env:
         BASE_IMG: containers.mpi-internal.com/${{ github.repository }}-movies-${{ inputs.stage }}:${{ github.sha }}
