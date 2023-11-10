@@ -1,3 +1,3 @@
 echo "Upload folder public!!"
-echo $STAGE
-echo $AWS_ACCESS_KEY_ID
+echo "Stage => $STAGE"
+echo "AWS_ACCESS_KEY_ID => $AWS_ACCESS_KEY_ID"

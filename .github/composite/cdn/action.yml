@@ -20,7 +20,6 @@ runs:
   using: composite
   steps:
     - name: Authenticate with AWS account
-      id: creds
       uses: aws-actions/configure-aws-credentials@v2
       with:
         role-to-assume: arn:aws:iam::${{ inputs.aws-account-id }}:role/github-actions-deployments
@@ -29,10 +28,7 @@ runs:
 
     - name: Upload
       shell: bash
-      run: |
-        echo "AWS_ACCESS_KEY_ID ${AWS_ACCESS_KEY_ID}"
-        docker-compose -f .docker/compose.upload.yaml up --exit-code-from uploader
+      run: docker-compose -f .docker/compose.upload.yaml up --exit-code-from uploader
       env:
+        STAGE: ${{ inputs.stage }}
         BASE_IMG: containers.mpi-internal.com/${{ github.repository }}-movies-${{ inputs.stage }}:${{ github.sha }}
-          #AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
-          #AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
