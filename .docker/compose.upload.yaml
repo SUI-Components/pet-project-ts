@@ -1,6 +1,6 @@
 # https://github.com/docker/awesome-compose
 services:
-  movies:
+  uploader:
     build:
       dockerfile: "${PWD}/.docker/Dockerfile.upload"
       context: "${PWD}"
