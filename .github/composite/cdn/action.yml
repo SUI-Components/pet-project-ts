@@ -32,8 +32,10 @@ runs:
       run: |
         echo "AWS_ACCESS_KEY_ID ${AWS_ACCESS_KEY_ID}"
         echo ${{ steps.creds.outputs.aws-access-key-id }}
+        echo $JSON
         docker-compose -f .docker/compose.upload.yaml up --exit-code-from uploader
       env:
         BASE_IMG: containers.mpi-internal.com/${{ github.repository }}-movies-${{ inputs.stage }}:${{ github.sha }}
         AWS_ACCESS_KEY_ID: ${{ steps.creds.outputs.aws-access-key-id }}
         AWS_SECRET_ACCESS_KEY: ${{ steps.creds.outputs.aws-secret-access-key }}
+        JSON: ${{ fromJSON(steps.creds.outputs) }}
