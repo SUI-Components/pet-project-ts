@@ -26,6 +26,7 @@ runs:
         role-to-assume: arn:aws:iam::${{ inputs.aws-account-id }}:role/github-actions-deployments
         aws-region: ${{ inputs.aws-region }}
         role-duration-seconds: 1200
+        output-credentials: true
 
     - name: Upload
       shell: bash
