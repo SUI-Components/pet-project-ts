@@ -9,6 +9,7 @@ services:
         STAGE: production
         NODE_ENV: production
         APPLICATION: movies
+        CDN: ${CDN:-/}
     environment:
       PORT: 2023
     ports:

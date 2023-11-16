@@ -40,7 +40,7 @@ jobs:
           dockerfile-path: ./.docker/Dockerfile
           push-image: true
           additional-tags: '["${{ github.sha }}"]'
-          build-args: '{"STAGE": "development", "APPLICATION": "movies"}'
+          build-args: '{"STAGE": "development", "APPLICATION": "movies", "CDN": "https://scm-milanuncios-frontend-pre.milanuncios.net/pet/development/"}'
           suffix: 'movies-development'
 
   e2e:
