@@ -21,6 +21,8 @@ jobs:
 
       - name: action
         uses: ./.github/composite/lint-and-test
+        with:
+          stage: development
 
   build-image:
     runs-on: medium

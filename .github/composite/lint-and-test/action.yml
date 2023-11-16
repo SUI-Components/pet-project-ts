@@ -1,6 +1,11 @@
 name: 'Lint and test monorepo'
 description: 'Testing not include the E2E tests'
 
+inputs:
+  stage:
+    description: "Stage used inside of the image"
+    required: true
+
 runs:
   using: composite
 
@@ -24,5 +29,5 @@ runs:
       env:
         CHROME_BIN: ${{ steps.setup-chrome.outputs.chrome-path }}
         NODE_ENV: production
-        STAGE: development
+        STAGE: ${{ inputs.stage }}
         TEST_FLAG_CLIENT: --headless
