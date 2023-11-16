@@ -75,6 +75,7 @@ jobs:
         uses: ./.github/composite/e2e
         with:
           scope: ${{ matrix.scope }}
+          stage: 'development'
 
   validate-and-publish:
     needs: build-image

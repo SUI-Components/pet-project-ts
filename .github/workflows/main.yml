@@ -44,18 +44,45 @@ jobs:
           dockerfile-path: ./.docker/Dockerfile
           push-image: true
           additional-tags: '["${{ github.sha }}"]'
-          build-args: '{"STAGE": "${{ matrix.stage }}", "APPLICATION": "movies"}'
+          build-args: '{"STAGE": "${{ matrix.stage }}", "APPLICATION": "movies", "CDN": "https://scm-milanuncios-frontend-pre.milanuncios.net/pet/${{ matrix.stage }}/"}'
           suffix: 'movies-${{ matrix.stage }}'
+  cdn:
+    runs-on: medium
+    needs: build-image
+    permissions:
+      id-token: write
+      contents: read
+    strategy:
+      matrix:
+        stage: ['development', 'production']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: action
+        uses: ./.github/composite/cdn
+        with:
+          aws-account-id: '060140816915'
+          stage: ${{ matrix.stage }}
 
   e2e:
     runs-on: big
-    needs: build-image
+    needs: 
+      - build-image
+      - cdn
+    strategy:
+      matrix:
+        stage: ['development', 'production']
+        scope: ['integration/home', 'integration/detail']
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
       - name: action
         uses: ./.github/composite/e2e
+        with:
+          scope: ${{ matrix.scope }}
+          stage: ${{ matrix.stage }}
 
   validate-and-publish:
     needs: build-image
