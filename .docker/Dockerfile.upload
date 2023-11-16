@@ -17,6 +17,5 @@ ENV STAGE $STAGE
 WORKDIR /usr/src/app
 
 COPY --from=base /usr/src/app .
-COPY .docker/scripts/aws_upload.sh .
 
 ENTRYPOINT make cdn
