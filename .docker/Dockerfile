@@ -39,7 +39,7 @@ FROM base as deps
 COPY package.json package.json
 COPY package-lock.json package-lock.json
 
-COPY apps/movies/package.json apps/movies/package.json
+COPY app/movies/package.json app/movies/package.json
 
 COPY packages/domain/package.json packages/domain/package.json
 COPY packages/js/package.json packages/js/package.json
@@ -69,7 +69,7 @@ COPY . .
 
 RUN npm run postinstall
 
-WORKDIR /usr/src/app/apps/${APPLICATION}
+WORKDIR /usr/src/app/app/${APPLICATION}
 
 ENV NODE_ENV ${NODE_ENV}
 ENV STAGE ${STAGE}
@@ -78,7 +78,7 @@ ENV CDN ${CDN}
 RUN make build
 
 WORKDIR /usr/src/app
-RUN npx msw init apps/${APPLICATION}/public --save
+RUN npx msw init app/${APPLICATION}/public --save
 
 ################################################################################
 # Create a new stage to run the application with minimal runtime dependencies
@@ -112,7 +112,7 @@ EXPOSE ${EXPOSE}
 
 WORKDIR /usr/src/app
 
-COPY --from=build /usr/src/app/apps/${APPLICATION} /usr/src/app
+COPY --from=build /usr/src/app/app/${APPLICATION} /usr/src/app
 
 # Run the application.
 CMD ["node", "server/index.js"]

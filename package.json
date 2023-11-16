@@ -4,7 +4,7 @@
   "private": true,
   "description": "the representation on earth of our golden path",
   "workspaces": [
-    "apps/**",
+    "app/**",
     "qa/**",
     "packages/**"
   ],
