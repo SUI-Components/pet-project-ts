@@ -1,0 +1,61 @@
+version: 3
+
+replicas:
+  minimum: 1
+  maximum: 2
+
+ports:
+  - protocol: http
+    name: http
+    port: 80
+    target_port: 3000
+
+resources:
+  limits:
+    cpu: 800m
+    memory: 1G
+  requests:
+    cpu: 100m
+    memory: 600M
+
+healthchecks:
+  liveness:
+    initial_delay_seconds: 90
+    failureThreshold: 5
+    period_seconds: 10
+    success_threshold: 1
+    timeout_seconds: 1
+    http:
+      path: /_health
+  readiness:
+    initial_delay_seconds: 10
+    failureThreshold: 2
+    period_seconds: 5
+    success_threshold: 3
+    timeout_seconds: 1
+    http:
+      path: /_health
+
+metrics:
+  datadog:
+    enabled: true
+    tags: ${TAGS}
+  prometheus:
+    enabled: false
+
+annotations:
+  ingress:
+    kubernetes.io/ingress.class: nginx
+    common-platform.io/allowlist-group: global-protect
+
+extensions:
+  tls:
+    enabled: true
+    certificate_issuer: letsencrypt-staging
+
+labels:
+  deployment: ${TAGS}
+  horizontal_pod_autoscaler: ${TAGS}
+  ingress: ${TAGS}
+  service: ${TAGS}
+  pod: ${TAGS}

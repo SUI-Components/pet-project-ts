@@ -1,0 +1,56 @@
+{
+  "name": "@adv-ui/pet-movies",
+  "version": "1.1.0",
+  "private": true,
+  "description": "SPA application about movies",
+  "author": "Web Platform <enablers-frontend@adevinta.com> (https://github.mpi-internal.com/scmspain/es-td-agreements/tree/master/30-Frontend)",
+  "license": "MIT",
+  "keywords": [
+    "IMDB",
+    "Pet Project"
+  ],
+  "scripts": {
+    "build": "make build",
+    "dev": "make dev",
+    "ssr:preview": "make preview_ssr"
+  },
+  "dependencies": {
+    "@adv-ui/pet-domain": "1",
+    "@adv-ui/pet-layout-footer": "^1.2.0",
+    "@adv-ui/pet-layout-header": "^1.2.0",
+    "@adv-ui/pet-styles": "1",
+    "@s-ui/react-head": "1",
+    "@s-ui/react-initial-props": "2",
+    "@s-ui/react-router": "1",
+    "@s-ui/ssr": "8"
+  },
+  "devDependencies": {
+    "@adv-ui/pet-mocks": "1",
+    "@s-ui/bundler": "typescript",
+    "@types/react-helmet": "6.1.7"
+  },
+  "config": {
+    "sui-bundler": {
+      "env": [
+        "RELEASE",
+        "VERSION",
+        "STAGE",
+        "TEST_E2E",
+        "CACHE_DISABLED",
+        "MOCK_API_REQUESTS"
+      ],
+      "vendor": [
+        "@s-ui/i18n",
+        "@s-ui/polyfills",
+        "@s-ui/react-head",
+        "@s-ui/react-router",
+        "classnames",
+        "react-dom",
+        "react"
+      ]
+    }
+  },
+  "msw": {
+    "workerDirectory": "public"
+  }
+}

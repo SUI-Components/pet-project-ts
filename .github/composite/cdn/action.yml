@@ -1,0 +1,34 @@
+name: 'Upload the public folder to our S3 folder'
+description: 'Upload folder and setup cache policies'
+
+inputs:
+  aws-account-id:
+    description: "AWS account identifier"
+    required: false
+    default: ""
+
+  aws-region:
+    description: "AWS region"
+    required: false
+    default: "eu-west-1"
+
+  stage:
+    description: "The place where static assets are located"
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Authenticate with AWS account
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        role-to-assume: arn:aws:iam::${{ inputs.aws-account-id }}:role/github-actions-deployments
+        aws-region: ${{ inputs.aws-region }}
+        role-duration-seconds: 1200
+
+    - name: Upload
+      shell: bash
+      run: docker-compose -f .docker/compose.upload.yaml up --exit-code-from uploader
+      env:
+        STAGE: ${{ inputs.stage }}
+        BASE_IMG: containers.mpi-internal.com/${{ github.repository }}-movies-${{ inputs.stage }}:${{ github.sha }}

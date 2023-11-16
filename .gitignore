@@ -7,9 +7,9 @@ COMMANDS
 .DS_Store
 public
 distServer
-package-lock.json
 .idea
 .vscode
 lib
 server
 tsconfig.tsbuildinfo
+.vim

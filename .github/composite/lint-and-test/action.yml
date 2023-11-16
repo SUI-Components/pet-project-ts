@@ -1,0 +1,28 @@
+name: 'Lint and test monorepo'
+description: 'Testing not include the E2E tests'
+
+runs:
+  using: composite
+
+  steps:
+    - name: Install
+      uses: scmspain/platform-common--actions/frontend/install@v0
+      with:
+        build: 'true'
+
+          #- name: Lint
+          #  shell: bash
+          #  run: npm run lint
+
+    - name: Setup Chrome
+      id: setup-chrome
+      uses: scmspain/platform-common--actions/frontend/setup-chrome@v0
+
+    - name: Test
+      shell: bash
+      run: npm run test
+      env:
+        CHROME_BIN: ${{ steps.setup-chrome.outputs.chrome-path }}
+        NODE_ENV: production
+        STAGE: development
+        TEST_FLAG_CLIENT: --headless

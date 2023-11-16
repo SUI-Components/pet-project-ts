@@ -1,0 +1,30 @@
+{
+  "name": "@adv-ui/pet-js",
+  "description": "Set of JS utilities to be used in our apps",
+  "author": "Web Platform <enablers-frontend@adevinta.com> (https://github.mpi-internal.com/scmspain/es-td-agreements/tree/master/30-Frontend)",
+  "license": "MIT",
+  "version": "1.4.0",
+  "keywords": [
+    "ToolBox"
+  ],
+  "scripts": {
+    "lib": "make lib",
+    "prepublishOnly": "make prepublishOnly",
+    "lint": "make lint",
+    "test": "make test",
+    "test:ci": "make test_ci",
+    "test:client": "make test_client",
+    "test:client:watch": "make test_client_watch",
+    "test:server": "make test_server",
+    "test:server:watch": "make test_server_watch"
+  },
+  "devDependencies": {
+    "@carlosvillu/linter": "^1.1.0",
+    "@s-ui/js-compiler": "typescript",
+    "@s-ui/mockmock": "2",
+    "@s-ui/test": "typescript",
+    "@types/chai": "4.3.6",
+    "@types/mocha": "10.0.2",
+    "chai": "4.3.10"
+  }
+}

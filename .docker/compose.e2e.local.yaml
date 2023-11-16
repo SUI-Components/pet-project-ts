@@ -1,0 +1,27 @@
+# https://github.com/docker/awesome-compose
+services:
+  movies:
+    build:
+      dockerfile: "${PWD}/.docker/Dockerfile"
+      context: "${PWD}"
+      args:
+        CONSOLE: true
+        STAGE: production
+        NODE_ENV: production
+        APPLICATION: movies
+    environment:
+      PORT: 2023
+    ports:
+      - 2023:2023
+
+  e2e:
+    image: ${E2E:-suitools/e2e-test}
+    volumes:
+      - ${PWD}/qa/e2e:/usr/src/test-e2e
+      - ${PWD}/qa/e2e/screenshots:/usr/src/cypress/screenshots
+    links:
+      - movies
+    depends_on:
+      - movies
+    command: npx sui-test-e2e --baseUrl=http://movies:2023 ${E2E_FLAGS}
+

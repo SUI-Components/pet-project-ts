@@ -1,0 +1,12 @@
+# https://github.com/docker/awesome-compose
+services:
+  uploader:
+    build:
+      dockerfile: "${PWD}/.docker/Dockerfile.upload"
+      context: "${PWD}"
+      args:
+        BASE_IMG: ${BASE_IMG}
+        STAGE: ${STAGE}
+        AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+        AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+        AWS_SESSION_TOKEN: ${AWS_SESSION_TOKEN}

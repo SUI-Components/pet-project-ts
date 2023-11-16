@@ -1,0 +1,20 @@
+{
+  "name": "@adv-ui/pet-ui",
+  "version": "1.4.0",
+  "description": "Set of UI component to be used in our apps",
+  "author": "Web Platform <enablers-frontend@adevinta.com> (https://github.mpi-internal.com/scmspain/es-td-agreements/tree/master/30-Frontend)",
+  "license": "MIT",
+  "keywords": [
+    "UIKit",
+    "React"
+  ],
+  "scripts": {
+    "dev": "make dev",
+    "generate": "make generate",
+    "start": "make start"
+  },
+  "devDependencies": {
+    "@s-ui/studio": "typescript",
+    "cpx": "1.5.0"
+  }
+}
