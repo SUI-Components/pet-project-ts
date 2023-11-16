@@ -16,6 +16,8 @@ ENV STAGE $STAGE
 
 WORKDIR /usr/src/app
 
+RUN yum install make
+
 COPY --from=base /usr/src/app .
 
 ENTRYPOINT make cdn
