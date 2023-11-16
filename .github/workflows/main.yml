@@ -140,4 +140,4 @@ jobs:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         with:
           notify-on: always
-          slack-channel-id: G018GDN04CD
+          slack-channel-id: C0662FGBDGB
