@@ -43,20 +43,6 @@ jobs:
           build-args: '{"STAGE": "development", "APPLICATION": "movies", "CDN": "https://scm-milanuncios-frontend-pre.milanuncios.net/pet/development/"}'
           suffix: 'movies-development'
 
-  e2e:
-    runs-on: big
-    needs: build-image
-    strategy:
-      matrix:
-        scope: ['integration/home', 'integration/detail']
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: action
-        uses: ./.github/composite/e2e
-        with:
-          scope: ${{ matrix.scope }}
   cdn:
     runs-on: medium
     needs: build-image
@@ -72,6 +58,23 @@ jobs:
         with:
           aws-account-id: '060140816915'
           stage: development
+
+  e2e:
+    runs-on: big
+    needs: 
+      - build-image
+      - cdn
+    strategy:
+      matrix:
+        scope: ['integration/home', 'integration/detail']
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: action
+        uses: ./.github/composite/e2e
+        with:
+          scope: ${{ matrix.scope }}
 
   validate-and-publish:
     needs: build-image
