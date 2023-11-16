@@ -16,7 +16,7 @@ ENV STAGE $STAGE
 
 WORKDIR /usr/src/app
 
-RUN yum install make
+RUN yum install -y make
 
 COPY --from=base /usr/src/app .
 
