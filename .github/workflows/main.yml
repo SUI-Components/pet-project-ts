@@ -127,3 +127,17 @@ jobs:
     secrets:
       artifactory-user: ${{ secrets.ARTIFACTORY_USER }}
       artifactory-pwd: ${{ secrets.ARTIFACTORY_PWD }}
+
+  notify:
+    runs-on: small
+    if: always()
+    needs:
+      - deploy
+    steps:
+      - name: Notify
+        uses: scmspain/platform-common--actions/workflow-status-notification@v0
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        with:
+          notify-on: always
+          slack-channel-id: G018GDN04CD
