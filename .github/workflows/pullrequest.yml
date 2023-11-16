@@ -113,4 +113,4 @@ jobs:
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v2
         with:
-          message: https://ms-pet-movies--sandbox-pr-${{ github.event.number }}.es-microtest-pro.schip.io
+          message: https://ms-pet-movies--sandbox-pr-${{ github.event.number }}.es-microtest-pre.schip.io
