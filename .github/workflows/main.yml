@@ -37,12 +37,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Tap
-        run: |
-          echo $GITHUB_SHA
-          echo ${{ github.repository }}
-          ls -pal .
-
       - name: Build docker image
         uses: common-platform/actions/build-image@v0
         with:
@@ -67,7 +61,7 @@ jobs:
       - name: action
         uses: ./.github/composite/cdn
         with:
-          aws-account-id: '060140816915'
+          aws-account-id: '060140816915' # MA Pre AWS account ID
           stage: ${{ matrix.stage }}
 
   e2e:

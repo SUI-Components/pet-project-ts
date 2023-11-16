@@ -30,12 +30,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Tap
-        run: |
-          echo $GITHUB_SHA
-          echo ${{ github.repository }}
-          ls -pal .
-
       - name: Build docker image
         uses: common-platform/actions/build-image@v0
         with:
