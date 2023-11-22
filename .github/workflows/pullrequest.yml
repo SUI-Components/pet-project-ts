@@ -39,7 +39,7 @@ jobs:
           dockerfile-path: ./.docker/Dockerfile
           push-image: true
           additional-tags: '["${{ github.sha }}"]'
-          build-args: '{"STAGE": "development", "CDN": ${{ env.CDN }}}'
+          build-args: '{"STAGE": "development", "CDN": "${{ env.CDN }}}"'
           suffix: '${{ env.APPLICATION_NAME }}-development'
 
   cdn:
