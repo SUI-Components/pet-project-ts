@@ -84,7 +84,7 @@ jobs:
     with:
       environments: pr
       image-tag: containers.mpi-internal.com/${{ github.repository }}-pet-movies-development:${{ github.sha }}
-      application-name: ms-${{ env.APPLICATION_NAME }}--sandbox-pr-${{ github.event.number }}
+      application-name: ms-pet-movies--sandbox-pr-${{ github.event.number }}
       bounded-context: es-microtest
     secrets:
       artifactory-user: ${{ secrets.ARTIFACTORY_USER }}
