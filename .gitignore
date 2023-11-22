@@ -13,3 +13,4 @@ lib
 server
 tsconfig.tsbuildinfo
 .vim
+__*

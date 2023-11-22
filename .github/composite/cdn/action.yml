@@ -16,6 +16,10 @@ inputs:
     description: "The place where static assets are located"
     required: true
 
+  docker-image:
+    description: "Docker IMG to be used as Application"
+    required: true
+
 runs:
   using: composite
   steps:
@@ -31,4 +35,5 @@ runs:
       run: docker-compose -f .docker/compose.upload.yaml up --exit-code-from uploader
       env:
         STAGE: ${{ inputs.stage }}
-        BASE_IMG: containers.mpi-internal.com/${{ github.repository }}-movies-${{ inputs.stage }}:${{ github.sha }}
+        BASE_IMG: ${{ inputs.docker-image }}
+        #BASE_IMG: containers.mpi-internal.com/${{ github.repository }}-movies-${{ inputs.stage }}:${{ github.sha }}

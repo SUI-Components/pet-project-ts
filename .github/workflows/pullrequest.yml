@@ -1,4 +1,4 @@
-name: Movies Project Pull Request
+name: Project Pull Request
 
 on:
   workflow_dispatch:
@@ -10,7 +10,10 @@ env:
   ARTIFACTORY_CONTEXT: https://artifactory.mpi-internal.com/artifactory
   ARTIFACTORY_USER: ${{ secrets.ARTIFACTORY_USER }}
   ARTIFACTORY_PWD: ${{ secrets.ARTIFACTORY_PWD }}
-  DOCKER_IMAGE_BASENAME: containers.mpi-internal.com/${{ github.repository }}
+  APPLICATION_NAME: pet-movies
+  CDN: "https://scm-milanuncios-frontend-pre.milanuncios.net/pet/development/"
+  AWS_ACCOUNT_ID_PRE: '060140816915'
+  S3_BUCKET_APPLICATION: "s3://scm-milanuncios-frontend-pre/pet-movies/development" ## We use this env var in the Makefile ./app/Makefile
 
 jobs:
   lint-and-test:
@@ -36,8 +39,8 @@ jobs:
           dockerfile-path: ./.docker/Dockerfile
           push-image: true
           additional-tags: '["${{ github.sha }}"]'
-          build-args: '{"STAGE": "development", "APPLICATION": "movies", "CDN": "https://scm-milanuncios-frontend-pre.milanuncios.net/pet/development/"}'
-          suffix: 'movies-development'
+          build-args: '{"STAGE": "development", "CDN": ${{ env.CDN }}}'
+          suffix: '${{ env.APPLICATION_NAME }}-development'
 
   cdn:
     runs-on: medium
@@ -52,8 +55,9 @@ jobs:
       - name: action
         uses: ./.github/composite/cdn
         with:
-          aws-account-id: '060140816915'
+          aws-account-id: ${{ env.AWS_ACCOUNT_ID_PRE }}
           stage: development
+          docker-image: containers.mpi-internal.com/${{ github.repository }}-${{ env.APPLICATION_NAME }}-development:${{ github.sha }}
 
   e2e:
     runs-on: big
@@ -72,14 +76,15 @@ jobs:
         with:
           scope: ${{ matrix.scope }}
           stage: 'development'
+          docker-image: containers.mpi-internal.com/${{ github.repository }}-${{ env.APPLICATION_NAME }}-development:${{ github.sha }}
 
   validate-and-publish:
     needs: build-image
     uses: scmspain/platform-common--actions/.github/workflows/validate-and-publish.yml@v0
     with:
       environments: pr
-      image-tag: containers.mpi-internal.com/${{ github.repository }}-movies-development:${{ github.sha }}
-      application-name: ms-pet-movies--sandbox-pr-${{ github.event.number }}
+      image-tag: containers.mpi-internal.com/${{ github.repository }}-${{ env.APPLICATION_NAME }}-development:${{ github.sha }}
+      application-name: ms-${{ env.APPLICATION_NAME }}--sandbox-pr-${{ github.event.number }}
       bounded-context: es-microtest
     secrets:
       artifactory-user: ${{ secrets.ARTIFACTORY_USER }}
@@ -110,4 +115,4 @@ jobs:
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v2
         with:
-          message: https://ms-pet-movies--sandbox-pr-${{ github.event.number }}.es-microtest-pre.schip.io
+          message: https://ms-${{ env.APPLICATION_NAME }}--sandbox-pr-${{ github.event.number }}.es-microtest-pre.schip.io
