@@ -14,7 +14,6 @@ env:
   CDN: "https://scm-milanuncios-frontend-pre.milanuncios.net/pet/development/"
   AWS_ACCOUNT_ID_PRE: '060140816915'
   S3_BUCKET_APPLICATION: "s3://scm-milanuncios-frontend-pre/pet-movies/development" ## We use this env var in the Makefile ./app/Makefile
-  EXECUTE_E2E: true
 
 jobs:
   lint-and-test:
@@ -61,7 +60,6 @@ jobs:
           docker-image: containers.mpi-internal.com/${{ github.repository }}-${{ env.APPLICATION_NAME }}-development:${{ github.sha }}
 
   e2e:
-    if: ${{ env.EXECUTE_E2E == 'true' }}
     runs-on: big
     needs: 
       - build-image
