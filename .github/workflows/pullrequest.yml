@@ -10,11 +10,11 @@ env:
   ARTIFACTORY_CONTEXT: https://artifactory.mpi-internal.com/artifactory
   ARTIFACTORY_USER: ${{ secrets.ARTIFACTORY_USER }}
   ARTIFACTORY_PWD: ${{ secrets.ARTIFACTORY_PWD }}
-  ###############################################################
-  ## ⚠️  Update jobs.validate-and-publish.with.image-tag too ⚠️  ##
-  ###############################################################
+  ##################################################################################
+  ## ⚠️  Update jobs.validate-and-publish.with.[image-tag|application-name] too ⚠️  ##
+  ##################################################################################
   APPLICATION_NAME: "pet-movies" 
-  CDN: "https://scm-milanuncios-frontend-pre.milanuncios.net/pet/development/"
+  CDN: "https://scm-milanuncios-frontend-pre.milanuncios.net/pet-movies/development/"
   AWS_ACCOUNT_ID_PRE: '060140816915'
   S3_BUCKET_APPLICATION: "s3://scm-milanuncios-frontend-pre/pet-movies/development" ## We use this env var in the Makefile ./app/Makefile
 

@@ -11,7 +11,17 @@ env:
   ARTIFACTORY_CONTEXT: https://artifactory.mpi-internal.com/artifactory
   ARTIFACTORY_USER: ${{ secrets.ARTIFACTORY_USER }}
   ARTIFACTORY_PWD: ${{ secrets.ARTIFACTORY_PWD }}
-  DOCKER_IMAGE_BASENAME: containers.mpi-internal.com/${{ github.repository }}
+  ##################################################################################
+  ## ⚠️  Update jobs.validate-and-publish.with.[image-tag|application-name] too ⚠️  ##
+  ##################################################################################
+  APPLICATION_NAME: "pet-movies" 
+  CDN_PRE: "https://scm-milanuncios-frontend-pre.milanuncios.net/pet-movies/development/"
+  CDN_PRO: "https://scm-milanuncios-frontend-pre.milanuncios.net/pet-movies/production/"
+  # MA AWS Pre Account ID
+  AWS_ACCOUNT_ID_PRE: '060140816915'
+  AWS_ACCOUNT_ID_PRO: '060140816915'
+  S3_BUCKET_APPLICATION_PRE: "s3://scm-milanuncios-frontend-pre/pet-movies/development"
+  S3_BUCKET_APPLICATION_PRO: "s3://scm-milanuncios-frontend-pre/pet-movies/production"
 
 jobs:
   lint-and-test:
@@ -32,7 +42,11 @@ jobs:
     runs-on: medium
     strategy:
       matrix:
-        stage: ['development', 'production']
+        include:
+          - stage: development
+            CDN: ${{ env.CDN_PRE }}
+          - stage: production
+            CDN: ${{ env.CDN_PRO }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -43,8 +57,9 @@ jobs:
           dockerfile-path: ./.docker/Dockerfile
           push-image: true
           additional-tags: '["${{ github.sha }}"]'
-          build-args: '{"STAGE": "${{ matrix.stage }}", "APPLICATION": "movies", "CDN": "https://scm-milanuncios-frontend-pre.milanuncios.net/pet/${{ matrix.stage }}/"}'
-          suffix: 'movies-${{ matrix.stage }}'
+          build-args: '{"STAGE": "${{ matrix.stage }}", "CDN": "${{ matrix.CDN }}"}'
+          suffix: '${{ env.APPLICATION_NAME }}-${{ matrix.stage }}'
+
   cdn:
     runs-on: medium
     needs: build-image
@@ -54,6 +69,13 @@ jobs:
     strategy:
       matrix:
         stage: ['development', 'production']
+        include:
+          - stage: 'development'
+            aws-account-id: "${{ env.AWS_ACCOUNT_ID_PRE }}"
+            s3-bucket-application: ${{ env.S3_BUCKET_APPLICATION_PRE }}
+          - stage: 'production'
+            aws-account-id: "${{ env.AWS_ACCOUNT_ID_PRO }}"
+            s3-bucket-application: ${{ env.S3_BUCKET_APPLICATION_PRO }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -61,8 +83,13 @@ jobs:
       - name: action
         uses: ./.github/composite/cdn
         with:
-          aws-account-id: '060140816915' # MA Pre AWS account ID
+          aws-account-id: ${{ matrix.aws-account-id }}
           stage: ${{ matrix.stage }}
+          docker-image: containers.mpi-internal.com/${{ github.repository }}-${{ env.APPLICATION_NAME }}-${{ matrix.stage }}:${{ github.sha }}
+        env:
+          # This env var is used in app/Makefile file.
+          S3_BUCKET_APPLICATION: ${{ matrix.s3-bucket.application }}
+
 
   e2e:
     runs-on: big
@@ -82,6 +109,7 @@ jobs:
         with:
           scope: ${{ matrix.scope }}
           stage: ${{ matrix.stage }}
+          docker-image: containers.mpi-internal.com/${{ github.repository }}-${{ env.APPLICATION_NAME }}-${{ matrix.stage }}:${{ github.sha }}
 
   validate-and-publish:
     needs: build-image
@@ -94,8 +122,8 @@ jobs:
             stage: 'production'
     uses: scmspain/platform-common--actions/.github/workflows/validate-and-publish.yml@v0
     with:
-      environments: ${{ matrix.environment }} # We can not use an environment with ${{application}}-${{environment}}. We dont have multisite deployment. The env should be only pre|pro
-      image-tag: containers.mpi-internal.com/${{ github.repository }}-movies-${{ matrix.stage }}:${{ github.sha }}
+      environments: ${{ matrix.environment }}
+      image-tag: containers.mpi-internal.com/${{ github.repository }}-pet-movies-${{ matrix.stage }}:${{ github.sha }}
       application-name: ms-pet-movies--sandbox
       bounded-context: es-microtest
     secrets:
