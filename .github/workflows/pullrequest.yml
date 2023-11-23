@@ -19,22 +19,16 @@ jobs:
   lint-and-test:
     runs-on: big
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: action
-        uses: ./.github/composite/lint-and-test
+      - uses: actions/checkout@v3
+      - uses: ./.github/composite/lint-and-test
         with:
           stage: development
 
   build-image:
     runs-on: medium
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Build docker image
-        uses: common-platform/actions/build-image@v0
+      - uses: actions/checkout@v3
+      - uses: common-platform/actions/build-image@v0
         with:
           dockerfile-path: ./.docker/Dockerfile
           push-image: true
@@ -49,11 +43,8 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: action
-        uses: ./.github/composite/cdn
+      - uses: actions/checkout@v3
+      - uses: ./.github/composite/cdn
         with:
           aws-account-id: ${{ env.AWS_ACCOUNT_ID_PRE }}
           stage: development
@@ -68,11 +59,8 @@ jobs:
       matrix:
         scope: ['integration/home', 'integration/detail']
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: action
-        uses: ./.github/composite/e2e
+      - uses: actions/checkout@v3
+      - uses: ./.github/composite/e2e
         with:
           scope: ${{ matrix.scope }}
           stage: 'development'

@@ -18,7 +18,9 @@ MOCKS_API_PATH=$(ROOT)/node_modules/$(MOCK_NAME)/routes
 
 # CDN and statics
 S3_BUCKET ?= s3://scm-milanuncios-frontend-pre/
-S3_BUCKET_APPLICATION ?= $(S3_BUCKET)pet/$(STAGE)/ ## This ENV is override by our GHAs
+
+## This ENV is override by our GHAs
+S3_BUCKET_APPLICATION ?= $(S3_BUCKET)pet/$(STAGE)/
 
 FIVE_MINUTES_CACHE=300
 ONE_YEAR_CACHE=31536000
