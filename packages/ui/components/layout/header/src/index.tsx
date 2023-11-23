@@ -5,7 +5,10 @@ export interface LayoutHeaderProps {
   isActive?: boolean
 }
 
-export default function LayoutHeader({name, lastname}: LayoutHeaderProps): JSX.Element {
+export default function LayoutHeader({
+  name,
+  lastname
+}: LayoutHeaderProps): JSX.Element {
   return (
     <div className="sui-LayoutHeader">
       <h1>
