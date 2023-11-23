@@ -17,6 +17,7 @@ env:
 
 jobs:
   lint-and-test:
+    name: 🤖 / 🧪 Lint and Test
     runs-on: big
     steps:
       - uses: actions/checkout@v3
@@ -25,6 +26,7 @@ jobs:
           stage: development
 
   build-image:
+    name: 📦 Build Image
     runs-on: medium
     steps:
       - uses: actions/checkout@v3
@@ -37,6 +39,7 @@ jobs:
           suffix: '${{ env.APPLICATION_NAME }}-development'
 
   cdn:
+    name: 📡 Upload CDN
     runs-on: medium
     needs: build-image
     permissions:
@@ -51,6 +54,7 @@ jobs:
           docker-image: containers.mpi-internal.com/${{ github.repository }}-${{ env.APPLICATION_NAME }}-development:${{ github.sha }}
 
   e2e:
+    name: 🎭 Tests E2E
     runs-on: big
     needs: 
       - build-image
@@ -67,6 +71,7 @@ jobs:
           docker-image: containers.mpi-internal.com/${{ github.repository }}-${{ env.APPLICATION_NAME }}-development:${{ github.sha }}
 
   validate-and-publish:
+    name: 🎯 Validate and Publish
     needs: build-image
     uses: scmspain/platform-common--actions/.github/workflows/validate-and-publish.yml@v0
     with:
@@ -79,6 +84,7 @@ jobs:
       artifactory-pwd: ${{ secrets.ARTIFACTORY_PWD }}
 
   deploy:
+    name: 🚀 Deploy
     needs:
       - validate-and-publish
       - lint-and-test
@@ -96,6 +102,7 @@ jobs:
       artifactory-pwd: ${{ secrets.ARTIFACTORY_PWD }}
 
   comment-pr:
+    name: 📄 Comment PR
     runs-on: medium
     needs:
       - deploy
