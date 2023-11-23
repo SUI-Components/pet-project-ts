@@ -74,19 +74,17 @@ jobs:
           docker-image: containers.mpi-internal.com/${{ github.repository }}-${{ env.APPLICATION_NAME }}-development:${{ github.sha }}
 
   validate-and-publish:
-    runs-on: medium
     name: 🎯 Validate and Publish
     needs: build-image
-    steps:
-      - uses: scmspain/platform-common--actions/.github/workflows/validate-and-publish.yml@v0
-        with:
-          environments: pr
-          image-tag: containers.mpi-internal.com/${{ github.repository }}-pet-movies-development:${{ github.sha }}
-          application-name: ms-pet-movies--sandbox-pr-${{ github.event.number }}
-          bounded-context: es-microtest
-        secrets:
-          artifactory-user: ${{ secrets.ARTIFACTORY_USER }}
-          artifactory-pwd: ${{ secrets.ARTIFACTORY_PWD }}
+    uses: scmspain/platform-common--actions/.github/workflows/validate-and-publish.yml@v0
+    with:
+      environments: pr
+      image-tag: containers.mpi-internal.com/${{ github.repository }}-pet-movies-development:${{ github.sha }}
+      application-name: ms-pet-movies--sandbox-pr-${{ github.event.number }}
+      bounded-context: es-microtest
+    secrets:
+      artifactory-user: ${{ secrets.ARTIFACTORY_USER }}
+      artifactory-pwd: ${{ secrets.ARTIFACTORY_PWD }}
 
   deploy:
     name: 🚀 Deploy
