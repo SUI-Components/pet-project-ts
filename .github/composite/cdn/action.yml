@@ -46,7 +46,7 @@ runs:
         with:
           command: sync
           source: ./app/public
-          destination: ${{ imputs.s3-bucket }}
+          destination: ${{ inputs.s3-bucket }}
           # s3://scm-milanuncios-frontend-pre/pet/${{ inputs.stage }}/
           aws_access_key_id: $AWS_ACCESS_KEY_ID
           aws_secret_access_key: $AWS_SECRET_ACCESS_KEY
