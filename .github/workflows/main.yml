@@ -1,37 +1,6 @@
 name: Movies Project Master
 
 on:
-  workflow_dispatch: # or workflow_call
-    inputs:
-      APPLICATION_NAME:
-        description: "Name of the application to be used for example as part of the preview URL"
-        required: false
-        default: "pet-movies"
-      CDN_PRE:
-        description: "Full URL of the CDN url where we can donwload the assets MUST ends with / "
-        required: false
-        default: "https://scm-milanuncios-frontend-pre.milanuncios.net/pet-movies/development/"
-      CDN_PRO:
-        description: "Full URL of the CDN url where we can donwload the assets MUST ends with / "
-        required: false
-        default: "https://scm-milanuncios-frontend-pre.milanuncios.net/pet-movies/production/"
-      # MA AWS Pre Account ID
-      AWS_ACCOUNT_ID_PRE:
-        description: "AWS account id to upload assets to Pre"
-        required: false
-        default: "060140816915"
-      AWS_ACCOUNT_ID_PRO:
-        description: "AWS account id to upload assets to Pro"
-        required: false
-        default: "060140816915"
-      S3_BUCKET_APPLICATION_PRE:
-        description: "S3 bucket where we want to place the assets for Pre"
-        required: false
-        default: "s3://scm-milanuncios-frontend-pre/pet-movies/development"
-      S3_BUCKET_APPLICATION_PRO:
-        description: "S3 bucket where we want to place the assets for Pro"
-        required: false
-        default: "s3://scm-milanuncios-frontend-pre/pet-movies/production"
   push:
     branches:
       - master
@@ -45,16 +14,37 @@ env:
   ##################################################################################
   ## ⚠️  Update jobs.validate-and-publish.with.[image-tag|application-name] too ⚠️  ##
   ##################################################################################
-  #APPLICATION_NAME: "pet-movies" 
-  #CDN_PRE: "https://scm-milanuncios-frontend-pre.milanuncios.net/pet-movies/development/"
-  #CDN_PRO: "https://scm-milanuncios-frontend-pre.milanuncios.net/pet-movies/production/"
-  ## MA AWS Pre Account ID
-  #AWS_ACCOUNT_ID_PRE: '060140816915'
-  #AWS_ACCOUNT_ID_PRO: '060140816915'
-  #S3_BUCKET_APPLICATION_PRE: "s3://scm-milanuncios-frontend-pre/pet-movies/development"
-  #S3_BUCKET_APPLICATION_PRO: "s3://scm-milanuncios-frontend-pre/pet-movies/production"
+  APPLICATION_NAME: "pet-movies" 
+  CDN_PRE: "https://scm-milanuncios-frontend-pre.milanuncios.net/pet-movies/development/"
+  CDN_PRO: "https://scm-milanuncios-frontend-pre.milanuncios.net/pet-movies/production/"
+  # MA AWS Pre Account ID
+  AWS_ACCOUNT_ID_PRE: '060140816915'
+  AWS_ACCOUNT_ID_PRO: '060140816915'
+  S3_BUCKET_APPLICATION_PRE: "s3://scm-milanuncios-frontend-pre/pet-movies/development"
+  S3_BUCKET_APPLICATION_PRO: "s3://scm-milanuncios-frontend-pre/pet-movies/production"
 
 jobs:
+  compute:
+    runs-on: small
+    outputs:
+      APPLICATION_NAME: ${{ env.APPLICATION_NAME }}
+      CDN_PRE: ${{ env.CDN_PRE }}
+      CDN_PRO: ${{ env.CDN_PRO }}
+      AWS_ACCOUNT_ID_PRE: ${{ env.AWS_ACCOUNT_ID_PRE }}
+      AWS_ACCOUNT_ID_PRO: ${{ env.AWS_ACCOUNT_ID_PRO }}
+      S3_BUCKET_APPLICATION_PRE: ${{ env.S3_BUCKET_APPLICATION_PRE }}
+      S3_BUCKET_APPLICATION_PRO: ${{ env.S3_BUCKET_APPLICATION_PRO }}
+    steps:
+      - name: Compute outputs
+        run: |
+          echo "APPLICATION_NAME=${{ env.APPLICATION_NAME }}" >> $GITHUB_OUTPUT
+          echo "CDN_PRE=${{ env.CDN_PRE }}" >> $GITHUB_OUTPUT
+          echo "CDN_PRO=${{ env.CDN_PRO }}" >> $GITHUB_OUTPUT
+          echo "AWS_ACCOUNT_ID_PRE=${{ env.AWS_ACCOUNT_ID_PRE }}" >> $GITHUB_OUTPUT
+          echo "AWS_ACCOUNT_ID_PRO=${{ env.AWS_ACCOUNT_ID_PRO }}" >> $GITHUB_OUTPUT
+          echo "S3_BUCKET_APPLICATION_PRE=${{ env.S3_BUCKET_APPLICATION_PRE }}" >> $GITHUB_OUTPUT
+          echo "S3_BUCKET_APPLICATION_PRO=${{ env.S3_BUCKET_APPLICATION_PRO }}" >> $GITHUB_OUTPUT
+
   lint-and-test:
     runs-on: big
     strategy:
@@ -71,13 +61,14 @@ jobs:
 
   build-image:
     runs-on: medium
+    needs: compute
     strategy:
       matrix:
         include:
           - stage: development
-            CDN: ${{ inputs.CDN_PRE }}
+            CDN: ${{ needs.compute.outputs.CDN_PRE }}
           - stage: production
-            CDN: ${{ inputs.CDN_PRO }}
+            CDN: ${{ needs.compute.outputs.CDN_PRO }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -89,24 +80,25 @@ jobs:
           push-image: true
           additional-tags: '["${{ github.sha }}"]'
           build-args: '{"STAGE": "${{ matrix.stage }}", "CDN": "${{ matrix.CDN }}"}'
-          suffix: '${{ inputs.APPLICATION_NAME }}-${{ matrix.stage }}'
+          suffix: '${{ needs.compute.outputs.APPLICATION_NAME }}-${{ matrix.stage }}'
 
   cdn:
     runs-on: medium
-    needs: build-image
+    needs:
+      - compute
+      - build-image
     permissions:
       id-token: write
       contents: read
     strategy:
       matrix:
-        stage: ['development', 'production']
         include:
           - stage: 'development'
-            aws-account-id: "${{ inputs.AWS_ACCOUNT_ID_PRE }}"
-            s3-bucket-application: ${{ inputs.S3_BUCKET_APPLICATION_PRE }}
+            aws-account-id: "${{ needs.compute.outputs.AWS_ACCOUNT_ID_PRE }}"
+            s3-bucket-application: ${{ needs.compute.outputs.S3_BUCKET_APPLICATION_PRE }}
           - stage: 'production'
-            aws-account-id: "${{ inputs.AWS_ACCOUNT_ID_PRO }}"
-            s3-bucket-application: ${{ inputs.S3_BUCKET_APPLICATION_PRO }}
+            aws-account-id: "${{ needs.compute.outputs.AWS_ACCOUNT_ID_PRO }}"
+            s3-bucket-application: ${{ needs.compute.outputs.S3_BUCKET_APPLICATION_PRO }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -116,7 +108,7 @@ jobs:
         with:
           aws-account-id: ${{ matrix.aws-account-id }}
           stage: ${{ matrix.stage }}
-          docker-image: containers.mpi-internal.com/${{ github.repository }}-${{ inputs.APPLICATION_NAME }}-${{ matrix.stage }}:${{ github.sha }}
+          docker-image: containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-${{ matrix.stage }}:${{ github.sha }}
         env:
           # This env var is used in app/Makefile file.
           S3_BUCKET_APPLICATION: ${{ matrix.s3-bucket-application }}
@@ -125,6 +117,7 @@ jobs:
   e2e:
     runs-on: big
     needs: 
+      - compute
       - build-image
       - cdn
     strategy:
@@ -140,10 +133,12 @@ jobs:
         with:
           scope: ${{ matrix.scope }}
           stage: ${{ matrix.stage }}
-          docker-image: containers.mpi-internal.com/${{ github.repository }}-${{ inputs.APPLICATION_NAME }}-${{ matrix.stage }}:${{ github.sha }}
+          docker-image: containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-${{ matrix.stage }}:${{ github.sha }}
 
   validate-and-publish:
-    needs: build-image
+    needs:
+      - compute
+      - build-image
     strategy:
       matrix:
         include:
@@ -154,8 +149,8 @@ jobs:
     uses: scmspain/platform-common--actions/.github/workflows/validate-and-publish.yml@v0
     with:
       environments: ${{ matrix.environment }}
-      image-tag: containers.mpi-internal.com/${{ github.repository }}-pet-movies-${{ matrix.stage }}:${{ github.sha }}
-      application-name: ms-pet-movies--sandbox
+      image-tag: containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-${{ matrix.stage }}:${{ github.sha }}
+      application-name: ms-${{ needs.compute.outputs.APPLICATION_NAME }}--sandbox
       bounded-context: es-microtest
     secrets:
       artifactory-user: ${{ secrets.ARTIFACTORY_USER }}
