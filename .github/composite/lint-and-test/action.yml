@@ -15,9 +15,9 @@ runs:
       with:
         build: 'true'
 
-          #- name: Lint
-          #  shell: bash
-          #  run: npm run lint
+    - name: Lint
+      shell: bash
+      run: npm run lint
 
     - name: Setup Chrome
       id: setup-chrome
