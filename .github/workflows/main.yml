@@ -68,6 +68,7 @@ jobs:
   lint:
     name: 🤖 Lint
     runs-on: medium
+    needs: compute
     steps:
       - uses: actions/checkout@v3
         with:
@@ -77,6 +78,7 @@ jobs:
   test: 
     name: 🧪 Testing 
     runs-on: big
+    needs: compute
     strategy:
       matrix:
         stage: ['development', 'production']
