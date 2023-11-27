@@ -109,7 +109,7 @@ jobs:
         with:
           scope: ${{ matrix.scope }}
           stage: 'development'
-          application-image: "containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-${{ inputs.stage }}:${{ github.sha }}"
+          application-image: "containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-development:${{ github.sha }}"
 
   validate-and-publish:
     name: 🎯 Validate and Publish
