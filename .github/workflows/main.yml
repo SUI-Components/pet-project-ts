@@ -93,7 +93,7 @@ jobs:
     name: 📦 Dockerize
     runs-on: medium
     needs: 
-      - co📄mpute
+      - compute
       - build-app
     strategy:
       matrix:
