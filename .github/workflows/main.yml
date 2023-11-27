@@ -13,6 +13,7 @@ env:
   ARTIFACTORY_USER: ${{ secrets.ARTIFACTORY_USER }}
   ARTIFACTORY_PWD: ${{ secrets.ARTIFACTORY_PWD }}
 
+  APPLICATION_NAME: "pet-movies" 
   CDN_PRE: "https://scm-milanuncios-frontend-pre.milanuncios.net/pet-movies/development/"
   CDN_PRO: "https://scm-milanuncios-frontend-pre.milanuncios.net/pet-movies/production/"
   # MA AWS Pre Account ID
@@ -126,7 +127,7 @@ jobs:
       - uses: ./.github/composite/cdn
         with:
           s3-bucket: ${{ matrix.s3-bucket }}
-          aws-account-id: ${{ matrix.awd-account-id }}
+          aws-account-id: "${{ matrix.awd-account-id }}"
           aws-region: 'eu-west-3'
           stage: ${{ matrix.stage }}
 
