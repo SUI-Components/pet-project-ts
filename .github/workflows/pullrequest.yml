@@ -1,4 +1,4 @@
-name: Movies Project Pull Request
+name: Project Pull Request
 
 on:
   workflow_dispatch:
@@ -10,52 +10,54 @@ env:
   ARTIFACTORY_CONTEXT: https://artifactory.mpi-internal.com/artifactory
   ARTIFACTORY_USER: ${{ secrets.ARTIFACTORY_USER }}
   ARTIFACTORY_PWD: ${{ secrets.ARTIFACTORY_PWD }}
-  DOCKER_IMAGE_BASENAME: containers.mpi-internal.com/${{ github.repository }}
+  ##################################################################################
+  ## ⚠️  Update jobs.validate-and-publish.with.[image-tag|application-name] too ⚠️  ##
+  ##################################################################################
+  APPLICATION_NAME: "pet-movies" 
+  CDN: "https://scm-milanuncios-frontend-pre.milanuncios.net/pet-movies/development/"
+  AWS_ACCOUNT_ID_PRE: '060140816915'
+  S3_BUCKET_APPLICATION: "s3://scm-milanuncios-frontend-pre/pet-movies/development" ## We use this env var in the Makefile ./app/Makefile
 
 jobs:
   lint-and-test:
+    name: 🤖 / 🧪 Lint and Test
     runs-on: big
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: action
-        uses: ./.github/composite/lint-and-test
+      - uses: actions/checkout@v3
+      - uses: ./.github/composite/lint-and-test
         with:
           stage: development
 
   build-image:
+    name: 📦 Build Image
     runs-on: medium
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Build docker image
-        uses: common-platform/actions/build-image@v0
+      - uses: actions/checkout@v3
+      - uses: common-platform/actions/build-image@v0
         with:
           dockerfile-path: ./.docker/Dockerfile
           push-image: true
           additional-tags: '["${{ github.sha }}"]'
-          build-args: '{"STAGE": "development", "APPLICATION": "movies", "CDN": "https://scm-milanuncios-frontend-pre.milanuncios.net/pet/development/"}'
-          suffix: 'movies-development'
+          build-args: '{"STAGE": "development", "CDN": "${{ env.CDN }}"}'
+          suffix: '${{ env.APPLICATION_NAME }}-development'
 
   cdn:
+    name: 📡 Upload CDN
     runs-on: medium
     needs: build-image
     permissions:
       id-token: write
       contents: read
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: action
-        uses: ./.github/composite/cdn
+      - uses: actions/checkout@v3
+      - uses: ./.github/composite/cdn
         with:
-          aws-account-id: '060140816915'
+          aws-account-id: ${{ env.AWS_ACCOUNT_ID_PRE }}
           stage: development
+          docker-image: containers.mpi-internal.com/${{ github.repository }}-${{ env.APPLICATION_NAME }}-development:${{ github.sha }}
 
   e2e:
+    name: 🎭 Tests E2E
     runs-on: big
     needs: 
       - build-image
@@ -64,21 +66,20 @@ jobs:
       matrix:
         scope: ['integration/home', 'integration/detail']
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: action
-        uses: ./.github/composite/e2e
+      - uses: actions/checkout@v3
+      - uses: ./.github/composite/e2e
         with:
           scope: ${{ matrix.scope }}
           stage: 'development'
+          docker-image: containers.mpi-internal.com/${{ github.repository }}-${{ env.APPLICATION_NAME }}-development:${{ github.sha }}
 
   validate-and-publish:
+    name: 🎯 Validate and Publish
     needs: build-image
     uses: scmspain/platform-common--actions/.github/workflows/validate-and-publish.yml@v0
     with:
       environments: pr
-      image-tag: containers.mpi-internal.com/${{ github.repository }}-movies-development:${{ github.sha }}
+      image-tag: containers.mpi-internal.com/${{ github.repository }}-pet-movies-development:${{ github.sha }}
       application-name: ms-pet-movies--sandbox-pr-${{ github.event.number }}
       bounded-context: es-microtest
     secrets:
@@ -86,6 +87,7 @@ jobs:
       artifactory-pwd: ${{ secrets.ARTIFACTORY_PWD }}
 
   deploy:
+    name: 🚀 Deploy
     needs:
       - validate-and-publish
       - lint-and-test
@@ -103,6 +105,7 @@ jobs:
       artifactory-pwd: ${{ secrets.ARTIFACTORY_PWD }}
 
   comment-pr:
+    name: 📄 Comment PR
     runs-on: medium
     needs:
       - deploy
@@ -110,4 +113,4 @@ jobs:
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v2
         with:
-          message: https://ms-pet-movies--sandbox-pr-${{ github.event.number }}.es-microtest-pre.schip.io
+          message: https://ms-${{ env.APPLICATION_NAME }}--sandbox-pr-${{ github.event.number }}.es-microtest-pre.schip.io

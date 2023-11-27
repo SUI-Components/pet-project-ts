@@ -10,6 +10,10 @@ inputs:
     description: "Stage used inside of the image"
     required: true
 
+  docker-image:
+    description: "Docker IMG to be used as Application"
+    required: true
+
 runs:
   using: composite
 
@@ -18,6 +22,5 @@ runs:
       shell: bash
       run: docker-compose -f .docker/compose.e2e.yaml up --exit-code-from e2e
       env:
-        APP_IMG: containers.mpi-internal.com/${{ github.repository }}-movies-${{ inputs.stage }}:${{ github.sha }}
+        APP_IMG: ${{ inputs.docker-image }}
         E2E_FLAGS: --scope=${{ inputs.scope }}
-

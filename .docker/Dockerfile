@@ -39,7 +39,7 @@ FROM base as deps
 COPY package.json package.json
 COPY package-lock.json package-lock.json
 
-COPY app/movies/package.json app/movies/package.json
+COPY app/package.json app/package.json
 
 COPY packages/domain/package.json packages/domain/package.json
 COPY packages/js/package.json packages/js/package.json
@@ -59,7 +59,6 @@ RUN npm ci --include=dev --ignore-scripts
 FROM deps as build
 
 # define a default application to be build
-ARG APPLICATION=movies
 ARG NODE_ENV=production
 ARG STAGE=production
 ARG CDN=/
@@ -69,7 +68,7 @@ COPY . .
 
 RUN npm run postinstall
 
-WORKDIR /usr/src/app/app/${APPLICATION}
+WORKDIR /usr/src/app/app
 
 ENV NODE_ENV ${NODE_ENV}
 ENV STAGE ${STAGE}
@@ -78,7 +77,7 @@ ENV CDN ${CDN}
 RUN make build
 
 WORKDIR /usr/src/app
-RUN npx msw init app/${APPLICATION}/public --save
+RUN npx msw init app/public --save
 
 ################################################################################
 # Create a new stage to run the application with minimal runtime dependencies
@@ -90,7 +89,6 @@ ARG NODE_ENV=production
 ARG STAGE=production
 ARG USER=node
 ARG EXPOSE=3000
-ARG APPLICATION=movies
 ARG CONSOLE
 
 # Use production node environment by default.
@@ -112,7 +110,7 @@ EXPOSE ${EXPOSE}
 
 WORKDIR /usr/src/app
 
-COPY --from=build /usr/src/app/app/${APPLICATION} /usr/src/app
+COPY --from=build /usr/src/app/app /usr/src/app
 
 # Run the application.
 CMD ["node", "server/index.js"]
