@@ -11,9 +11,6 @@ env:
   ARTIFACTORY_CONTEXT: https://artifactory.mpi-internal.com/artifactory
   ARTIFACTORY_USER: ${{ secrets.ARTIFACTORY_USER }}
   ARTIFACTORY_PWD: ${{ secrets.ARTIFACTORY_PWD }}
-  ##################################################################################
-  ## ⚠️  Update jobs.validate-and-publish.with.[image-tag|application-name] too ⚠️  ##
-  ##################################################################################
   APPLICATION_NAME: "pet-movies" 
   CDN_PRE: "https://scm-milanuncios-frontend-pre.milanuncios.net/pet-movies/development/"
   CDN_PRO: "https://scm-milanuncios-frontend-pre.milanuncios.net/pet-movies/production/"
@@ -25,6 +22,7 @@ env:
 
 jobs:
   compute:
+    name: 🖥️ Compute
     runs-on: small
     outputs:
       APPLICATION_NAME: ${{ env.APPLICATION_NAME }}
@@ -46,6 +44,7 @@ jobs:
           echo "S3_BUCKET_APPLICATION_PRO=${{ env.S3_BUCKET_APPLICATION_PRO }}" >> $GITHUB_OUTPUT
 
   lint-and-test:
+    name: 🤖 / 🧪 Lint and Test
     runs-on: big
     needs: compute
     strategy:
@@ -63,6 +62,7 @@ jobs:
           stage: ${{ matrix.stage }}
 
   build-image:
+    name: 📦 Build Image
     runs-on: medium
     needs: compute
     strategy:
@@ -86,6 +86,7 @@ jobs:
           suffix: '${{ needs.compute.outputs.APPLICATION_NAME }}-${{ matrix.stage }}'
 
   cdn:
+    name: 📡 Upload CDN
     runs-on: medium
     needs:
       - compute
@@ -118,6 +119,7 @@ jobs:
 
 
   e2e:
+    name: 🎭 Tests E2E
     runs-on: big
     needs: 
       - compute
@@ -139,6 +141,7 @@ jobs:
           docker-image: containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-${{ matrix.stage }}:${{ github.sha }}
 
   validate-and-publish:
+    name: 🎯 Validate and Publish
     needs:
       - compute
       - build-image
@@ -160,6 +163,7 @@ jobs:
       artifactory-pwd: ${{ secrets.ARTIFACTORY_PWD }}
 
   deploy:
+    name: 🚀 Deploy
     needs: 
       - validate-and-publish
       - lint-and-test
@@ -180,6 +184,7 @@ jobs:
       artifactory-pwd: ${{ secrets.ARTIFACTORY_PWD }}
 
   notify:
+    name: 📄 Notify
     runs-on: small
     if: always()
     needs:
