@@ -147,7 +147,6 @@ jobs:
       - uses: ./.github/composite/e2e
         with:
           scope: ${{ matrix.scope }}
-          stage: ${{ matrix.stage }}
           application-image: "containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-${{ matrix.stage }}:${{ github.sha }}"
 
   validate-and-publish:
