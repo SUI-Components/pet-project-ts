@@ -47,6 +47,7 @@ jobs:
 
   lint-and-test:
     runs-on: big
+    needs: compute
     strategy:
       matrix:
         stage: ['development', 'production']
