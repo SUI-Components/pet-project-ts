@@ -1,10 +1,9 @@
 name: Movies Project Master
 
 on:
-  pull_request:
-  #push:
-  #  branches:
-  #    - master
+  push:
+    branches:
+      - master
 
 concurrency: ${{ github.ref_name }}
 

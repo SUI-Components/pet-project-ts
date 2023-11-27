@@ -2,7 +2,7 @@ name: Movies Project Pull Request
 
 on:
   workflow_dispatch:
-  # pull_request:
+  pull_request:
 
 concurrency: ${{ github.ref_name }}
 
