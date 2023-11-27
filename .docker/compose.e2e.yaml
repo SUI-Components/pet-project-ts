@@ -1,6 +1,6 @@
 # https://github.com/docker/awesome-compose
 services:
-  movies:
+  application:
     image: ${APP_IMG}
     environment:
       PORT: 2023
@@ -13,7 +13,7 @@ services:
       - ${PWD}/qa/e2e:/usr/src/test-e2e
       - ${PWD}/qa/e2e/screenshots:/usr/src/cypress/screenshots
     links:
-      - movies
+      - application
     depends_on:
-      - movies
-    command: npx sui-test-e2e --baseUrl=http://movies:2023 ${E2E_FLAGS}
+      - application
+    command: npx sui-test-e2e --baseUrl=http://application:2023 ${E2E_FLAGS}

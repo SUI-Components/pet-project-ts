@@ -2,10 +2,6 @@ name: 'Upload the public folder to our S3 folder'
 description: 'Upload folder and setup cache policies'
 
 inputs:
-  app:
-    description: "Which app build"
-    required: true
-
   aws-account-id:
     description: "AWS account identifier"
     required: false
@@ -15,6 +11,10 @@ inputs:
     description: "AWS region"
     required: false
     default: "eu-west-3"
+
+  s3-bucket:
+    description: "S3 Bucket where we want to upload our assets"
+    required: true
 
   stage:
     description: "The place where static assets are located"
@@ -28,11 +28,11 @@ runs:
         with:
           fail-on-cache-miss: true
           key: ${{ runner.OS }}-${{ github.sha }}-${{inputs.stage}}-app
-          path: './app/${{ inputs.app }}'
+          path: './app'
 
       - name: Tap
         shell: bash
-        run: ls -pal app/${{ inputs.app }}
+        run: ls -pal ./app
 
       - name: Authenticate with AWS account
         uses: aws-actions/configure-aws-credentials@v2
@@ -45,8 +45,9 @@ runs:
         uses: keithweaver/aws-s3-github-action@v1.0.0
         with:
           command: sync
-          source: ./app/${{ inputs.app }}/public
-          destination: s3://scm-milanuncios-frontend-pre/pet/${{ inputs.stage }}/
+          source: ./app/public
+          destination: ${{ imputs.s3-bucket }}
+          # s3://scm-milanuncios-frontend-pre/pet/${{ inputs.stage }}/
           aws_access_key_id: $AWS_ACCESS_KEY_ID
           aws_secret_access_key: $AWS_SECRET_ACCESS_KEY
           aws_session_token: $AWS_SESSION_TOKEN

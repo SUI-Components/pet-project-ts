@@ -7,7 +7,6 @@ ARG NODE_ENV=production
 ARG STAGE=production
 ARG USER=node
 ARG EXPOSE=3000
-ARG APPLICATION=movies
 ARG CONSOLE
 
 # Use production node environment by default.
@@ -29,7 +28,7 @@ EXPOSE ${EXPOSE}
 
 WORKDIR /usr/src/app
 
-COPY  ./app/${APPLICATION} /usr/src/app
+COPY  ./app /usr/src/app
 
 # Run the application.
 CMD ["node", "server/index.js"]

@@ -6,8 +6,8 @@ inputs:
     description: "Stage used inside of the image"
     required: true
 
-  app:
-    description: "Which app build"
+  suffix:
+    description: "Docker Image suffix"
     required: true
 
 runs:
@@ -18,17 +18,18 @@ runs:
       with:
         fail-on-cache-miss: true
         key: ${{ runner.OS }}-${{ github.sha }}-${{ inputs.stage }}-app
-        path: './app/${{ inputs.app }}'
+        path: './app'
 
     - name: Tap
       shell: bash
-      run: ls -pal app/${{ inputs.app }}
+      run: ls -pal ./app
 
     - name: Build docker image
       uses: common-platform/actions/build-image@v0
       with:
-        dockerfile-path: ./app/${{ inputs.app }}/Dockerfile
+        dockerfile-path: ./app/Dockerfile
         push-image: true
         additional-tags: '["${{ github.sha }}"]'
-        build-args: '{"STAGE": "${{ inputs.stage }}", "APPLICATION": "${{ inputs.app }}", "CDN": "https://scm-milanuncios-frontend-pre.milanuncios.net/pet/${{ inputs.stage }}/"}'
-        suffix: '${{ inputs.app }}-${{ inputs.stage }}'
+        build-args: '{"STAGE": "${{ inputs.stage }}", "CDN": "https://scm-milanuncios-frontend-pre.milanuncios.net/pet/${{ inputs.stage }}/"}'
+        suffix: '${{ inputs.suffix }}'
+        #'${{ inputs.app }}-${{ inputs.stage }}'

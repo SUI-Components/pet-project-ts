@@ -15,4 +15,4 @@ runs:
 
       - name: Lint
         shell: bash
-        run: echo "NPM RUN LINT FAIL!!"
+        run: make lint

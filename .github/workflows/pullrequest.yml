@@ -11,16 +11,38 @@ env:
   ARTIFACTORY_USER: ${{ secrets.ARTIFACTORY_USER }}
   ARTIFACTORY_PWD: ${{ secrets.ARTIFACTORY_PWD }}
 
+  APPLICATION_NAME: "pet-movies" 
+  CDN: "https://scm-milanuncios-frontend-pre.milanuncios.net/pet-movies/development/"
+  AWS_ACCOUNT_ID_PRE: '060140816915'
+  S3_BUCKET_APPLICATION: "s3://scm-milanuncios-frontend-pre/pet-movies/development" ## We use this env var in the Makefile ./app/Makefile
+
 jobs:
+  compute:
+    name: 🖥️ Compute
+    runs-on: small
+    outputs:
+      APPLICATION_NAME: ${{ env.APPLICATION_NAME }}
+      CDN: ${{ env.CDN }}
+      AWS_ACCOUNT_ID_PRE: ${{ env.AWS_ACCOUNT_ID_PRE }}
+      S3_BUCKET_APPLICATION: ${{ env.S3_BUCKET_APPLICATION }}
+    steps:
+      - name: Compute outputs
+        run: |
+          echo "APPLICATION_NAME=${{ env.APPLICATION_NAME }}" >> $GITHUB_OUTPUT
+          echo "CDN=${{ env.CDN }}" >> $GITHUB_OUTPUT
+          echo "AWS_ACCOUNT_ID_PRE=${{ env.AWS_ACCOUNT_ID_PRE }}" >> $GITHUB_OUTPUT
+          echo "S3_BUCKET_APPLICATION=${{ env.S3_BUCKET_APPLICATION }}" >> $GITHUB_OUTPUT
+
   build-app:
     name: 🔨 Build App
     runs-on: big
+    needs: compute
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/composite/build-app
         with:
           stage: development
-          app: movies
+          cdn: ${{ needs.compute.outputs.CDN }}
 
   lint:
     name: 🤖 Lint
@@ -43,18 +65,22 @@ jobs:
   dockerize:
     name: 📦 Dockerize
     runs-on: medium
-    needs: build-app
+    needs:
+      - compute
+      - build-app
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/composite/dockerize
         with:
           stage: development
-          app: movies
+          suffix: '${{ needs.compute.outputs.APPLICATION_NAME }}-development'
 
   cdn:
     name: 📡 Upload CDN
     runs-on: medium
-    needs: build-app
+    needs: 
+      - compute
+      - build-app
     permissions:
       id-token: write
       contents: read
@@ -62,7 +88,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: ./.github/composite/cdn
         with:
-          app: movies
+          s3-bucket: ${{ needs.compute.outputs.S3_BUCKET_APPLICATION }}
           aws-account-id: '060140816915'
           aws-region: 'eu-west-3'
           stage: development
@@ -71,6 +97,7 @@ jobs:
     name: 🎭 Tests E2E
     runs-on: big
     needs: 
+      - compute
       - dockerize
       - cdn
     strategy:
@@ -82,18 +109,19 @@ jobs:
         with:
           scope: ${{ matrix.scope }}
           stage: 'development'
-          app: movies
+          application-image: "containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-${{ inputs.stage }}:${{ github.sha }}"
 
   validate-and-publish:
     name: 🎯 Validate and Publish
     needs:
+      - compute
       - dockerize
       - cdn
     uses: scmspain/platform-common--actions/.github/workflows/validate-and-publish.yml@v0
     with:
       environments: pr
-      image-tag: containers.mpi-internal.com/${{ github.repository }}-movies-development:${{ github.sha }}
-      application-name: ms-pet-movies--sandbox-pr-${{ github.event.number }}
+      image-tag: containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-development:${{ github.sha }}
+      application-name: ms-${{ needs.compute.outputs.APPLICATION_NAME }}--sandbox-pr-${{ github.event.number }}
       bounded-context: es-microtest
     secrets:
       artifactory-user: ${{ secrets.ARTIFACTORY_USER }}
@@ -122,9 +150,10 @@ jobs:
     name: 📄 Comment PR
     runs-on: medium
     needs:
+      - compute
       - deploy
     steps:
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v2
         with:
-          message: https://ms-pet-movies--sandbox-pr-${{ github.event.number }}.es-microtest-pre.schip.io
+          message: https://ms-${{ needs.compute.outputs.APPLICATION_NAME }}--sandbox-pr-${{ github.event.number }}.es-microtest-pre.schip.io
