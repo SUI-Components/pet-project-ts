@@ -93,7 +93,7 @@ jobs:
     name: 📦 Dockerize
     runs-on: medium
     needs: 
-      - compute
+      - co📄mpute
       - build-app
     strategy:
       matrix:
@@ -193,6 +193,7 @@ jobs:
       artifactory-pwd: ${{ secrets.ARTIFACTORY_PWD }}
 
   notify:
+    name: 📄 Notify
     runs-on: small
     if: always()
     needs:
