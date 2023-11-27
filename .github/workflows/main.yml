@@ -77,7 +77,6 @@ jobs:
   test: 
     name: 🧪 Testing 
     runs-on: big
-    needs: checkout-and-install
     strategy:
       matrix:
         stage: ['development', 'production']
