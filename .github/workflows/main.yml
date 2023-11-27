@@ -1,9 +1,10 @@
 name: Movies Project Master
 
 on:
-  push:
-    branches:
-      - master
+  pull_request:
+  #push:
+  #  branches:
+  #    - master
 
 concurrency: ${{ github.ref_name }}
 
@@ -11,36 +12,66 @@ env:
   ARTIFACTORY_CONTEXT: https://artifactory.mpi-internal.com/artifactory
   ARTIFACTORY_USER: ${{ secrets.ARTIFACTORY_USER }}
   ARTIFACTORY_PWD: ${{ secrets.ARTIFACTORY_PWD }}
-  DOCKER_IMAGE_BASENAME: containers.mpi-internal.com/${{ github.repository }}
+
+  CDN_PRE: "https://scm-milanuncios-frontend-pre.milanuncios.net/pet-movies/development/"
+  CDN_PRO: "https://scm-milanuncios-frontend-pre.milanuncios.net/pet-movies/production/"
+  # MA AWS Pre Account ID
+  AWS_ACCOUNT_ID_PRE: '060140816915'
+  AWS_ACCOUNT_ID_PRO: '060140816915'
+  S3_BUCKET_APPLICATION_PRE: "s3://scm-milanuncios-frontend-pre/pet-movies/development"
+  S3_BUCKET_APPLICATION_PRO: "s3://scm-milanuncios-frontend-pre/pet-movies/production"
+  BOUNDED_CONTEXT: "es-microtest"
 
 jobs:
-  checkout-and-install:
-    name: ⚙️  Checkout and Install
-    runs-on: big
+  compute:
+    name: 🖥️ Compute
+    runs-on: small
+    outputs:
+      APPLICATION_NAME: ${{ env.APPLICATION_NAME }}
+      CDN_PRE: ${{ env.CDN_PRE }}
+      CDN_PRO: ${{ env.CDN_PRO }}
+      AWS_ACCOUNT_ID_PRE: ${{ env.AWS_ACCOUNT_ID_PRE }}
+      AWS_ACCOUNT_ID_PRO: ${{ env.AWS_ACCOUNT_ID_PRO }}
+      S3_BUCKET_APPLICATION_PRE: ${{ env.S3_BUCKET_APPLICATION_PRE }}
+      S3_BUCKET_APPLICATION_PRO: ${{ env.S3_BUCKET_APPLICATION_PRO }}
+      BOUNDED_CONTEXT: ${{ env.BOUNDED_CONTEXT }}
     steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/composite/checkout-and-install
+      - name: Compute outputs
+        run: |
+          echo "APPLICATION_NAME=${{ env.APPLICATION_NAME }}" >> $GITHUB_OUTPUT
+          echo "CDN_PRE=${{ env.CDN_PRE }}" >> $GITHUB_OUTPUT
+          echo "CDN_PRO=${{ env.CDN_PRO }}" >> $GITHUB_OUTPUT
+          echo "AWS_ACCOUNT_ID_PRE=${{ env.AWS_ACCOUNT_ID_PRE }}" >> $GITHUB_OUTPUT
+          echo "AWS_ACCOUNT_ID_PRO=${{ env.AWS_ACCOUNT_ID_PRO }}" >> $GITHUB_OUTPUT
+          echo "S3_BUCKET_APPLICATION_PRE=${{ env.S3_BUCKET_APPLICATION_PRE }}" >> $GITHUB_OUTPUT
+          echo "S3_BUCKET_APPLICATION_PRO=${{ env.S3_BUCKET_APPLICATION_PRO }}" >> $GITHUB_OUTPUT
+          echo "BOUNDED_CONTEXT=${{ env.BOUNDED_CONTEXT }}" >> $GITHUB_OUTPUT
 
   build-app:
     name: 🔨 Build App
     runs-on: big
-    needs: checkout-and-install
+    needs: compute
     strategy:
       matrix:
-        stage: ['development', 'production']
+        include:
+          - stage: development
+            CDN: ${{ needs.compute.outputs.CDN_PRE }}
+          - stage: production
+            CDN: ${{ needs.compute.outputs.CDN_PRO }}
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/composite/build-app
         with:
           stage: ${{ matrix.stage }}
-          app: movies
+          cdn: ${{ needs.compute.outputs.CDN }}
 
   lint:
     name: 🤖 Lint
     runs-on: medium
-    needs: checkout-and-install
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - uses: ./.github/composite/lint
 
   test: 
@@ -59,7 +90,9 @@ jobs:
   dockerize:
     name: 📦 Dockerize
     runs-on: medium
-    needs: build-app
+    needs: 
+      - compute
+      - build-app
     strategy:
       matrix:
         stage: ['development', 'production']
@@ -68,23 +101,31 @@ jobs:
       - uses: ./.github/composite/dockerize
         with:
           stage: ${{ matrix.stage }}
-          app: movies
+          suffix: '${{ needs.compute.outputs.APPLICATION_NAME }}-${{ matrix.stage }}'
   cdn:
     name: 📡 Upload CDN
     runs-on: medium
-    needs: build-app
+    needs: 
+      - compute
+      - build-app
     permissions:
       id-token: write
       contents: read
     strategy:
       matrix:
-        stage: ['development', 'production']
+        include:
+          - stage: 'development'
+            aws-account-id: "${{ needs.compute.outputs.AWS_ACCOUNT_ID_PRE }}"
+            s3-bucket: ${{ needs.compute.outputs.S3_BUCKET_APPLICATION_PRE }}
+          - stage: 'production'
+            aws-account-id: "${{ needs.compute.outputs.AWS_ACCOUNT_ID_PRO }}"
+            s3-bucket: ${{ needs.compute.outputs.S3_BUCKET_APPLICATION_PRO }}
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/composite/cdn
         with:
-          app: movies
-          aws-account-id: '060140816915'
+          s3-bucket: ${{ matrix.s3-bucket }}
+          aws-account-id: ${{ matrix.awd-account-id }}
           aws-region: 'eu-west-3'
           stage: ${{ matrix.stage }}
 
@@ -92,6 +133,7 @@ jobs:
     name: 🎭 Tests E2E
     runs-on: big
     needs: 
+      - compute
       - dockerize
       - cdn
     strategy:
@@ -104,19 +146,27 @@ jobs:
         with:
           scope: ${{ matrix.scope }}
           stage: ${{ matrix.stage }}
-          app: movies
+          application-image: "containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-${{ matrix.stage }}:${{ github.sha }}"
 
   validate-and-publish:
     name: 🎯 Validate and Publish
     needs:
+      - compute
       - dockerize
       - cdn
+    strategy:
+      matrix:
+        include:
+          - environment: 'pre'
+            stage: 'development'
+          - environment: 'pro'
+            stage: 'production'
     uses: scmspain/platform-common--actions/.github/workflows/validate-and-publish.yml@v0
     with:
-      environments: pr
-      image-tag: containers.mpi-internal.com/${{ github.repository }}-movies-development:${{ github.sha }}
-      application-name: ms-pet-movies--sandbox-pr-${{ github.event.number }}
-      bounded-context: es-microtest
+      environments: ${{ matrix.environment }}
+      image-tag: containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-${{ matrix.stage }}:${{ github.sha }}
+      application-name: ms-${{ needs.compute.outputs.APPLICATION_NAME }}--sandbox
+      bounded-context: ${{ needs.compute.outputs.BOUNDED_CONTEXT }}
     secrets:
       artifactory-user: ${{ secrets.ARTIFACTORY_USER }}
       artifactory-pwd: ${{ secrets.ARTIFACTORY_PWD }}
@@ -124,6 +174,7 @@ jobs:
   deploy:
     name: 🚀 Deploy
     needs:
+      - compute
       - lint
       - test
       - e2e
@@ -135,7 +186,7 @@ jobs:
     with:
       environment: pre
       manifests-path: ${{ needs.validate-and-publish.outputs.manifests-path }}
-      bounded-context: es-microtest
+      bounded-context: ${{ needs.compute.outputs.BOUNDED_CONTEXT }}
     secrets:
       artifactory-user: ${{ secrets.ARTIFACTORY_USER }}
       artifactory-pwd: ${{ secrets.ARTIFACTORY_PWD }}

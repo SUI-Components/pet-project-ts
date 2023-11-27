@@ -6,10 +6,6 @@ inputs:
     description: "The place where static assets are located"
     required: true
 
-  stage:
-    description: "Stage used inside of the image"
-    required: true
-
   application-image:
     description: "Which docker image use as server"
     required: true
@@ -23,6 +19,5 @@ runs:
       run: docker-compose -f .docker/compose.e2e.yaml up --exit-code-from e2e
       env:
         APP_IMG: ${{ inputs.application-image }}
-        #APP_IMG: containers.mpi-internal.com/${{ github.repository }}-${{ inputs.app }}-${{ inputs.stage }}:${{ github.sha }}
         E2E_FLAGS: --scope=${{ inputs.scope }}
 

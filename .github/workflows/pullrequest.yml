@@ -2,7 +2,7 @@ name: Movies Project Pull Request
 
 on:
   workflow_dispatch:
-  pull_request:
+  # pull_request:
 
 concurrency: ${{ github.ref_name }}
 
@@ -15,6 +15,7 @@ env:
   CDN: "https://scm-milanuncios-frontend-pre.milanuncios.net/pet-movies/development/"
   AWS_ACCOUNT_ID_PRE: '060140816915'
   S3_BUCKET_APPLICATION: "s3://scm-milanuncios-frontend-pre/pet-movies/development" ## We use this env var in the Makefile ./app/Makefile
+  BOUNDED_CONTEXT: "es-microtest"
 
 jobs:
   compute:
@@ -25,6 +26,7 @@ jobs:
       CDN: ${{ env.CDN }}
       AWS_ACCOUNT_ID_PRE: ${{ env.AWS_ACCOUNT_ID_PRE }}
       S3_BUCKET_APPLICATION: ${{ env.S3_BUCKET_APPLICATION }}
+      BOUNDED_CONTEXT: ${{ env.BOUNDED_CONTEXT }}
     steps:
       - name: Compute outputs
         run: |
@@ -32,6 +34,7 @@ jobs:
           echo "CDN=${{ env.CDN }}" >> $GITHUB_OUTPUT
           echo "AWS_ACCOUNT_ID_PRE=${{ env.AWS_ACCOUNT_ID_PRE }}" >> $GITHUB_OUTPUT
           echo "S3_BUCKET_APPLICATION=${{ env.S3_BUCKET_APPLICATION }}" >> $GITHUB_OUTPUT
+          echo "BOUNDED_CONTEXT=${{ env.BOUNDED_CONTEXT }}" >> $GITHUB_OUTPUT
 
   build-app:
     name: 🔨 Build App
@@ -108,7 +111,6 @@ jobs:
       - uses: ./.github/composite/e2e
         with:
           scope: ${{ matrix.scope }}
-          stage: 'development'
           application-image: "containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-development:${{ github.sha }}"
 
   validate-and-publish:
@@ -122,7 +124,7 @@ jobs:
       environments: pr
       image-tag: containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-development:${{ github.sha }}
       application-name: ms-${{ needs.compute.outputs.APPLICATION_NAME }}--sandbox-pr-${{ github.event.number }}
-      bounded-context: es-microtest
+      bounded-context: ${{ needs.compute.outputs.BOUNDED_CONTEXT }}
     secrets:
       artifactory-user: ${{ secrets.ARTIFACTORY_USER }}
       artifactory-pwd: ${{ secrets.ARTIFACTORY_PWD }}
@@ -141,7 +143,7 @@ jobs:
     with:
       environment: pre
       manifests-path: ${{ needs.validate-and-publish.outputs.manifests-path }}
-      bounded-context: es-microtest
+      bounded-context: ${{ needs.compute.outputs.BOUNDED_CONTEXT }}
     secrets:
       artifactory-user: ${{ secrets.ARTIFACTORY_USER }}
       artifactory-pwd: ${{ secrets.ARTIFACTORY_PWD }}
