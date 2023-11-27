@@ -2,6 +2,10 @@ name: 'Upload the public folder to our S3 folder'
 description: 'Upload folder and setup cache policies'
 
 inputs:
+  app:
+    description: "Which app build"
+    required: true
+
   aws-account-id:
     description: "AWS account identifier"
     required: false
@@ -10,30 +14,41 @@ inputs:
   aws-region:
     description: "AWS region"
     required: false
-    default: "eu-west-1"
+    default: "eu-west-3"
 
   stage:
     description: "The place where static assets are located"
     required: true
 
-  docker-image:
-    description: "Docker IMG to be used as Application"
-    required: true
-
 runs:
   using: composite
   steps:
-    - name: Authenticate with AWS account
-      uses: aws-actions/configure-aws-credentials@v2
-      with:
-        role-to-assume: arn:aws:iam::${{ inputs.aws-account-id }}:role/github-actions-deployments
-        aws-region: ${{ inputs.aws-region }}
-        role-duration-seconds: 1200
+      - name: Restore App
+        uses: actions/cache/restore@v3
+        with:
+          fail-on-cache-miss: true
+          key: ${{ runner.OS }}-${{ github.sha }}-${{inputs.stage}}-app
+          path: './app/${{ inputs.app }}'
 
-    - name: Upload
-      shell: bash
-      run: docker-compose -f .docker/compose.upload.yaml up --exit-code-from uploader
-      env:
-        STAGE: ${{ inputs.stage }}
-        BASE_IMG: ${{ inputs.docker-image }}
-        #BASE_IMG: containers.mpi-internal.com/${{ github.repository }}-movies-${{ inputs.stage }}:${{ github.sha }}
+      - name: Tap
+        shell: bash
+        run: ls -pal app/${{ inputs.app }}
+
+      - name: Authenticate with AWS account
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::${{ inputs.aws-account-id }}:role/github-actions-deployments
+          aws-region: ${{ inputs.aws-region }}
+          role-duration-seconds: 1200
+
+      - name: Deploy to S3
+        uses: keithweaver/aws-s3-github-action@v1.0.0
+        with:
+          command: sync
+          source: ./app/${{ inputs.app }}/public
+          destination: s3://scm-milanuncios-frontend-pre/pet/${{ inputs.stage }}/
+          aws_access_key_id: $AWS_ACCESS_KEY_ID
+          aws_secret_access_key: $AWS_SECRET_ACCESS_KEY
+          aws_session_token: $AWS_SESSION_TOKEN
+          aws_region: ${{ inputs.aws-region }}
+          flags: "--cache-control public,max-age=31536000,immutable --exclude manifest.json --exclude asset-manifest.json --exclude service-worker.js --exclude index.html --exclude 500.html --exclude 404.html"

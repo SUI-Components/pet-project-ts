@@ -1,0 +1,15 @@
+name: 'Checkout and Install'
+description: 'The output of this action should be a cache with the FS of the monorepo with the node_modules folder'
+
+runs:
+  using: composite
+  steps:
+    - name: Install
+      uses: scmspain/platform-common--actions/frontend/install@v0
+
+    - name: Save Deps
+      uses: actions/cache/save@v3
+      id: cache-build
+      with:
+        path: './'
+        key: ${{ runner.OS }}-${{ github.sha }}-deps

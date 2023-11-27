@@ -1,0 +1,44 @@
+name: 'Build app inside monorepo'
+description: 'Output of this action should be a cache with the app folder contains public and server'
+
+inputs:
+  stage:
+    description: "Stage used inside of the image"
+    required: true
+
+  app:
+    description: "Which app build"
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Install
+      uses: scmspain/platform-common--actions/frontend/install@v0
+
+    - uses: actions/setup-node@v3
+      with:
+        node-version-file: '.nvmrc'
+
+    - name: Build packages
+      shell: bash
+      run: |
+        make postinstall 
+        cd app/${{ inputs.app }} && make build
+        cd ../.. && npx msw init app/${{ inputs.app }}/public --save
+        cp .docker/Dockerfile app/${{ inputs.app }}
+      env:
+        NODE_ENV: production
+        STAGE: ${{ inputs.stage }}
+        CDN: "https://scm-milanuncios-frontend-pre.milanuncios.net/pet/${{ inputs.stage }}/"
+
+    - name: Save App
+      uses: actions/cache/save@v3
+      id: cache-build
+      with:
+        path: './app/${{ inputs.app }}'
+        key: ${{ runner.OS }}-${{ github.sha }}-${{ inputs.stage }}-app
+
+    - name: Tap
+      shell: bash
+      run: ls -pal app/${{ inputs.app }}

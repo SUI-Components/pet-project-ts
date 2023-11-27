@@ -1,6 +1,6 @@
 # https://github.com/docker/awesome-compose
 services:
-  frontend:
+  movies:
     build:
       dockerfile: "${PWD}/.docker/Dockerfile"
       context: "${PWD}"
@@ -8,6 +8,7 @@ services:
         CONSOLE: true
         STAGE: production
         NODE_ENV: production
+        APPLICATION: movies
     environment:
       PORT: 2023
     ports:
@@ -19,8 +20,8 @@ services:
       - ${PWD}/qa/e2e:/usr/src/test-e2e
       - ${PWD}/qa/e2e/screenshots:/usr/src/cypress/screenshots
     links:
-      - frontend
+      - movies
     depends_on:
-      - frontend
-    command: npx sui-test-e2e --baseUrl=http://frontend:2023 ${E2E_FLAGS}
+      - movies
+    command: npx sui-test-e2e --baseUrl=http://movies:2023 ${E2E_FLAGS}
 

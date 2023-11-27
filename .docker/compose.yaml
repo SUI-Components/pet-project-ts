@@ -1,6 +1,6 @@
 # https://github.com/docker/awesome-compose
 services:
-  frontend:
+  movies:
     build:
       dockerfile: "${PWD}/.docker/Dockerfile"
       context: "${PWD}"
@@ -8,6 +8,7 @@ services:
         CONSOLE: true
         STAGE: production
         NODE_ENV: production
+        APPLICATION: movies
         CDN: ${CDN:-/}
     environment:
       PORT: 2023
