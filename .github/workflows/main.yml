@@ -96,13 +96,18 @@ jobs:
       - build-app
     strategy:
       matrix:
-        stage: ['development', 'production']
+        includes:
+          - stage: development
+            CDN: ${{ needs.compute.outputs.CDN_PRE }}
+          - stage: production
+            CDN: ${{ needs.compute.outputs.CDN_PRO }}
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/composite/dockerize
         with:
           stage: ${{ matrix.stage }}
           suffix: '${{ needs.compute.outputs.APPLICATION_NAME }}-${{ matrix.stage }}'
+          cdn: ${{ matrix.CDN }}
   cdn:
     name: 📡 Upload CDN
     runs-on: medium

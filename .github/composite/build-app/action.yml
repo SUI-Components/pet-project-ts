@@ -31,7 +31,6 @@ runs:
         NODE_ENV: production
         STAGE: ${{ inputs.stage }}
         CDN: ${{ inputs.cdn }}
-        #"https://scm-milanuncios-frontend-pre.milanuncios.net/pet/${{ inputs.stage }}/"
 
     - name: Save App
       uses: actions/cache/save@v3

@@ -77,6 +77,7 @@ jobs:
         with:
           stage: development
           suffix: '${{ needs.compute.outputs.APPLICATION_NAME }}-development'
+          cdn: '${{ needs.compute.outputs.CDN }}'
 
   cdn:
     name: 📡 Upload CDN

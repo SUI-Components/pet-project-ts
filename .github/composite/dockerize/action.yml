@@ -10,6 +10,10 @@ inputs:
     description: "Docker Image suffix"
     required: true
 
+  cdn:
+    description: "CDN URL where assets will be upload"
+    required: true
+
 runs:
   using: composite
   steps:
@@ -30,6 +34,5 @@ runs:
         dockerfile-path: ./app/Dockerfile
         push-image: true
         additional-tags: '["${{ github.sha }}"]'
-        build-args: '{"STAGE": "${{ inputs.stage }}", "CDN": "https://scm-milanuncios-frontend-pre.milanuncios.net/pet/${{ inputs.stage }}/"}'
+        build-args: '{"STAGE": "${{ inputs.stage }}", "CDN": "${{ inputs.cdn }}"}'
         suffix: '${{ inputs.suffix }}'
-        #'${{ inputs.app }}-${{ inputs.stage }}'
