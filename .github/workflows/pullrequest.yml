@@ -132,6 +132,7 @@ jobs:
   deploy:
     name: 🚀 Deploy
     needs:
+      - compute
       - lint
       - test
       - e2e
