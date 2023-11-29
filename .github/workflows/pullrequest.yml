@@ -63,7 +63,7 @@ jobs:
     runs-on: big
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/composite/test
+      - uses: ./.github/composite/test-domain
         with:
           stage: development
 
@@ -105,9 +105,14 @@ jobs:
     needs:
       - compute
       - build-app
+    strategy:
+      matrix:
+        pattern: ['layout/header/test', 'layout/footer/test']
     steps:
       - uses: actions/checkout@v3
-
+      - uses: ./.github/composite/test-ui
+        with:
+          pattern: ${{ matrix.pattern }}
 
   e2e:
     name: 🎭 Tests E2E
