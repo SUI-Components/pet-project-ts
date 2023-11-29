@@ -2,6 +2,10 @@ name: 'Test UI components'
 description: 'Test only the UI components'
 
 inputs:
+  stage:
+    description: "Stage used inside of the image"
+    required: true
+
   pattern:
     description: "Which components you want to test"
     required: true
@@ -17,7 +21,7 @@ runs:
         key: ${{ runner.OS }}-${{ github.sha }}-${{ inputs.stage }}-monorepo-build
         path: './'
 
-    - name: Tap
+    - name: Execute tests
       shell: bash
       run: |
         cd ./packages/ui

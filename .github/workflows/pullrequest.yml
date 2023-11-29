@@ -113,6 +113,7 @@ jobs:
       - uses: ./.github/composite/test-ui
         with:
           pattern: ${{ matrix.pattern }}
+          stage: development
 
   e2e:
     name: 🎭 Tests E2E
