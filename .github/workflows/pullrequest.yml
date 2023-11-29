@@ -57,8 +57,8 @@ jobs:
           fetch-depth: 0
       - uses: ./.github/composite/lint
 
-  test: 
-    name: 🧪 Testing 
+  test-domain: 
+    name: 🧪 Tests Domain
     needs: compute
     runs-on: big
     steps:
@@ -99,6 +99,16 @@ jobs:
           aws-region: 'eu-west-3'
           stage: development
 
+  test-ui:
+    name: 🧪 Tests UI
+    runs-on: big
+    needs:
+      - compute
+      - build-app
+    steps:
+      - uses: actions/checkout@v3
+
+
   e2e:
     name: 🎭 Tests E2E
     runs-on: big
@@ -137,7 +147,8 @@ jobs:
     needs:
       - compute
       - lint
-      - test
+      - test-ui
+      - test-domain
       - e2e
       - validate-and-publish
     permissions:

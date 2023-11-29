@@ -27,7 +27,7 @@ runs:
         uses: actions/cache/restore@v3
         with:
           fail-on-cache-miss: true
-          key: ${{ runner.OS }}-${{ github.sha }}-${{inputs.stage}}-app
+          key: ${{ runner.OS }}-${{ github.sha }}-${{inputs.stage}}-monorepo-build
           path: './'
 
       - name: Tap

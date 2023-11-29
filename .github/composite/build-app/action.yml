@@ -36,7 +36,7 @@ runs:
       id: cache-build
       with:
         path: './'
-        key: ${{ runner.OS }}-${{ github.sha }}-${{ inputs.stage }}-app
+        key: ${{ runner.OS }}-${{ github.sha }}-${{ inputs.stage }}-monorepo-build
 
     - name: Tap
       shell: bash
