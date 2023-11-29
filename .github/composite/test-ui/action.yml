@@ -25,6 +25,10 @@ runs:
       with:
         node-version-file: '.nvmrc'
 
+    - name: Setup Chrome
+      id: setup-chrome
+      uses: scmspain/platform-common--actions/frontend/setup-chrome@v0
+
     - name: Execute tests
       shell: bash
       run: |
@@ -32,3 +36,5 @@ runs:
         make test
       env:
         PATTERN: '${{ inputs.pattern }}'
+        CHROME_BIN: ${{ steps.setup-chrome.outputs.chrome-path }}
+        TEST_FLAG: --headless
