@@ -26,7 +26,6 @@ runs:
         make postinstall 
         cd ./app && make build
         cd .. && npx msw init app/public --save
-        cp .docker/Dockerfile ./app
       env:
         NODE_ENV: production
         STAGE: ${{ inputs.stage }}
@@ -36,9 +35,9 @@ runs:
       uses: actions/cache/save@v3
       id: cache-build
       with:
-        path: './app'
+        path: './'
         key: ${{ runner.OS }}-${{ github.sha }}-${{ inputs.stage }}-app
 
     - name: Tap
       shell: bash
-      run: ls -pal ./app
+      run: ls -pal ./

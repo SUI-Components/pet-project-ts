@@ -28,11 +28,11 @@ runs:
         with:
           fail-on-cache-miss: true
           key: ${{ runner.OS }}-${{ github.sha }}-${{inputs.stage}}-app
-          path: './app'
+          path: './'
 
       - name: Tap
         shell: bash
-        run: ls -pal ./app
+        run: ls -pal ./
 
       - name: Authenticate with AWS account
         uses: aws-actions/configure-aws-credentials@v2

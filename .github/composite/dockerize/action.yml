@@ -22,16 +22,16 @@ runs:
       with:
         fail-on-cache-miss: true
         key: ${{ runner.OS }}-${{ github.sha }}-${{ inputs.stage }}-app
-        path: './app'
+        path: './'
 
     - name: Tap
       shell: bash
-      run: ls -pal ./app
+      run: ls -pal ./
 
     - name: Build docker image
       uses: common-platform/actions/build-image@v0
       with:
-        dockerfile-path: ./app/Dockerfile
+        dockerfile-path: ./.docker/Dockerfile
         push-image: true
         additional-tags: '["${{ github.sha }}"]'
         build-args: '{"STAGE": "${{ inputs.stage }}", "CDN": "${{ inputs.cdn }}"}'
