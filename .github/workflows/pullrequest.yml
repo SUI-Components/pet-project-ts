@@ -50,6 +50,7 @@ jobs:
   lint:
     name: 🤖 Lint
     runs-on: medium
+    needs: compute
     steps:
       - uses: actions/checkout@v3
         with:
@@ -58,6 +59,7 @@ jobs:
 
   test: 
     name: 🧪 Testing 
+    needs: compute
     runs-on: big
     steps:
       - uses: actions/checkout@v3
