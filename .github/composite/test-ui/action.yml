@@ -21,6 +21,10 @@ runs:
         key: ${{ runner.OS }}-${{ github.sha }}-${{ inputs.stage }}-monorepo-build
         path: './'
 
+    - uses: actions/setup-node@v3
+      with:
+        node-version-file: '.nvmrc'
+
     - name: Execute tests
       shell: bash
       run: |
