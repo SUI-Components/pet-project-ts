@@ -144,7 +144,7 @@ jobs:
       - uses: ./.github/composite/critical-css
         with:
           scope: development
-          application-image: "containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-development-with-critical-css:${{ github.sha }}"
+          application-image: "containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-development:${{ github.sha }}"
 
   validate-and-publish:
     name: 🎯 Validate and Publish
