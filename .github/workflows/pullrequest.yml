@@ -57,15 +57,14 @@ jobs:
           fetch-depth: 0
       - uses: ./.github/composite/lint
 
-  test-ui-docker:
+  test-domain-docker:
     name: 🧪 Tests Domain Dockerize
     runs-on: big
     needs: compute
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/composite/test-ui-dockerize
+      - uses: ./.github/composite/test-domain-dockerize
         with:
-          pattern: ${{ matrix.pattern }}
           stage: development
 
   test-domain: 
