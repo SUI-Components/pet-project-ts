@@ -10,7 +10,7 @@ runs:
   using: composite
 
   steps:
-    - name: Test
+    - name: Critical
       shell: bash
       run: docker-compose -f .docker/compose.criticalCSS.yaml up --exit-code-from critical
       env:
