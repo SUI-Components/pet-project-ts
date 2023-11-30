@@ -13,4 +13,4 @@ services:
       - CAP_SYS_ADMIN
     volumes:
       - ${PWD}/node_modules:/usr/src/mono/node_modules
-    command: ${COMMAND:-"make test"}
+    command: '${COMMAND:-"make test"}'
