@@ -14,3 +14,5 @@ server
 tsconfig.tsbuildinfo
 .vim
 __*
+/app/critical-css/*
+!/app/critical-css/.gitkeep

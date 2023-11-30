@@ -132,6 +132,20 @@ jobs:
           scope: ${{ matrix.scope }}
           application-image: "containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-development:${{ github.sha }}"
 
+  critical-css:
+    name: 🔮 Critical CSS
+    runs-on: big
+    needs:
+      - compute
+      - dockerize
+      - cdn
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/composite/critical-css
+        with:
+          scope: development
+          application-image: "containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-development-with-critical-css:${{ github.sha }}"
+
   validate-and-publish:
     name: 🎯 Validate and Publish
     needs:
