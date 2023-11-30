@@ -109,6 +109,7 @@ jobs:
       matrix:
         pattern: ['layout/header/test', 'layout/footer/test']
     steps:
+      - uses: actions/checkout@v3
       - name: Restore App
         uses: actions/cache/restore@v3
         with:
