@@ -118,9 +118,6 @@ jobs:
       - name: Test
         shell: bash
         run: docker-compose -f .docker/compose.test.yaml up --exit-code-from runner
-        env:
-          APP_IMG: ${{ inputs.application-image }}
-          E2E_FLAGS: --scope=${{ inputs.scope }}
 
   test-ui:
     name: 🧪 Tests UI
