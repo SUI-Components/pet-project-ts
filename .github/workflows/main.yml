@@ -75,7 +75,7 @@ jobs:
           fetch-depth: 0
       - uses: ./.github/composite/lint
 
-  test: 
+  test-domain: 
     name: 🧪 Testing 
     runs-on: big
     needs: compute
@@ -84,7 +84,7 @@ jobs:
         stage: ['development', 'production']
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/composite/test
+      - uses: ./.github/composite/test-domain
         with:
           stage: ${{ matrix.stage }}
 
@@ -135,6 +135,23 @@ jobs:
           aws-region: 'eu-west-3'
           stage: ${{ matrix.stage }}
 
+  test-ui:
+    name: 🧪 Tests UI
+    runs-on: big
+    needs:
+      - compute
+      - build-app
+    strategy:
+      matrix:
+        pattern: ['layout/header/test', 'layout/footer/test']
+        stage: ['development', 'production']
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/composite/test-ui
+        with:
+          pattern: ${{ matrix.pattern }}
+          stage: ${{ matrix.pattern }}
+
   e2e:
     name: 🎭 Tests E2E
     runs-on: big
@@ -181,7 +198,7 @@ jobs:
     needs:
       - compute
       - lint
-      - test
+      - test-domain
       - e2e
       - validate-and-publish
     permissions:
