@@ -145,13 +145,17 @@ jobs:
         with:
           scope: development
           application-image: "containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-development:${{ github.sha }}"
+      - uses: ./.github/composite/dockerize
+        with:
+          stage: development
+          suffix: '${{ needs.compute.outputs.APPLICATION_NAME }}-development-with-critical-css'
+          cdn: '${{ needs.compute.outputs.CDN }}'
 
   validate-and-publish:
     name: 🎯 Validate and Publish
     needs:
       - compute
-      - dockerize
-      - cdn
+      - critical-css
     uses: scmspain/platform-common--actions/.github/workflows/validate-and-publish.yml@v0
     with:
       environments: pr
