@@ -37,4 +37,4 @@ runs:
       env:
         STAGE: ${{ inputs.stage }}
         PATTERN: '${{ inputs.pattern }}'
-        COMMAND: ${{ inputs.command }}
+        COMMAND: '${{ inputs.command }}'
