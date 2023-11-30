@@ -130,6 +130,9 @@ jobs:
         with:
           pattern: ${{ matrix.pattern }}
           stage: development
+          command: |
+            cd ./packages/ui
+            make test
 
   e2e:
     name: 🎭 Tests E2E

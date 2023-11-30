@@ -11,6 +11,11 @@ inputs:
     description: "Which components you want to test"
     required: true
 
+  command:
+    description: "Which command run inside of the docker"
+    required: false
+    default: "make test"
+
 runs:
   using: composite
 
@@ -32,3 +37,4 @@ runs:
       env:
         PATTERN: '${{ inputs.pattern }}'
         TEST_FLAG: --headless
+        COMMAND: ${{ inputs.command }}
