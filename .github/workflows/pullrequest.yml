@@ -124,7 +124,6 @@ jobs:
         with:
           pattern: ${{ matrix.pattern }}
           stage: development
-          command: "cd ./packages/ui && make test"
 
   test-ui:
     name: 🧪 Tests UI
