@@ -128,7 +128,6 @@ jobs:
             cd ./packages/ui
             make test
 
-
   test-ui:
     name: 🧪 Tests UI
     runs-on: big
