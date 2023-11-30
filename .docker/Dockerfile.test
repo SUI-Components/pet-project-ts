@@ -19,6 +19,6 @@ ENV TEST_FLAG_CLIENT "--headless"
 ENV PATTERN ${PATTERN}
 ENV CHROME_BIN "/usr/bin/google-chrome"
 
-WORKDIR /usr/src/mono/packages/ui
+WORKDIR /usr/src/mono
 
 CMD ["make", "test"]
