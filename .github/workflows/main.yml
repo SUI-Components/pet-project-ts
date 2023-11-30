@@ -170,12 +170,36 @@ jobs:
           scope: ${{ matrix.scope }}
           application-image: "containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-${{ matrix.stage }}:${{ github.sha }}"
 
-  validate-and-publish:
-    name: 🎯 Validate and Publish
+  critical-css:
+    name: 🔮 Critical CSS
+    runs-on: big
     needs:
       - compute
       - dockerize
       - cdn
+    strategy:
+      matrix:
+        includes:
+          - stage: development
+            CDN: ${{ needs.compute.outputs.CDN_PRE }}
+          - stage: production
+            CDN: ${{ needs.compute.outputs.CDN_PRO }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/composite/critical-css
+        with:
+          application-image: "containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-${{ matrix.stage }}:${{ github.sha }}"
+      - uses: ./.github/composite/dockerize
+        with:
+          stage: development
+          suffix: '${{ needs.compute.outputs.APPLICATION_NAME }}-${{ matrix.stage }}-with-critical-css'
+          cdn: '${{ matrix.CDN }}'
+
+  validate-and-publish:
+    name: 🎯 Validate and Publish
+    needs:
+      - compute
+      - ci
     strategy:
       matrix:
         include:
@@ -186,7 +210,7 @@ jobs:
     uses: scmspain/platform-common--actions/.github/workflows/validate-and-publish.yml@v0
     with:
       environments: ${{ matrix.environment }}
-      image-tag: containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-${{ matrix.stage }}:${{ github.sha }}
+      image-tag: containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-${{ matrix.stage }}-with-critical-css:${{ github.sha }}
       application-name: ms-${{ needs.compute.outputs.APPLICATION_NAME }}--sandbox
       bounded-context: ${{ needs.compute.outputs.BOUNDED_CONTEXT }}
     secrets:

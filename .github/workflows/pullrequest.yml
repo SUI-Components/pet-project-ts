@@ -99,6 +99,29 @@ jobs:
           aws-region: 'eu-west-3'
           stage: development
 
+  test-ui-docker:
+    name: 🧪 Tests UI Dockerize
+    runs-on: big
+    needs:
+      - compute
+      - build-app
+    strategy:
+      matrix:
+        pattern: ['layout/header/test', 'layout/footer/test']
+    steps:
+      - name: Restore App
+        uses: actions/cache/restore@v3
+        with:
+          fail-on-cache-miss: true
+          key: ${{ runner.OS }}-${{ github.sha }}-${{ inputs.stage }}-monorepo-build
+          path: './'
+      - name: Test
+        shell: bash
+        run: docker-compose -f .docker/compose.test.yaml up --exit-code-from runner
+        env:
+          APP_IMG: ${{ inputs.application-image }}
+          E2E_FLAGS: --scope=${{ inputs.scope }}
+
   test-ui:
     name: 🧪 Tests UI
     runs-on: big
