@@ -1,0 +1,13 @@
+# https://github.com/docker/awesome-compose
+services:
+  runner:
+    build:
+      dockerfile: "${PWD}/.docker/Dockerfile.test"
+      context: "${PWD}"
+      args:
+        CONSOLE: true
+        STAGE: ${STAGE:-production}
+        NODE_ENV: ${NODE_ENV:-production}
+        PATTERN: ${PATTERN}
+    volumes:
+      - ${PWD}/node_modules:/usr/src/mono/node_modules
