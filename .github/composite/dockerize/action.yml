@@ -26,7 +26,9 @@ runs:
 
     - name: Tap
       shell: bash
-      run: ls -pal ./
+      run: |
+        ls -pal ./
+        ls -pal ./app/critical-css
 
     - name: Build docker image
       uses: common-platform/actions/build-image@v0
