@@ -96,7 +96,7 @@ jobs:
       - build-app
     strategy:
       matrix:
-        includes:
+        include:
           - stage: development
             CDN: ${{ needs.compute.outputs.CDN_PRE }}
           - stage: production
