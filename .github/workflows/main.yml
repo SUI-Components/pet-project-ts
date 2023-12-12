@@ -191,7 +191,7 @@ jobs:
           application-image: "containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-${{ matrix.stage }}:${{ github.sha }}"
       - uses: ./.github/composite/dockerize
         with:
-          stage: development
+          stage: ${{ matrix.stage }}
           suffix: '${{ needs.compute.outputs.APPLICATION_NAME }}-${{ matrix.stage }}-with-critical-css'
           cdn: '${{ matrix.CDN }}'
 
