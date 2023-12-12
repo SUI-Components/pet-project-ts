@@ -11,6 +11,7 @@ env:
   ARTIFACTORY_CONTEXT: https://artifactory.mpi-internal.com/artifactory
   ARTIFACTORY_USER: ${{ secrets.ARTIFACTORY_USER }}
   ARTIFACTORY_PWD: ${{ secrets.ARTIFACTORY_PWD }}
+
   APPLICATION_NAME: "pet-movies" 
   CDN_PRE: "https://scm-milanuncios-frontend-pre.milanuncios.net/pet-movies/development/"
   CDN_PRO: "https://scm-milanuncios-frontend-pre.milanuncios.net/pet-movies/production/"
@@ -19,6 +20,7 @@ env:
   AWS_ACCOUNT_ID_PRO: '060140816915'
   S3_BUCKET_APPLICATION_PRE: "s3://scm-milanuncios-frontend-pre/pet-movies/development"
   S3_BUCKET_APPLICATION_PRO: "s3://scm-milanuncios-frontend-pre/pet-movies/production"
+  BOUNDED_CONTEXT: "es-microtest"
 
 jobs:
   compute:
@@ -32,6 +34,7 @@ jobs:
       AWS_ACCOUNT_ID_PRO: ${{ env.AWS_ACCOUNT_ID_PRO }}
       S3_BUCKET_APPLICATION_PRE: ${{ env.S3_BUCKET_APPLICATION_PRE }}
       S3_BUCKET_APPLICATION_PRO: ${{ env.S3_BUCKET_APPLICATION_PRO }}
+      BOUNDED_CONTEXT: ${{ env.BOUNDED_CONTEXT }}
     steps:
       - name: Compute outputs
         run: |
@@ -42,55 +45,75 @@ jobs:
           echo "AWS_ACCOUNT_ID_PRO=${{ env.AWS_ACCOUNT_ID_PRO }}" >> $GITHUB_OUTPUT
           echo "S3_BUCKET_APPLICATION_PRE=${{ env.S3_BUCKET_APPLICATION_PRE }}" >> $GITHUB_OUTPUT
           echo "S3_BUCKET_APPLICATION_PRO=${{ env.S3_BUCKET_APPLICATION_PRO }}" >> $GITHUB_OUTPUT
+          echo "BOUNDED_CONTEXT=${{ env.BOUNDED_CONTEXT }}" >> $GITHUB_OUTPUT
 
-  lint-and-test:
-    name: 🤖 / 🧪 Lint and Test
+  build-app:
+    name: 🔨 Build App
+    runs-on: big
+    needs: compute
+    strategy:
+      matrix:
+        include:
+          - stage: development
+            CDN: ${{ needs.compute.outputs.CDN_PRE }}
+          - stage: production
+            CDN: ${{ needs.compute.outputs.CDN_PRO }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/composite/build-app
+        with:
+          stage: ${{ matrix.stage }}
+          cdn: ${{ matrix.CDN }}
+
+  lint:
+    name: 🤖 Lint
+    runs-on: medium
+    needs: compute
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: ./.github/composite/lint
+
+  test-domain: 
+    name: 🧪 Testing 
     runs-on: big
     needs: compute
     strategy:
       matrix:
         stage: ['development', 'production']
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: action
-        uses: ./.github/composite/lint-and-test
+      - uses: actions/checkout@v3
+      - uses: ./.github/composite/test-domain
         with:
           stage: ${{ matrix.stage }}
 
-  build-image:
-    name: 📦 Build Image
+  dockerize:
+    name: 📦 Dockerize
     runs-on: medium
-    needs: compute
+    needs: 
+      - compute
+      - build-app
     strategy:
       matrix:
-        include:
+        includes:
           - stage: development
-            CDN: ${{ needs.compute.outputs.CDN_PRE }}
+            CDN: ${{ needs.compute.outputs.CDN_PRE }}
           - stage: production
             CDN: ${{ needs.compute.outputs.CDN_PRO }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Build docker image
-        uses: common-platform/actions/build-image@v0
+      - uses: actions/checkout@v3
+      - uses: ./.github/composite/dockerize
         with:
-          dockerfile-path: ./.docker/Dockerfile
-          push-image: true
-          additional-tags: '["${{ github.sha }}"]'
-          build-args: '{"STAGE": "${{ matrix.stage }}", "CDN": "${{ matrix.CDN }}"}'
+          stage: ${{ matrix.stage }}
           suffix: '${{ needs.compute.outputs.APPLICATION_NAME }}-${{ matrix.stage }}'
-
+          cdn: ${{ matrix.CDN }}
   cdn:
     name: 📡 Upload CDN
     runs-on: medium
-    needs:
+    needs: 
       - compute
-      - build-image
+      - build-app
     permissions:
       id-token: write
       contents: read
@@ -99,52 +122,84 @@ jobs:
         include:
           - stage: 'development'
             aws-account-id: "${{ needs.compute.outputs.AWS_ACCOUNT_ID_PRE }}"
-            s3-bucket-application: ${{ needs.compute.outputs.S3_BUCKET_APPLICATION_PRE }}
+            s3-bucket: ${{ needs.compute.outputs.S3_BUCKET_APPLICATION_PRE }}
           - stage: 'production'
             aws-account-id: "${{ needs.compute.outputs.AWS_ACCOUNT_ID_PRO }}"
-            s3-bucket-application: ${{ needs.compute.outputs.S3_BUCKET_APPLICATION_PRO }}
+            s3-bucket: ${{ needs.compute.outputs.S3_BUCKET_APPLICATION_PRO }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: action
-        uses: ./.github/composite/cdn
+      - uses: actions/checkout@v3
+      - uses: ./.github/composite/cdn
         with:
-          aws-account-id: ${{ matrix.aws-account-id }}
+          s3-bucket: ${{ matrix.s3-bucket }}
+          aws-account-id: "${{ matrix.aws-account-id }}"
+          aws-region: 'eu-west-3'
           stage: ${{ matrix.stage }}
-          docker-image: containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-${{ matrix.stage }}:${{ github.sha }}
-        env:
-          # This env var is used in app/Makefile file.
-          S3_BUCKET_APPLICATION: ${{ matrix.s3-bucket-application }}
 
+  test-ui:
+    name: 🧪 Tests UI
+    runs-on: big
+    needs:
+      - compute
+      - build-app
+    strategy:
+      matrix:
+        pattern: ['layout/header/test', 'layout/footer/test']
+        stage: ['development', 'production']
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/composite/test-ui
+        with:
+          pattern: ${{ matrix.pattern }}
+          stage: ${{ matrix.pattern }}
 
   e2e:
     name: 🎭 Tests E2E
     runs-on: big
     needs: 
       - compute
-      - build-image
+      - dockerize
       - cdn
     strategy:
       matrix:
-        stage: ['development', 'production']
         scope: ['integration/home', 'integration/detail']
+        stage: ['development', 'production']
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: action
-        uses: ./.github/composite/e2e
+      - uses: actions/checkout@v3
+      - uses: ./.github/composite/e2e
         with:
           scope: ${{ matrix.scope }}
-          stage: ${{ matrix.stage }}
-          docker-image: containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-${{ matrix.stage }}:${{ github.sha }}
+          application-image: "containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-${{ matrix.stage }}:${{ github.sha }}"
+
+  critical-css:
+    name: 🔮 Critical CSS
+    runs-on: big
+    needs:
+      - compute
+      - dockerize
+      - cdn
+    strategy:
+      matrix:
+        includes:
+          - stage: development
+            CDN: ${{ needs.compute.outputs.CDN_PRE }}
+          - stage: production
+            CDN: ${{ needs.compute.outputs.CDN_PRO }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/composite/critical-css
+        with:
+          application-image: "containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-${{ matrix.stage }}:${{ github.sha }}"
+      - uses: ./.github/composite/dockerize
+        with:
+          stage: development
+          suffix: '${{ needs.compute.outputs.APPLICATION_NAME }}-${{ matrix.stage }}-with-critical-css'
+          cdn: '${{ matrix.CDN }}'
 
   validate-and-publish:
     name: 🎯 Validate and Publish
     needs:
       - compute
-      - build-image
+      - ci
     strategy:
       matrix:
         include:
@@ -155,30 +210,29 @@ jobs:
     uses: scmspain/platform-common--actions/.github/workflows/validate-and-publish.yml@v0
     with:
       environments: ${{ matrix.environment }}
-      image-tag: containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-${{ matrix.stage }}:${{ github.sha }}
+      image-tag: containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-${{ matrix.stage }}-with-critical-css:${{ github.sha }}
       application-name: ms-${{ needs.compute.outputs.APPLICATION_NAME }}--sandbox
-      bounded-context: es-microtest
+      bounded-context: ${{ needs.compute.outputs.BOUNDED_CONTEXT }}
     secrets:
       artifactory-user: ${{ secrets.ARTIFACTORY_USER }}
       artifactory-pwd: ${{ secrets.ARTIFACTORY_PWD }}
 
   deploy:
     name: 🚀 Deploy
-    needs: 
-      - validate-and-publish
-      - lint-and-test
+    needs:
+      - compute
+      - lint
+      - test-domain
       - e2e
+      - validate-and-publish
     permissions:
       id-token: write
       contents: read
-    strategy:
-      matrix:
-        environment: ['pre', 'pro']
     uses: scmspain/platform-common--actions/.github/workflows/deploy.yml@v0
     with:
-      environment: ${{ matrix.environment }}
+      environment: pre
       manifests-path: ${{ needs.validate-and-publish.outputs.manifests-path }}
-      bounded-context: es-microtest
+      bounded-context: ${{ needs.compute.outputs.BOUNDED_CONTEXT }}
     secrets:
       artifactory-user: ${{ secrets.ARTIFACTORY_USER }}
       artifactory-pwd: ${{ secrets.ARTIFACTORY_PWD }}

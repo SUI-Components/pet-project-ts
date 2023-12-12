@@ -1,0 +1,23 @@
+# https://github.com/docker/awesome-compose
+services:
+  application:
+    image: ${APP_IMG}
+    environment:
+      PORT: 2023
+    ports:
+      - 2023:2023
+
+  critical:
+    build:
+      dockerfile: "${PWD}/.docker/Dockerfile.criticalCSS"
+      context: "${PWD}"
+      args:
+        NODE_ENV: production
+        PORT: 2023
+        HOST: application
+    volumes:
+      - ${PWD}/app/critical-css:/usr/src/app/critical-css
+    links:
+      - application
+    depends_on:
+      - application

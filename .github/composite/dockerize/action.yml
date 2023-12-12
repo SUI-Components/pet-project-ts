@@ -1,0 +1,40 @@
+name: 'Dockerize'
+description: 'Create and upload a Docker image to our hub'
+
+inputs:
+  stage:
+    description: "Stage used inside of the image"
+    required: true
+
+  suffix:
+    description: "Docker Image suffix"
+    required: true
+
+  cdn:
+    description: "CDN URL where assets will be upload"
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Restore App
+      uses: actions/cache/restore@v3
+      with:
+        fail-on-cache-miss: true
+        key: ${{ runner.OS }}-${{ github.sha }}-${{ inputs.stage }}-monorepo-build
+        path: './'
+
+    - name: Tap
+      shell: bash
+      run: |
+        ls -pal ./
+        ls -pal ./app/critical-css
+
+    - name: Build docker image
+      uses: common-platform/actions/build-image@v0
+      with:
+        dockerfile-path: ./.docker/Dockerfile
+        push-image: true
+        additional-tags: '["${{ github.sha }}"]'
+        build-args: '{"STAGE": "${{ inputs.stage }}", "CDN": "${{ inputs.cdn }}"}'
+        suffix: '${{ inputs.suffix }}'

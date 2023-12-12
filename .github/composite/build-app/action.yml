@@ -1,0 +1,43 @@
+name: 'Build app inside monorepo'
+description: 'Output of this action should be a cache with the app folder contains public and server'
+
+inputs:
+  stage:
+    description: "Stage used inside of the image"
+    required: true
+
+  cdn:
+    description: "CDN URL to download static content"
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Install
+      uses: scmspain/platform-common--actions/frontend/install@v0
+
+    - uses: actions/setup-node@v3
+      with:
+        node-version-file: '.nvmrc'
+
+    - name: Build packages
+      shell: bash
+      run: |
+        make postinstall 
+        cd ./app && make build
+        cd .. && npx msw init app/public --save
+      env:
+        NODE_ENV: production
+        STAGE: ${{ inputs.stage }}
+        CDN: ${{ inputs.cdn }}
+
+    - name: Save App
+      uses: actions/cache/save@v3
+      id: cache-build
+      with:
+        path: './'
+        key: ${{ runner.OS }}-${{ github.sha }}-${{ inputs.stage }}-monorepo-build
+
+    - name: Tap
+      shell: bash
+      run: ls -pal ./

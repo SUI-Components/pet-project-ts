@@ -1,0 +1,24 @@
+ARG PLAYWRIGHT=1.40.0
+
+FROM mcr.microsoft.com/playwright:v${PLAYWRIGHT}-jammy
+
+WORKDIR /usr/src/app
+
+RUN npm install @s-ui/critical-css --no-save
+
+ARG NODE_ENV=production
+ARG PORT
+ARG HOST
+
+ENV NODE_ENV ${NODE_ENV}
+ENV PORT ${PORT}
+ENV HOST ${HOST}
+
+COPY  ./app .
+
+# Add Tini
+# https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md
+RUN apt-get update && apt-get install tini -y
+ENTRYPOINT ["/usr/bin/tini", "--"]
+
+CMD ["node", "scripts/extract-critical-css.mjs"]

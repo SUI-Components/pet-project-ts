@@ -1,0 +1,22 @@
+FROM browserless/chrome:latest
+
+WORKDIR /usr/src/mono
+
+COPY  . .
+
+# Add Tini
+# https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md
+#RUN apt-get update && apt-get install tini -y
+#ENTRYPOINT ["/usr/bin/tini", "--"]
+
+ARG NODE_ENV=production
+ARG STAGE
+ARG PATTERN
+
+ENV NODE_ENV ${NODE_ENV}
+ENV STAGE ${STAGE}
+ENV TEST_FLAG_CLIENT "--headless"
+ENV PATTERN ${PATTERN}
+ENV CHROME_BIN "/usr/bin/google-chrome"
+
+CMD ["make", "test"]

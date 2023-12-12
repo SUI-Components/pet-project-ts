@@ -1,0 +1,40 @@
+name: 'Test UI components'
+description: 'Test only the UI components'
+
+inputs:
+  stage:
+    description: "Stage used inside of the image"
+    required: true
+
+  pattern:
+    description: "Which components you want to test"
+    required: true
+
+runs:
+  using: composite
+
+  steps:
+    - name: Restore App
+      uses: actions/cache/restore@v3
+      with:
+        fail-on-cache-miss: true
+        key: ${{ runner.OS }}-${{ github.sha }}-${{ inputs.stage }}-monorepo-build
+        path: './'
+
+    - uses: actions/setup-node@v3
+      with:
+        node-version-file: '.nvmrc'
+
+    - name: Setup Chrome
+      id: setup-chrome
+      uses: scmspain/platform-common--actions/frontend/setup-chrome@v0
+
+    - name: Execute tests
+      shell: bash
+      run: |
+        cd ./packages/ui
+        make test
+      env:
+        PATTERN: '${{ inputs.pattern }}'
+        CHROME_BIN: ${{ steps.setup-chrome.outputs.chrome-path }}
+        TEST_FLAG: --headless

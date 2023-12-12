@@ -1,0 +1,21 @@
+name: 'Generate Critical CSS'
+description: 'Generate the critical css manifest file using the current server'
+
+inputs:
+  application-image:
+    description: "Which docker image use as server"
+    required: true
+
+runs:
+  using: composite
+
+  steps:
+    - name: Critical
+      shell: bash
+      run: docker-compose -f .docker/compose.criticalCSS.yaml up --exit-code-from critical
+      env:
+        APP_IMG: ${{ inputs.application-image }}
+
+    - name: Tap
+      shell: bash
+      run: ls -pal ./app/critical-css
