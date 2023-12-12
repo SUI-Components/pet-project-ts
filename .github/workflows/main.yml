@@ -150,7 +150,7 @@ jobs:
       - uses: ./.github/composite/test-ui
         with:
           pattern: ${{ matrix.pattern }}
-          stage: ${{ matrix.pattern }}
+          stage: ${{ matrix.stage }}
 
   e2e:
     name: 🎭 Tests E2E
