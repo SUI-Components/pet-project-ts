@@ -1,0 +1,17 @@
+{
+  "name": "@adv-ui/pet-widgets",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Widgets application",
+  "author": "Web Platform <enablers-frontend@adevinta.com> (https://github.mpi-internal.com/scmspain/es-td-agreements/tree/master/30-Frontend)",
+  "license": "MIT",
+  "keywords": [
+    "Widgets",
+    "Pet Project"
+  ],
+  "scripts": {},
+  "dependencies": {
+    "@s-ui/widget-embedder": "^6.2.0"
+  },
+  "config": {}
+}
