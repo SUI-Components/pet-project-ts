@@ -9,8 +9,13 @@
     "Widgets",
     "Pet Project"
   ],
-  "scripts": {},
+  "scripts": {
+    "build": "make build",
+    "prepublishOnly": "make prepublishOnly",
+    "start:home": "male start_home"
+  },
   "dependencies": {
+    "@adv-ui/pet-styles": "^1.4.0",
     "@s-ui/widget-embedder": "^6.2.0"
   },
   "config": {}
