@@ -78,7 +78,7 @@ jobs:
     needs: compute
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/composite/resources
+      - uses: ./.github/composite/build-app
         with:
           stage: development
           cdn: ${{ needs.compute.outputs.CDN }}
@@ -89,6 +89,7 @@ jobs:
     runs-on: medium
     needs: 
       - compute
+      - build-app
     permissions:
       id-token: write
       contents: read

@@ -23,13 +23,6 @@ inputs:
 runs:
   using: composite
   steps:
-      - name: Restore App
-        uses: actions/cache/restore@v3
-        with:
-          fail-on-cache-miss: true
-          key: ${{ runner.OS }}-${{ github.sha }}-${{inputs.stage}}-monorepo-build
-          path: './'
-
       - name: Tap
         shell: bash
         run: ls -pal ./resources
