@@ -4,9 +4,10 @@
   "private": true,
   "description": "the representation on earth of our golden path",
   "workspaces": [
-    "app/**",
+    "app",
     "qa/**",
-    "packages/**"
+    "packages/**",
+    "widgets"
   ],
   "repository": {
     "type": "git",

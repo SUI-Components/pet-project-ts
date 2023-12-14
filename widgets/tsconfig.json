@@ -1,0 +1,9 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "./pages"
+  },
+  "exclude": ["node_modules", "lib"]
+}
+
+

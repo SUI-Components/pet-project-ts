@@ -14,7 +14,10 @@ env:
   APPLICATION_NAME: "pet-movies" 
   CDN: "https://scm-milanuncios-frontend-pre.milanuncios.net/pet-movies/development/"
   AWS_ACCOUNT_ID_PRE: '060140816915'
-  S3_BUCKET_APPLICATION: "s3://scm-milanuncios-frontend-pre/pet-movies/development" ## We use this env var in the Makefile ./app/Makefile
+  S3_BUCKET_APPLICATION: "s3://scm-milanuncios-frontend-pre/pet-movies/development"
+  WIDGETS_CDN: "https://scm-milanuncios-frontend-pre.milanuncios.net/pet-movies/widgets/development/"
+  WIDGETS_AWS_ACCOUNT_ID_PRE: '060140816915'
+  WIDGETS_S3_BUCKET_APPLICATION: "s3://scm-milanuncios-frontend-pre/pet-movies/widgets/development"
   BOUNDED_CONTEXT: "es-microtest"
 
 jobs:
@@ -26,6 +29,9 @@ jobs:
       CDN: ${{ env.CDN }}
       AWS_ACCOUNT_ID_PRE: ${{ env.AWS_ACCOUNT_ID_PRE }}
       S3_BUCKET_APPLICATION: ${{ env.S3_BUCKET_APPLICATION }}
+      WIDGETS_CDN: ${{ env.WIDGETS_CDN }}
+      WIDGETS_AWS_ACCOUNT_ID_PRE: ${{ env.WIDGETS_AWS_ACCOUNT_ID_PRE }}
+      WIDGETS_S3_BUCKET_APPLICATION: ${{ env.WIDGETS_S3_BUCKET_APPLICATION }}
       BOUNDED_CONTEXT: ${{ env.BOUNDED_CONTEXT }}
     steps:
       - name: Compute outputs
@@ -34,6 +40,9 @@ jobs:
           echo "CDN=${{ env.CDN }}" >> $GITHUB_OUTPUT
           echo "AWS_ACCOUNT_ID_PRE=${{ env.AWS_ACCOUNT_ID_PRE }}" >> $GITHUB_OUTPUT
           echo "S3_BUCKET_APPLICATION=${{ env.S3_BUCKET_APPLICATION }}" >> $GITHUB_OUTPUT
+          echo "WIDGETS_CDN=${{ env.WIDGETS_CDN }}" >> GITHUB_OUTPUT
+          echo "WIDGETS_AWS_ACCOUNT_ID_PRE=${{ env.WIDGETS_AWS_ACCOUNT_ID_PRE }}" >> GITHUB_OUTPUT
+          echo "WIDGETS_S3_BUCKET_APPLICATION=${{ env.WIDGETS_S3_BUCKET_APPLICATION }}" >> GITHUB_OUTPUT
           echo "BOUNDED_CONTEXT=${{ env.BOUNDED_CONTEXT }}" >> $GITHUB_OUTPUT
 
   build-app:
@@ -46,6 +55,7 @@ jobs:
         with:
           stage: development
           cdn: ${{ needs.compute.outputs.CDN }}
+          widgets-cdn: ${{ needs.compute.outputs.WIDGETS_CDN }}
 
   lint:
     name: 🤖 Lint
@@ -90,6 +100,24 @@ jobs:
           stage: development
           suffix: '${{ needs.compute.outputs.APPLICATION_NAME }}-development'
           cdn: '${{ needs.compute.outputs.CDN }}'
+
+  widgets:
+    name: 📡 Upload Widgets
+    runs-on: medium
+    needs: 
+      - compute
+      - build-app
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/composite/widgets
+        with:
+          s3-bucket: ${{ needs.compute.outputs.WIDGETS_S3_BUCKET_APPLICATION }}
+          aws-account-id: ${{ needs.compute.outputs.WIDGETS_AWS_ACCOUNT_ID_PRE }}
+          aws-region: 'eu-west-3'
+          stage: development
 
   cdn:
     name: 📡 Upload CDN
