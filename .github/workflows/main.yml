@@ -73,14 +73,17 @@ jobs:
         include:
           - stage: development
             CDN: ${{ needs.compute.outputs.CDN_PRE }}
+            WIDGETS_CDN: ${{ needs.compute.outputs.WIDGETS_CDN_PRE }}
           - stage: production
             CDN: ${{ needs.compute.outputs.CDN_PRO }}
+            WIDGETS_CDN: ${{ needs.compute.outputs.WIDGETS_CDN_PRO }}
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/composite/build-app
         with:
           stage: ${{ matrix.stage }}
           cdn: ${{ matrix.CDN }}
+          widgets-cdn: ${{ matrix.WIDGETS_CDN }}
 
   lint:
     name: 🤖 Lint

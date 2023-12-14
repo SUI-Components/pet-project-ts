@@ -55,6 +55,7 @@ jobs:
         with:
           stage: development
           cdn: ${{ needs.compute.outputs.CDN }}
+          widgets-cdn: ${{ needs.compute.outputs.WIDGETS_CDN }}
 
   lint:
     name: 🤖 Lint

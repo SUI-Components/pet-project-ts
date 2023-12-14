@@ -9,8 +9,9 @@ WIDGETS_CDN ?= http://locahost:$(WIDGETS_DEV_PORT)
 
 echo:
 	$(info WIDGETS_DEV_PORT is $(WIDGETS_DEV_PORT))
+	$(info WIDGETS_CDN is $(patsubst %/,%,$(WIDGETS_CDN)))
 
-build: ## Build the downloader and the widgets bundle
+build: echo ## Build the downloader and the widgets bundle
 	npx sui-widget-embedder build -R $(patsubst %/,%,$(WIDGETS_CDN)) -C
 
 generate: ## Generate a new widget
