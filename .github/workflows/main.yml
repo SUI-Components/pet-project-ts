@@ -15,11 +15,16 @@ env:
   APPLICATION_NAME: "pet-movies" 
   CDN_PRE: "https://scm-milanuncios-frontend-pre.milanuncios.net/pet-movies/development/"
   CDN_PRO: "https://scm-milanuncios-frontend-pre.milanuncios.net/pet-movies/production/"
-  # MA AWS Pre Account ID
   AWS_ACCOUNT_ID_PRE: '060140816915'
   AWS_ACCOUNT_ID_PRO: '060140816915'
   S3_BUCKET_APPLICATION_PRE: "s3://scm-milanuncios-frontend-pre/pet-movies/development"
   S3_BUCKET_APPLICATION_PRO: "s3://scm-milanuncios-frontend-pre/pet-movies/production"
+  WIDGETS_CDN_PRE: "https://scm-milanuncios-frontend-pre.milanuncios.net/pet-movies/widgets/development/"
+  WIDGETS_CDN_PRO: "https://scm-milanuncios-frontend-pre.milanuncios.net/pet-movies/widgets/production/"
+  WIDGETS_AWS_ACCOUNT_ID_PRE: '060140816915'
+  WIDGETS_AWS_ACCOUNT_ID_PRO: '060140816915'
+  WIDGETS_S3_BUCKET_APPLICATION_PRE: "s3://scm-milanuncios-frontend-pre/pet-movies/widgets/development"
+  WIDGETS_S3_BUCKET_APPLICATION_PRO: "s3://scm-milanuncios-frontend-pre/pet-movies/widgets/production"
   BOUNDED_CONTEXT: "es-microtest"
 
 jobs:
@@ -34,6 +39,12 @@ jobs:
       AWS_ACCOUNT_ID_PRO: ${{ env.AWS_ACCOUNT_ID_PRO }}
       S3_BUCKET_APPLICATION_PRE: ${{ env.S3_BUCKET_APPLICATION_PRE }}
       S3_BUCKET_APPLICATION_PRO: ${{ env.S3_BUCKET_APPLICATION_PRO }}
+      WIDGETS_CDN_PRE: ${{ env.WIDGETS_CDN_PRE }}
+      WIDGETS_CDN_PRO: ${{ env.WIDGETS_CDN_PRO }}
+      WIDGETS_AWS_ACCOUNT_ID_PRE: ${{ env.WIDGETS_AWS_ACCOUNT_ID_PRE }}
+      WIDGETS_AWS_ACCOUNT_ID_PRO: ${{ env.WIDGETS_AWS_ACCOUNT_ID_PRO }}
+      WIDGETS_S3_BUCKET_APPLICATION_PRE: ${{ env.WIDGETS_S3_BUCKET_APPLICATION_PRE }}
+      WIDGETS_S3_BUCKET_APPLICATION_PRO: ${{ env.WIDGETS_S3_BUCKET_APPLICATION_PRO }}
       BOUNDED_CONTEXT: ${{ env.BOUNDED_CONTEXT }}
     steps:
       - name: Compute outputs
@@ -45,6 +56,12 @@ jobs:
           echo "AWS_ACCOUNT_ID_PRO=${{ env.AWS_ACCOUNT_ID_PRO }}" >> $GITHUB_OUTPUT
           echo "S3_BUCKET_APPLICATION_PRE=${{ env.S3_BUCKET_APPLICATION_PRE }}" >> $GITHUB_OUTPUT
           echo "S3_BUCKET_APPLICATION_PRO=${{ env.S3_BUCKET_APPLICATION_PRO }}" >> $GITHUB_OUTPUT
+          echo "WIDGETS_CDN_PRE=${{ env.WIDGETS_CDN_PRE }}" >> $GITHUB_OUTPUT
+          echo "WIDGETS_CDN_PRO=${{ env.WIDGETS_CDN_PRO }}" >> $GITHUB_OUTPUT
+          echo "WIDGETS_AWS_ACCOUNT_ID_PRE=${{ env.WIDGETS_AWS_ACCOUNT_ID_PRE }}" >> $GITHUB_OUTPUT
+          echo "WIDGETS_AWS_ACCOUNT_ID_PRO=${{ env.WIDGETS_AWS_ACCOUNT_ID_PRO }}" >> $GITHUB_OUTPUT
+          echo "WIDGETS_S3_BUCKET_APPLICATION_PRE=${{ env.WIDGETS_S3_BUCKET_APPLICATION_PRE }}" >> $GITHUB_OUTPUT
+          echo "WIDGETS_S3_BUCKET_APPLICATION_PRO=${{ env.WIDGETS_S3_BUCKET_APPLICATION_PRO }}" >> $GITHUB_OUTPUT
           echo "BOUNDED_CONTEXT=${{ env.BOUNDED_CONTEXT }}" >> $GITHUB_OUTPUT
 
   build-app:
@@ -108,6 +125,34 @@ jobs:
           stage: ${{ matrix.stage }}
           suffix: '${{ needs.compute.outputs.APPLICATION_NAME }}-${{ matrix.stage }}'
           cdn: ${{ matrix.CDN }}
+
+  widgets:
+    name: 📡 Upload Widgets
+    runs-on: medium
+    needs: 
+      - compute
+      - build-app
+    permissions:
+      id-token: write
+      contents: read
+    strategy:
+      matrix:
+        include:
+          - stage: 'development'
+            aws-account-id: "${{ needs.compute.outputs.WIDGETS_AWS_ACCOUNT_ID_PRE }}"
+            s3-bucket: ${{ needs.compute.outputs.WIDGETS_S3_BUCKET_APPLICATION_PRE }}
+          - stage: 'production'
+            aws-account-id: "${{ needs.compute.outputs.WIDGETS_AWS_ACCOUNT_ID_PRO }}"
+            s3-bucket: ${{ needs.compute.outputs.WIDGETS_S3_BUCKET_APPLICATION_PRO }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/composite/cdn
+        with:
+          s3-bucket: ${{ matrix.s3-bucket }}
+          aws-account-id: "${{ matrix.aws-account-id }}"
+          aws-region: 'eu-west-3'
+          stage: ${{ matrix.stage }}
+
   cdn:
     name: 📡 Upload CDN
     runs-on: medium

@@ -63,4 +63,4 @@ runs:
           aws_secret_access_key: $AWS_SECRET_ACCESS_KEY
           aws_session_token: $AWS_SESSION_TOKEN
           aws_region: ${{ inputs.aws-region }}
-          flags: "--exclude * --include downloder.js"
+          flags: "--exclude \"*\" --include downloder.js"

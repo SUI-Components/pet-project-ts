@@ -15,9 +15,9 @@ env:
   CDN: "https://scm-milanuncios-frontend-pre.milanuncios.net/pet-movies/development/"
   AWS_ACCOUNT_ID_PRE: '060140816915'
   S3_BUCKET_APPLICATION: "s3://scm-milanuncios-frontend-pre/pet-movies/development"
-  WIDGETS_CDN: "https://scm-milanuncios-frontend-pre.milanuncios.net/pet-movies/widgets/"
-  WIDGETS_AWS_ACCOUNT_ID: '060140816915'
-  WIDGETS_S3_BUCKET_APPLICATION: "s3://scm-milanuncios-frontend-pre/pet-movies/widgets"
+  WIDGETS_CDN: "https://scm-milanuncios-frontend-pre.milanuncios.net/pet-movies/widgets/development/"
+  WIDGETS_AWS_ACCOUNT_ID_PRE: '060140816915'
+  WIDGETS_S3_BUCKET_APPLICATION: "s3://scm-milanuncios-frontend-pre/pet-movies/widgets/development"
   BOUNDED_CONTEXT: "es-microtest"
 
 jobs:
@@ -30,7 +30,7 @@ jobs:
       AWS_ACCOUNT_ID_PRE: ${{ env.AWS_ACCOUNT_ID_PRE }}
       S3_BUCKET_APPLICATION: ${{ env.S3_BUCKET_APPLICATION }}
       WIDGETS_CDN: ${{ env.WIDGETS_CDN }}
-      WIDGETS_AWS_ACCOUNT_ID: ${{ env.WIDGETS_AWS_ACCOUNT_ID }}
+      WIDGETS_AWS_ACCOUNT_ID_PRE: ${{ env.WIDGETS_AWS_ACCOUNT_ID_PRE }}
       WIDGETS_S3_BUCKET_APPLICATION: ${{ env.WIDGETS_S3_BUCKET_APPLICATION }}
       BOUNDED_CONTEXT: ${{ env.BOUNDED_CONTEXT }}
     steps:
@@ -41,7 +41,7 @@ jobs:
           echo "AWS_ACCOUNT_ID_PRE=${{ env.AWS_ACCOUNT_ID_PRE }}" >> $GITHUB_OUTPUT
           echo "S3_BUCKET_APPLICATION=${{ env.S3_BUCKET_APPLICATION }}" >> $GITHUB_OUTPUT
           echo "WIDGETS_CDN=${{ env.WIDGETS_CDN }}" >> GITHUB_OUTPUT
-          echo "WIDGETS_AWS_ACCOUNT_ID=${{ env.WIDGETS_AWS_ACCOUNT_ID }}" >> GITHUB_OUTPUT
+          echo "WIDGETS_AWS_ACCOUNT_ID_PRE=${{ env.WIDGETS_AWS_ACCOUNT_ID_PRE }}" >> GITHUB_OUTPUT
           echo "WIDGETS_S3_BUCKET_APPLICATION=${{ env.WIDGETS_S3_BUCKET_APPLICATION }}" >> GITHUB_OUTPUT
           echo "BOUNDED_CONTEXT=${{ env.BOUNDED_CONTEXT }}" >> $GITHUB_OUTPUT
 
@@ -114,7 +114,7 @@ jobs:
       - uses: ./.github/composite/widgets
         with:
           s3-bucket: ${{ needs.compute.outputs.WIDGETS_S3_BUCKET_APPLICATION }}
-          aws-account-id: ${{ needs.compute.outputs.WIDGETS_AWS_ACCOUNT_ID }}
+          aws-account-id: ${{ needs.compute.outputs.WIDGETS_AWS_ACCOUNT_ID_PRE }}
           aws-region: 'eu-west-3'
           stage: development
 
