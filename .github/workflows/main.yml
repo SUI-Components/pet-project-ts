@@ -149,7 +149,7 @@ jobs:
             s3-bucket: ${{ needs.compute.outputs.WIDGETS_S3_BUCKET_APPLICATION_PRO }}
     steps:
       - uses: actions/checkout@v3
-      - uses: ./.github/composite/cdn
+      - uses: ./.github/composite/widgets
         with:
           s3-bucket: ${{ matrix.s3-bucket }}
           aws-account-id: "${{ matrix.aws-account-id }}"
