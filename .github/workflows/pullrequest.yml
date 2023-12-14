@@ -39,14 +39,17 @@ jobs:
 
       CDN: ${{ env.CDN }}
       AWS_ACCOUNT_ID_PRE: ${{ env.AWS_ACCOUNT_ID_PRE }}
+      AWS_REGION_PRE: ${{ env.AWS_REGION_PRE }}
       S3_BUCKET_APPLICATION: ${{ env.S3_BUCKET_APPLICATION }}
 
       WIDGETS_CDN: ${{ env.WIDGETS_CDN }}
       WIDGETS_AWS_ACCOUNT_ID_PRE: ${{ env.WIDGETS_AWS_ACCOUNT_ID_PRE }}
+      WIDGETS_AWS_REGION_PRE: ${{ env.WIDGETS_AWS_REGION_PRE }}
       WIDGETS_S3_BUCKET_APPLICATION: ${{ env.WIDGETS_S3_BUCKET_APPLICATION }}
 
       RESOURCES_CDN: ${{ env.RESOURCES_CDN }}
       RESOURCES_AWS_ACCOUNT_ID_PRE: ${{ env.RESOURCES_AWS_ACCOUNT_ID_PRE }}
+      RESOURCES_AWS_REGION_PRE: ${{ env.RESOURCES_AWS_REGION_PRE }}
       RESOURCES_S3_BUCKET_APPLICATION: ${{ env.RESOURCES_S3_BUCKET_APPLICATION }}
 
       BOUNDED_CONTEXT: ${{ env.BOUNDED_CONTEXT }}
@@ -87,8 +90,7 @@ jobs:
   resources:
     name: 📡 Upload resources
     runs-on: medium
-    needs: 
-      - compute
+    needs: compute
     permissions:
       id-token: write
       contents: read
