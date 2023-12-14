@@ -4,14 +4,15 @@ OWNER=Web Platform <enablers-frontend@adevinta.com>
 SHELL := /bin/bash
 .DEFAULT_GOAL := help
 
-WIDGETS_CDN ?= /
 WIDGETS_DEV_PORT ?= 8081
+WIDGETS_CDN ?= http://locahost:$(WIDGETS_DEV_PORT)
 
 echo:
 	$(info WIDGETS_DEV_PORT is $(WIDGETS_DEV_PORT))
 
 build: ## Build the downloader and the widgets bundle
-	npx sui-widget-embedder build -R $(WIDGETS_CDN) -C
+	trimmed := $(patsubst %/,%,$(WIDGETS_CDN))
+	npx sui-widget-embedder build -R $(trimmed) -C
 
 generate: ## Generate a new widget
 	@: $(if $(PAGE),, \
