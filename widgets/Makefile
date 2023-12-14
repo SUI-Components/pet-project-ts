@@ -11,8 +11,7 @@ echo:
 	$(info WIDGETS_DEV_PORT is $(WIDGETS_DEV_PORT))
 
 build: ## Build the downloader and the widgets bundle
-	trimmed := $(patsubst %/,%,$(WIDGETS_CDN))
-	npx sui-widget-embedder build -R $(trimmed) -C
+	npx sui-widget-embedder build -R $(patsubst %/,%,$(WIDGETS_CDN)) -C
 
 generate: ## Generate a new widget
 	@: $(if $(PAGE),, \
