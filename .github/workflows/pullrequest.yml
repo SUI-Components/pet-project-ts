@@ -89,7 +89,6 @@ jobs:
     runs-on: medium
     needs: 
       - compute
-      - build-app
     permissions:
       id-token: write
       contents: read
