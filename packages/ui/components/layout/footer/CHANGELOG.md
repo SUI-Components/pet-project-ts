@@ -1,5 +1,14 @@
 # CHANGELOG
 
+# 1.4.0 (2023-12-18)
+
+
+### Features
+
+* **packages/ui/components/layout/footer:** move prepare task to prepubiblishOnly task ([c77d1f2](https://github.mpi-internal.com/scmspain/frontend-all--pet-project-skeleton/commit/c77d1f2a6eb4f505904980f48937dc9dd1c10859))
+
+
+
 # 1.3.0 (2023-10-10)
 
 
