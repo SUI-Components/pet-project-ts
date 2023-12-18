@@ -11,8 +11,11 @@ lint:
 	npx sui-lint js
 	npx sui-lint sass
 
-test: ## Tests all aour packages and apps in browser and server
+test:
 	npx -y ultra-runner --raw --recursive test
+
+dev:
+	npx -y ultra-runner --raw --filter app --recursive dev
 
 precommit: lint
 

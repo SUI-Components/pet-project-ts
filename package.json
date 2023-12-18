@@ -24,6 +24,7 @@
     "ci": "make ci",
     "lint": "make lint",
     "test": "make test",
+    "dev": "make dev",
     "pre-commit": "make precommit",
     "pre-push": "make prepush",
     "postinstall": "make postinstall",

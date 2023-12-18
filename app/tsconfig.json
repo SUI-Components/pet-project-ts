@@ -1,8 +1,8 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "types": ["react", "node", "mocha", "chai", "chai-dom"],
-    "rootDir": "./src"
+    "types": ["react", "node", "mocha", "chai"]
   },
+  "include": ["src"],
   "exclude": ["node_modules"]
 }
