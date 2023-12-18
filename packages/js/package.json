@@ -19,7 +19,6 @@
     "test:server:watch": "make test_server_watch"
   },
   "devDependencies": {
-    "@carlosvillu/linter": "^1.1.0",
     "@s-ui/js-compiler": "typescript",
     "@s-ui/mockmock": "2",
     "@s-ui/test": "typescript",
