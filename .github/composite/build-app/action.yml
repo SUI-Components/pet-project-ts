@@ -10,6 +10,10 @@ inputs:
     description: "CDN URL to download static content"
     required: true
 
+  widgets-cdn:
+    description: "CDN URL where donwload the widgets assets "
+    required: true
+
 runs:
   using: composite
   steps:
@@ -30,6 +34,7 @@ runs:
         NODE_ENV: production
         STAGE: ${{ inputs.stage }}
         CDN: ${{ inputs.cdn }}
+        WIDGETS_CDN: ${{ inputs.widgets-cdn }}
 
     - name: Save App
       uses: actions/cache/save@v3

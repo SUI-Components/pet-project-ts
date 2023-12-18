@@ -3,5 +3,5 @@
   "compilerOptions": {
     "rootDir": "."
   },
-  "include": ["packages", "app", "qa"]
+  "include": ["packages", "app", "qa", "widgets"]
 }
