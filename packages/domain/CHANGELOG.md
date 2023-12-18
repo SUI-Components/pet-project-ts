@@ -1,5 +1,14 @@
 # CHANGELOG
 
+# 1.6.0 (2023-12-18)
+
+
+### Features
+
+* **packages/domain:** update ci ([7e0268d](https://github.mpi-internal.com/scmspain/frontend-all--pet-project-ts/commit/7e0268d3eb9ec03777608428782998f7958ec318))
+
+
+
 # 1.5.0 (2023-12-18)
 
 
