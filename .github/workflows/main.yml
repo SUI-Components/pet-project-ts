@@ -11,13 +11,13 @@ env:
   ARTIFACTORY_CONTEXT: https://artifactory.mpi-internal.com/artifactory
   ARTIFACTORY_USER: ${{ secrets.ARTIFACTORY_USER }}
   ARTIFACTORY_PWD: ${{ secrets.ARTIFACTORY_PWD }}
-
   APPLICATION_NAME: 'pet-movies'
   CDN_PRE: 'https://scm-milanuncios-frontend-pre.milanuncios.net/pet-movies/development/'
   CDN_PRO: 'https://scm-milanuncios-frontend-pre.milanuncios.net/pet-movies/production/'
   GITHUB_EMAIL: 'srv.scms.git-enb@adevinta.com'
   GITHUB_USER: 'srv-scms-git-enb'
   GITHUB_TOKEN: ${{ github.token }}
+  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
   AWS_ACCOUNT_ID_PRE: '060140816915'
   AWS_ACCOUNT_ID_PRO: '060140816915'
   S3_BUCKET_APPLICATION_PRE: 's3://scm-milanuncios-frontend-pre/pet-movies/development'
