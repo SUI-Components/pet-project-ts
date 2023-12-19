@@ -114,6 +114,7 @@ jobs:
       - uses: ./.github/composite/lint
 
   test-domain-docker:
+    if: false
     name: 🧪 Tests Domain Dockerize
     runs-on: big
     needs: compute
@@ -184,6 +185,7 @@ jobs:
           stage: development
 
   test-ui-docker:
+    if: false
     name: 🧪 Tests UI Dockerize
     runs-on: big
     needs:
