@@ -48,35 +48,55 @@ jobs:
     runs-on: small
     outputs:
       APPLICATION_NAME: ${{ env.APPLICATION_NAME }}
+
       CDN_PRE: ${{ env.CDN_PRE }}
       CDN_PRO: ${{ env.CDN_PRO }}
       AWS_ACCOUNT_ID_PRE: ${{ env.AWS_ACCOUNT_ID_PRE }}
       AWS_ACCOUNT_ID_PRO: ${{ env.AWS_ACCOUNT_ID_PRO }}
       S3_BUCKET_APPLICATION_PRE: ${{ env.S3_BUCKET_APPLICATION_PRE }}
       S3_BUCKET_APPLICATION_PRO: ${{ env.S3_BUCKET_APPLICATION_PRO }}
+
       WIDGETS_CDN_PRE: ${{ env.WIDGETS_CDN_PRE }}
       WIDGETS_CDN_PRO: ${{ env.WIDGETS_CDN_PRO }}
       WIDGETS_AWS_ACCOUNT_ID_PRE: ${{ env.WIDGETS_AWS_ACCOUNT_ID_PRE }}
       WIDGETS_AWS_ACCOUNT_ID_PRO: ${{ env.WIDGETS_AWS_ACCOUNT_ID_PRO }}
       WIDGETS_S3_BUCKET_APPLICATION_PRE: ${{ env.WIDGETS_S3_BUCKET_APPLICATION_PRE }}
       WIDGETS_S3_BUCKET_APPLICATION_PRO: ${{ env.WIDGETS_S3_BUCKET_APPLICATION_PRO }}
+
+      RESOURCES_CDN_PRE: ${{ env.RESOURCES_CDN_PRE }}
+      RESOURCES_CDN_PRO: ${{ env.RESOURCES_CDN_PRO }}
+      RESOURCES_AWS_ACCOUNT_ID_PRE: ${{ env.RESOURCES_AWS_ACCOUNT_ID_PRE }}
+      RESOURCES_AWS_ACCOUNT_ID_PRO: ${{ env.RESOURCES_AWS_ACCOUNT_ID_PRO }}
+      RESOURCES_S3_BUCKET_APPLICATION_PRE: ${{ env.RESOURCES_S3_BUCKET_APPLICATION_PRE }}
+      RESOURCES_S3_BUCKET_APPLICATION_PRO: ${{ env.RESOURCES_S3_BUCKET_APPLICATION_PRO }}
+
       BOUNDED_CONTEXT: ${{ env.BOUNDED_CONTEXT }}
     steps:
       - name: Compute outputs
         run: |
           echo "APPLICATION_NAME=${{ env.APPLICATION_NAME }}" >> $GITHUB_OUTPUT
+
           echo "CDN_PRE=${{ env.CDN_PRE }}" >> $GITHUB_OUTPUT
           echo "CDN_PRO=${{ env.CDN_PRO }}" >> $GITHUB_OUTPUT
           echo "AWS_ACCOUNT_ID_PRE=${{ env.AWS_ACCOUNT_ID_PRE }}" >> $GITHUB_OUTPUT
           echo "AWS_ACCOUNT_ID_PRO=${{ env.AWS_ACCOUNT_ID_PRO }}" >> $GITHUB_OUTPUT
           echo "S3_BUCKET_APPLICATION_PRE=${{ env.S3_BUCKET_APPLICATION_PRE }}" >> $GITHUB_OUTPUT
           echo "S3_BUCKET_APPLICATION_PRO=${{ env.S3_BUCKET_APPLICATION_PRO }}" >> $GITHUB_OUTPUT
+
           echo "WIDGETS_CDN_PRE=${{ env.WIDGETS_CDN_PRE }}" >> $GITHUB_OUTPUT
           echo "WIDGETS_CDN_PRO=${{ env.WIDGETS_CDN_PRO }}" >> $GITHUB_OUTPUT
           echo "WIDGETS_AWS_ACCOUNT_ID_PRE=${{ env.WIDGETS_AWS_ACCOUNT_ID_PRE }}" >> $GITHUB_OUTPUT
           echo "WIDGETS_AWS_ACCOUNT_ID_PRO=${{ env.WIDGETS_AWS_ACCOUNT_ID_PRO }}" >> $GITHUB_OUTPUT
           echo "WIDGETS_S3_BUCKET_APPLICATION_PRE=${{ env.WIDGETS_S3_BUCKET_APPLICATION_PRE }}" >> $GITHUB_OUTPUT
           echo "WIDGETS_S3_BUCKET_APPLICATION_PRO=${{ env.WIDGETS_S3_BUCKET_APPLICATION_PRO }}" >> $GITHUB_OUTPUT
+
+          echo "RESOURCES_CDN_PRE=${{ env.RESOURCES_CDN_PRE }}" >> $GITHUB_OUTPUT
+          echo "RESOURCES_CDN_PRO=${{ env.RESOURCES_CDN_PRO }}" >> $GITHUB_OUTPUT
+          echo "RESOURCES_AWS_ACCOUNT_ID_PRE=${{ env.RESOURCES_AWS_ACCOUNT_ID_PRE }}" >> $GITHUB_OUTPUT
+          echo "RESOURCES_AWS_ACCOUNT_ID_PRO=${{ env.RESOURCES_AWS_ACCOUNT_ID_PRO }}" >> $GITHUB_OUTPUT
+          echo "RESOURCES_S3_BUCKET_APPLICATION_PRE=${{ env.RESOURCES_S3_BUCKET_APPLICATION_PRE }}" >> $GITHUB_OUTPUT
+          echo "RESOURCES_S3_BUCKET_APPLICATION_PRO=${{ env.RESOURCES_S3_BUCKET_APPLICATION_PRO }}" >> $GITHUB_OUTPUT
+
           echo "BOUNDED_CONTEXT=${{ env.BOUNDED_CONTEXT }}" >> $GITHUB_OUTPUT
 
   build-app:
@@ -99,6 +119,33 @@ jobs:
           stage: ${{ matrix.stage }}
           cdn: ${{ matrix.CDN }}
           widgets-cdn: ${{ matrix.WIDGETS_CDN }}
+
+  resources:
+    name: 📡 Upload resources
+    runs-on: medium
+    needs:
+      - compute
+      - build-app
+    permissions:
+      id-token: write
+      contents: read
+    strategy:
+      matrix:
+        include:
+          - stage: 'development'
+            aws-account-id: '${{ needs.compute.outputs.RESOURCES_AWS_ACCOUNT_ID_PRE }}'
+            s3-bucket: ${{ needs.compute.outputs.RESOURCES_S3_BUCKET_APPLICATION_PRE }}
+          - stage: 'production'
+            aws-account-id: '${{ needs.compute.outputs.RESOURCES_AWS_ACCOUNT_ID_PRO }}'
+            s3-bucket: ${{ needs.compute.outputs.RESOURCES_S3_BUCKET_APPLICATION_PRO }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/composite/resources
+        with:
+          s3-bucket: ${{ matrix.s3-bucket }}
+          aws-account-id: '${{ matrix.aws-account-id }}'
+          aws-region: 'eu-west-3'
+          stage: ${{ matrix.stage }}
 
   release:
     runs-on: big
