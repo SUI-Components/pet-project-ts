@@ -11,7 +11,6 @@ env:
   ARTIFACTORY_CONTEXT: https://artifactory.mpi-internal.com/artifactory
   ARTIFACTORY_USER: ${{ secrets.ARTIFACTORY_USER }}
   ARTIFACTORY_PWD: ${{ secrets.ARTIFACTORY_PWD }}
-
   GITHUB_EMAIL: 'srv.scms.git-enb@adevinta.com'
   GITHUB_USER: 'srv-scms-git-enb'
   GITHUB_TOKEN: ${{ github.token }}
