@@ -1,5 +1,18 @@
 # CHANGELOG
 
+# 1.7.0 (2023-12-18)
+
+
+### Features
+
+* **packages/styles:** bump version ([3aff106](https://github.mpi-internal.com/scmspain/frontend-all--pet-project-ts/commit/3aff1063421f0bc7c2faa13fa40a10f74b390b68))
+
+
+
+# 1.8.0 (2023-12-18)
+
+
+
 # 1.6.0 (2023-12-18)
 
 
