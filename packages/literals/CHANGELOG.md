@@ -1,5 +1,14 @@
 # CHANGELOG
 
+# 1.9.0 (2023-12-19)
+
+
+### Features
+
+* **packages/literals:** bump version ([e909274](https://github.mpi-internal.com/scmspain/frontend-all--pet-project-ts/commit/e9092746a7930a790e9ad8c0759ac5c03e41e12f))
+
+
+
 # 1.8.0 (2023-12-18)
 
 
