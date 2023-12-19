@@ -5,8 +5,9 @@
   "description": "the representation on earth of our golden path",
   "workspaces": [
     "app",
-    "qa/**",
     "packages/**",
+    "qa/**",
+    "resources",
     "widgets"
   ],
   "repository": {

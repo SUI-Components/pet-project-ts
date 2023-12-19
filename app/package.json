@@ -19,6 +19,7 @@
     "@adv-ui/pet-layout-footer": "^1.2.0",
     "@adv-ui/pet-layout-header": "^1.2.0",
     "@adv-ui/pet-styles": "1",
+    "@s-ui/pde": "^2.24.0",
     "@s-ui/react-head": "1",
     "@s-ui/react-initial-props": "2",
     "@s-ui/react-router": "1",

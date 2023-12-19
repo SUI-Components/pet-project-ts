@@ -12,9 +12,11 @@ MOCK_API_REQUESTS ?= DISABLED API MOCKING
 NODE_ENV ?= production
 STAGE ?= production
 
-ROOT=$(PWD)/../..
+ROOT=$(PWD)/..
 MOCK_NAME=$(shell cat "$(ROOT)/qa/mocks/package.json" | jq -r .name)
 MOCKS_API_PATH=$(ROOT)/node_modules/$(MOCK_NAME)/routes
+
+RESOURCES_PORT ?= 8081
 
 echo: ## Just print important env var after execute other task
 	@echo "ENV Vars:"
@@ -26,13 +28,19 @@ build: echo ## Build public and server folder to be deployed
 	@NODE_ENV=$(NODE_ENV) STAGE=$(STAGE) npx sui-bundler build -C
 	@NODE_ENV=$(NODE_ENV) STAGE=$(STAGE) npx sui-ssr build -C
 
-dev: ## Start a SPA dev server to develop the webapp
+dev: ## Helper target to start the dev server of the app and a server for our statics resources (default URL: http://localhost:$RESOURCES_PORT)
+	make -j dev_bundler preview_resources
+
+dev_bundler: ## Start a SPA dev server to develop the webapp
 	npx msw init ./public --save
 	STAGE=development \
 				NODE_ENV=development \
 				MOCK_API_REQUESTS=true \
 				MOCKS_API_PATH=$(MOCKS_API_PATH) \
 				npx sui-bundler dev
+
+preview_resources: ## Start a local server to serve the content in ../resources folder
+	npx serve ../resources -p $(RESOURCES_PORT)
 
 preview_ssr: clean build ## Generate and Start a local preview of the App using a SSR server (Not for development)
 	CONSOLE=true \
