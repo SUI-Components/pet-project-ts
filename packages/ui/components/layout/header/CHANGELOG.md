@@ -1,5 +1,15 @@
 # CHANGELOG
 
+# 1.4.0 (2023-12-18)
+
+
+### Features
+
+* **packages/ui/components/layout/header:** Add tsconfig ([fe4e75a](https://github.mpi-internal.com/scmspain/frontend-all--pet-project-skeleton/commit/fe4e75afc43f1f85838367268bd60087931f25bd))
+* **packages/ui/components/layout/header:** Move prepare task to prepublishOnly ([c180e35](https://github.mpi-internal.com/scmspain/frontend-all--pet-project-skeleton/commit/c180e357b4de2f2baf9f9f9994d9a1b59779c2c6))
+
+
+
 # 1.3.0 (2023-10-10)
 
 

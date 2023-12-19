@@ -12,6 +12,11 @@ env:
   ARTIFACTORY_USER: ${{ secrets.ARTIFACTORY_USER }}
   ARTIFACTORY_PWD: ${{ secrets.ARTIFACTORY_PWD }}
 
+  GITHUB_EMAIL: 'srv.scms.git-enb@adevinta.com'
+  GITHUB_USER: 'srv-scms-git-enb'
+  GITHUB_TOKEN: ${{ github.token }}
+  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
   APPLICATION_NAME: "pet-movies" 
 
   CDN_PRE: "https://scm-milanuncios-frontend-pre.milanuncios.net/pet-movies/development/"
@@ -95,6 +100,20 @@ jobs:
           cdn: ${{ matrix.CDN }}
           widgets-cdn: ${{ matrix.WIDGETS_CDN }}
 
+  release:
+    runs-on: big
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install
+        uses: scmspain/platform-common--actions/frontend/install@v0
+
+      - name: Publish packages
+        run: npx @s-ui/mono@2.42.0-beta.3 release --github-user $GITHUB_USER --github-email $GITHUB_EMAIL --github-token $GITHUB_TOKEN --lock
+
   lint:
     name: 🤖 Lint
     runs-on: medium
@@ -105,8 +124,8 @@ jobs:
           fetch-depth: 0
       - uses: ./.github/composite/lint
 
-  test-domain: 
-    name: 🧪 Testing 
+  test-domain:
+    name: 🧪 Testing
     runs-on: big
     needs: compute
     strategy:
@@ -121,7 +140,7 @@ jobs:
   dockerize:
     name: 📦 Dockerize
     runs-on: medium
-    needs: 
+    needs:
       - compute
       - build-app
     strategy:
@@ -142,7 +161,7 @@ jobs:
   widgets:
     name: 📡 Upload Widgets
     runs-on: medium
-    needs: 
+    needs:
       - compute
       - build-app
     permissions:
@@ -152,24 +171,24 @@ jobs:
       matrix:
         include:
           - stage: 'development'
-            aws-account-id: "${{ needs.compute.outputs.WIDGETS_AWS_ACCOUNT_ID_PRE }}"
+            aws-account-id: '${{ needs.compute.outputs.WIDGETS_AWS_ACCOUNT_ID_PRE }}'
             s3-bucket: ${{ needs.compute.outputs.WIDGETS_S3_BUCKET_APPLICATION_PRE }}
           - stage: 'production'
-            aws-account-id: "${{ needs.compute.outputs.WIDGETS_AWS_ACCOUNT_ID_PRO }}"
+            aws-account-id: '${{ needs.compute.outputs.WIDGETS_AWS_ACCOUNT_ID_PRO }}'
             s3-bucket: ${{ needs.compute.outputs.WIDGETS_S3_BUCKET_APPLICATION_PRO }}
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/composite/widgets
         with:
           s3-bucket: ${{ matrix.s3-bucket }}
-          aws-account-id: "${{ matrix.aws-account-id }}"
+          aws-account-id: '${{ matrix.aws-account-id }}'
           aws-region: 'eu-west-3'
           stage: ${{ matrix.stage }}
 
   cdn:
     name: 📡 Upload CDN
     runs-on: medium
-    needs: 
+    needs:
       - compute
       - build-app
     permissions:
@@ -179,17 +198,17 @@ jobs:
       matrix:
         include:
           - stage: 'development'
-            aws-account-id: "${{ needs.compute.outputs.AWS_ACCOUNT_ID_PRE }}"
+            aws-account-id: '${{ needs.compute.outputs.AWS_ACCOUNT_ID_PRE }}'
             s3-bucket: ${{ needs.compute.outputs.S3_BUCKET_APPLICATION_PRE }}
           - stage: 'production'
-            aws-account-id: "${{ needs.compute.outputs.AWS_ACCOUNT_ID_PRO }}"
+            aws-account-id: '${{ needs.compute.outputs.AWS_ACCOUNT_ID_PRO }}'
             s3-bucket: ${{ needs.compute.outputs.S3_BUCKET_APPLICATION_PRO }}
     steps:
       - uses: actions/checkout@v3
       - uses: ./.github/composite/cdn
         with:
           s3-bucket: ${{ matrix.s3-bucket }}
-          aws-account-id: "${{ matrix.aws-account-id }}"
+          aws-account-id: '${{ matrix.aws-account-id }}'
           aws-region: 'eu-west-3'
           stage: ${{ matrix.stage }}
 
@@ -213,7 +232,7 @@ jobs:
   e2e:
     name: 🎭 Tests E2E
     runs-on: big
-    needs: 
+    needs:
       - compute
       - dockerize
       - cdn
@@ -226,7 +245,7 @@ jobs:
       - uses: ./.github/composite/e2e
         with:
           scope: ${{ matrix.scope }}
-          application-image: "containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-${{ matrix.stage }}:${{ github.sha }}"
+          application-image: 'containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-${{ matrix.stage }}:${{ github.sha }}'
 
   critical-css:
     name: 🔮 Critical CSS
@@ -246,7 +265,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: ./.github/composite/critical-css
         with:
-          application-image: "containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-${{ matrix.stage }}:${{ github.sha }}"
+          application-image: 'containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-${{ matrix.stage }}:${{ github.sha }}'
       - uses: ./.github/composite/dockerize
         with:
           stage: ${{ matrix.stage }}
