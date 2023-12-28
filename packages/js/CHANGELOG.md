@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## <small>1.10.1 (2023-12-28)</small>
+
+* release(packages/js): v1.10.1 ([d64ffe3](https://github.mpi-internal.com/scmspain/frontend-all--pet-project-ts/commit/d64ffe3))
+* feat(packages/js): bump version ([6f44300](https://github.mpi-internal.com/scmspain/frontend-all--pet-project-ts/commit/6f44300))
+
+
+
 # 1.10.0 (2023-12-19)
 
 
@@ -73,6 +80,3 @@
 ### Bug Fixes
 
 * **packages/js:** bump minor ([3ad2d6e](https://github.mpi-internal.com/scmspain/frontend-all--pet-project-ts/commit/3ad2d6e201103721e7ed50674307a2d28c5e889b))
-
-
-
