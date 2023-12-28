@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## <small>1.11.1 (2023-12-28)</small>
+
+* release(packages/domain): v1.11.1 ([98fcf5a](https://github.mpi-internal.com/scmspain/frontend-all--pet-project-ts/commit/98fcf5a))
+* feat(packages/domain): bump version ([f883af2](https://github.mpi-internal.com/scmspain/frontend-all--pet-project-ts/commit/f883af2))
+
+
+
+## <small>1.10.1 (2023-12-28)</small>
+
+* release(packages/domain): v1.10.1 ([d3972fc](https://github.mpi-internal.com/scmspain/frontend-all--pet-project-ts/commit/d3972fc))
+* feat(packages/domain): bump version ([62339d1](https://github.mpi-internal.com/scmspain/frontend-all--pet-project-ts/commit/62339d1))
+
+
+
 ## <small>1.10.1 (2023-12-28)</small>
 
 * release(packages/domain): v1.10.1 ([3d2fdce](https://github.mpi-internal.com/scmspain/frontend-all--pet-project-ts/commit/3d2fdce))
