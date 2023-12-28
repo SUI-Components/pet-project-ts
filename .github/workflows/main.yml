@@ -158,7 +158,7 @@ jobs:
         uses: scmspain/platform-common--actions/frontend/install@v0
 
       - name: Publish packages
-        run: npx @s-ui/mono@2.42.0-beta.3 release --github-user $GITHUB_USER --github-email $GITHUB_EMAIL --github-token $GITHUB_TOKEN --lock
+        run: npx @s-ui/mono@beta release --github-user $GITHUB_USER --github-email $GITHUB_EMAIL --github-token $GITHUB_TOKEN --lock
 
   lint:
     name: 🤖 Lint
