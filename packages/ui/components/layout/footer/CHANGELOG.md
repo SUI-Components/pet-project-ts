@@ -1,5 +1,14 @@
 # CHANGELOG
 
+# 1.7.0 (2023-12-29)
+
+
+### Features
+
+* bump version ([1310a5d](https://github.mpi-internal.com/scmspain/frontend-all--pet-project-ts/commit/1310a5d4e524e689fa61d80a3cb527e362f90181))
+
+
+
 ## 1.6.0 (2023-12-29)
 
 * release(packages/ui/components/layout/footer): v1.6.0 ([259846d](https://github.mpi-internal.com/scmspain/frontend-all--pet-project-ts/commit/259846d))
