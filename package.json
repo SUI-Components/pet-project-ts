@@ -36,7 +36,7 @@
     "@s-ui/mono": "2",
     "@s-ui/precommit": "3",
     "typescript": "5.0",
-    "ultra-runner": "3.10.5"
+    "ultra-runner": "^3.10.5"
   },
   "eslintConfig": {
     "extends": [
@@ -57,7 +57,8 @@
     "@s-ui/lint": "typescript",
     "@s-ui/test": "typescript",
     "@s-ui/mock": "adr-mother-object",
-    "typescript": "5.0"
+    "typescript": "5.0",
+    "glob-parent": "^6.0.1"
   },
   "msw": {
     "workerDirectory": "app/public"
