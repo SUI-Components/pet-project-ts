@@ -1,21 +1,21 @@
 <h1 align="center" style="padding-bottom: 2ch">
-  👋 Plantilla para Proyectos Frontend en Adevinta
+  👋 Frontend Project Template for Adevinta
 </h1>
 
-<h4 align="center">Este Readme explica los detalles y acuerdos para los futuros repositorios de frontend en Adevinta.</h4>
+<h4 align="center">This Readme explains the details and agreements for future frontend repositories at Adevinta.</h4>
 
-# Motivación del Repositorio
+# Repository Motivation
 
-En Adevinta, manejamos numerosos proyectos frontend, cada uno en su propio repositorio. Con el tiempo, ha surgido la necesidad de migrar de monorepo-monopaquete a monorepo-multipaquetes. Esto nos permite probar cambios en todas las partes afectadas de la aplicación dentro de una misma PR.
+At Adevinta, we handle numerous frontend projects, each in its own repository. Over time, the need has arisen to migrate from a mono-repo-single-package to a mono-repo-multi-package. This allows us to test changes in all affected parts of the application within the same PR.
 
-Actualmente, varios repositorios siguen esta filosofía. Sin embargo, hemos notado que estos repositorios varían significativamente entre sí, a pesar de abordar problemas similares. Para optimizar este proceso, hemos creado este repositorio. Su objetivo es unificar todas las buenas prácticas y metodologías acordadas en el ámbito del frontend.
+Currently, several repositories follow this philosophy. However, we have noticed that these repositories vary significantly from each other, despite addressing similar problems. To optimize this process, we have created this repository. Its aim is to unify all the good practices and methodologies agreed upon in the field of frontend.
 
-## ¿Quién Debería Usar Este Repositorio?
-Idealmente, todos los equipos deberían adoptar este enfoque de monorepo-multipaquete para sus aplicaciones.
+## Who Should Use This Repository?
+Ideally, all teams should adopt this mono-repo-multi-package approach for their applications.
 
-# Cómo Usar el Repositorio
+# How to Use the Repository
 
-Aunque planeamos convertirlo en una plantilla de GitHub pronto, por ahora la mejor manera de usarlo es clonando el repositorio, eliminando la carpeta `.git` y subiéndola a tu propio repositorio.
+Although we plan to turn it into a GitHub template soon, for now, the best way to use it is by cloning the repository, deleting the `.git` folder, and uploading it to your own repository.
 
 ```bash
 $ git clone git@github.mpi-internal.com:scmspain/frontend-all--pet-project-ts.git
@@ -24,19 +24,19 @@ $ git init
 $ git remote add upstream git@github.mpi-internal.com:scmspain/frontend-all--pet-project-ts.git
 ```
 
-Nota: Hemos añadido un nuevo origen al repositorio de la plantilla para facilitar futuras actualizaciones. Aunque no es obligatorio, puede resultar útil.
+Note: We have added a new origin to the template repository to facilitate future updates. Although it is not mandatory, it can be useful.
 
-# Acuerdos Actuales
+# Current Agreements
 
-Estos son los acuerdos vigentes en este repositorio:
+These are the current agreements in this repository:
 
-- **Makefiles**: Para evitar scripts excesivamente largos en los `package.json`, hemos decidido trasladar todos los scripts a Makefiles. Así, la función de los scripts en el `package.json` será únicamente llamar a una tarea de Make.
+- **Makefiles**: To avoid excessively long scripts in the `package.json`, we have decided to move all scripts to Makefiles. Thus, the function of the scripts in the `package.json` will be solely to call a Make task.
 
-# Use de Typescript
+# Use of Typescript
 
-Este repositorio usa la versión de las librerías de SUI preparadas para poder usar Typescript. En principio no hay nada más que hacer, simplemente se puede mezclar ficheros TS y JS en el mismo paquete.
+This repository uses the version of SUI libraries prepared for using Typescript. In principle, there is nothing more to do; you can simply mix TS and JS files in the same package.
 
-La configuración de TS que hay en la raiz del repositorio, tiene toda la configuración delegada a la librería `sui-bundler`. Como se puede ver aquí
+The TS configuration in the root of the repository has all its configuration delegated to the `sui-bundler` library. As you can see here
 
 ```
 {
@@ -48,89 +48,91 @@ La configuración de TS que hay en la raiz del repositorio, tiene toda la config
 }
 ```
 
-# ¿Cómo trabajar con el repositorio?
+# How to Work with the Repository?
 
-En la raiz del proyecto hay un Makefile que contiene los tres comandos más importantes para trabajar con el repositorio.
+In the root of the project, there is a Makefile that contains the three most important commands for working with the repository.
 
 ```
 $ make dev
 ```
 
-Lanza la aplicación en modo dev con todos los paquetes linkados.
+Launches the application in dev mode with all the packages linked.
 
 ```
 $ make test
 ```
 
-Lanza todos los tests de la aplicación con un solo comando.
+Launches all the application's tests with a single command.
 
 ```
 $ make co
 ```
 
-Nuestro viejo amigo `npm run co`
+Our old friend `npm run co`
 
-# App y Paquetes 
+# App and Packages 
 
-## Aplicación
+## Application
 
-Aquí debe ir el contenido de la aplicación. Los ficheros que va a usar `sui-ssr` para construir el servidor. Es el mismo contenido que tenemos actualmente en los mismos repositorios.
+Here should go the content of the application. The files that `sui-ssr` will use to build the server. It is the same content we currently have in the same repositories.
 
-Hay dos variables de entorno importantes a tener en cuenta cuando estas trabajando en esta carpeta:
+There are two important environment variables to consider when working in this folder:
 
-* STAGE: Determina el entorno que vamos a usar. Usamos esta para evitar usar NODE_ENV que tiene otras funciones y es mejor no usarlo para configuraciones del dominio.
-* MOCK_API_REQUEST: Si no está definada con el valor "true" nuestra aplicación no usar
+* STAGE: Determines the environment we are going to use. We use this to avoid using NODE_ENV, which has other functions and is better not used for domain configurations.
+* MOCK_API_REQUEST: If not defined with the value "true," our application will not use
 
-> Nota: Es importante tener instalada la utlidad `jq`. Si estás en mac la forma más simple de hacerlo es mediante brew -> `$ brew install jq`.
-> De otro modo trata de ejecutar cualquier tarea del makefile dará error
+> Note: It is important to have the `jq` utility installed. If you are on a Mac, the simplest way to do it is via brew -> `$ brew install jq`.
+> Otherwise, trying to execute any task from the makefile will give an error.
 
 ## Packages
 
-La estructura general de los paquetes y que es lo que contienen está bien definida en el ADR que se creó sobre ello [Project Structure ADR](https://github.mpi-internal.com/scmspain/es-td-agreements/blob/master/30-Frontend/00-agreements/02-project-structure.md)
+The general structure of the packages and what they contain is well defined in the ADR that was created about it [Project Structure ADR](https://github.mpi-internal.com/scmspain/es-td-agreements/blob/master/30-Frontend/00-agreements/02-project-structure.md)
 
-Como paquetes principales tenemos:
+As main packages we have:
 
-* Domain: Tenemos la lógica de negocio de la aplicación y los principales comandos a ejecutar son: `make test` y `make lib`
-* JS: Ya tenemos un sui-js global donde tratamos de meter esas pequeñas utilidades que compartimos pero nunca tenemos claro donde van. Esto es lo mismo pero a nivel de proyecto.
-* literals: Contiene el diccionario de traducciónes de la aplicación. El comando `make lib` crea una copia de los literales para poder usarse como paquete npm
-* Styles: Seguramente solo contenga un ficher sass con el tema del site.
-* UI: Es el studio de la aplicación. Tienes una carpeta `components` con todos los componentes. Lo comandos make más importantes en este paquete son:
-    * `make dev` : Levanta el estudio en modo desarrollo. En principio el dominio NO está linkado.
-    * `make generate`: Genera un nuevo componente en nuestro estudio. Es importante definir tres variables de entorno cuando lo uses -> `make generate PREFIX=adv-ui CATEGORY=atom COMPONENT=card`
+* Domain: We have the business logic of the application, and the main commands to execute are: `make test` and `make lib`
+* JS: We already have a global sui-js where we try to include those small utilities that we share but never have clear where they go. This is the same but at the project level.
+* Literals: Contains the application's translation dictionary. The command `make lib` creates a copy of the literals to be used as an npm package
+* Styles: Probably only contains a sass file with the site theme.
+* UI: It is the studio of the application. You have a `components` folder with all the components. The most important make commands in this package are:
+    * `make dev`: Raises the studio in development mode. In
+
+ principle, the domain is NOT linked.
+    * `make generate`: Generates a new component in our studio. It is important to define three environment variables when you use it -> `make generate PREFIX=adv-ui CATEGORY=atom COMPONENT=card`
 
 ## Widgets
 
-Contiene lo necesario para hacer funcionar al paquete `sui-react-widgets` y todos los widgets que se definan aquí pasarán a ser desplegados a producción en CI/CD junto con la aplicación principal, usando la última versión de todas las librerías. Así esperamos que el código de los widgets en producción no esté desalineado con el de la aplicación, cosa que pasa actualmente.
-En este paquete hay tres tareas de make que son importantes conocer:
+It contains what is necessary to make the `sui-react-widgets` package work, and all the widgets defined here will be deployed to production in CI/CD along with the main application, using the latest version of all libraries. Thus, we hope that the code of the widgets in production is not misaligned with that of the application, which is currently the case.
+In this package, there are three make tasks that are important to know:
 
-* `make build`: Construye el fichero donwloader.js y todos los demás ficheros estáticos.
-    * WIDGET_CDN se utilizar para define la URL de CDN que ha de servirlos. en CI/CD ya debería de venir definida.
-* `make generate`: Crea una nueva pagina dentro de la carpeta `pages` para poder agregar nuevos widgets a esa página
-    * PAGE: es la variable de entorno que se define para nombre a la página -> `make generate PAGE=listing`
-* `make start`: Empieza un servidor de desarrollo apuntando a una página en particular.
-    * PAGE: vuelve a ser necesario definirlo
-    * WIDGETS_DEV_PORT: define en que puerto se pone a la escucha nuestro servidor de desarrollo, por defecto es el puerto `8081`. -> `make start PAGE=listing WIDGETS_DEV_PORT=2024`
+* `make build`: Builds the downloader.js file and all other static files.
+    * WIDGET_CDN is used to define the CDN URL that has to serve them. In CI/CD it should already be defined.
+* `make generate`: Creates a new page within the `pages` folder to be able to add new widgets to that page
+    * PAGE: is the environment variable that is defined to name the page -> `make generate PAGE=listing`
+* `make start`: Starts a development server pointing to a particular page.
+    * PAGE: it is again necessary to define it
+    * WIDGETS_DEV_PORT: defines which port our development server listens on, by default it is port `8081`. -> `make start PAGE=listing WIDGETS_DEV_PORT=2024`
 
 ## QA
 
-Aquí vamos a encontrar todos los paquetes que estén relacionados con E2E testing o mocking de la aplicación.
+Here we will find all the packages that are related to E2E testing or mocking of the application.
 
-* contrats: Los tests de contrato de la aplicación.
-* e2e: Los tests de cypress para ejecutar en CI/CD. Han de seguir la misma estructura de ficheros que necesita el paquete `sui-test-e2e`. En este carpeta no hay un makefile, porque casi siempre será usado desde CI / CD
-* mocks: Los mocks de MSW, siguen la forma de carga de autoload, que ya se ha definido en esta guía [MSW AUTOLOAD](https://github.mpi-internal.com/scmspain/es-td-agreements/blob/master/30-Frontend/10-guides/50-msw-mocks/how-to-create-msw-mocks.md)
+* Contracts: The contract tests of the application.
+* e2e: The Cypress tests to run in CI/CD. They must follow the same file structure needed by the `sui-test-e2e` package. In this folder, there is no makefile, because it will almost always be used from CI / CD.
+* mocks: The MSW mocks, follow the autoload loading form, which has already been defined in this guide [MSW AUTOLOAD](https://github.mpi-internal.com/scmspain/es-td-agreements/blob/master/30-Frontend/10-guides/50-msw-mocks/how-to-create-msw-mocks.md)
 
-# Docker / Docker componentes
+# Docker / Docker Components
 
-El uso de docker y docker compose es extenso en este repositorio. Y es importante tener una visión general de todo lo que hay dentro de la carpeta `.docker`:
+The use of docker and docker compose is extensive in this repository. And it is important to have an overview of everything inside the `.docker` folder:
 
-* *Dockerfile*: Este es el fichero principal de la aplicación. Es la imagen de docker que acabará en producción.
-* *Dockerfile.criticalCSS* : Imagen de docker que tiene instalado chrome y es capaz de ejecutar el script `app/scripts/extract-critical-css.mjs` usando el paquete de sui `@s-ui/critical-css`. Este escript generará los criticals css que se van a guardar en la carpeta `critical-css`
-* *Dockerfile.test* : Es un prueba de concepto donde estamos tratando de ejecutar todos los tests del mono repo dentro de una imagen de docker con un chrome preinstalado para optimazar el pipeline de testing. Con ella hemos visto una reducción de hasta 1min en cada ejecución.
-* *Dockerfile.dev* : Realmente no se llega a usar, y solo está ahí a efectos demostrativos de como se podría hacer.
+* *Dockerfile*: This is the main file of the application. It is the docker image that will end up in production.
+* *Dockerfile.criticalCSS*: Docker image that has chrome installed and is capable of running the script `app/scripts/extract-critical-css.mjs` using the sui package `@s-ui/critical-css`. This script will generate the critical CSS that will be saved in the `critical-css` folder.
+* *Dockerfile.test*: It is a proof of concept where we are trying to run all the tests of the mono repo inside a docker image with a pre-installed chrome to optimize the testing pipeline. With it, we have seen a reduction of up to 1 minute in each execution.
+* *Dockerfile.dev*: It is not really used, and it is only there for demonstration purposes of how it could be done.
 
-Aunque podríamos usar los Dockers files directamente, la realidad es que casi siempre lo hacemos mediante docker compose, ya que el gestiona la generación de imágenes y el borrado cuando ya no es necesario.
+Although we could use the Dockers files directly, the reality is that we almost always do it through docker compose, as it manages the generation of images and their deletion when no longer needed.
 
-* *compose.criticaCSS.yml* : Levanta dos servicios, A) La imagen del servidor creada con el fichero _Dockerfile_ y B) la image creada con el fichero _Dockerfile.criticalCSS_. Las conecta en la misma red y luego ejecuta el proceso de generación del critical css
-    * APP_IMG : Es un variable de entorno crítica, sin ella definida todo el proceso falla. Y hace referencia a la IMG de docker que hemos creado usando el fichero _Dockerfile_
-* *compose.e2e.yml* : Se utiliza para ejecutar los tests E2E y también levanta dos servicios que luego son conectados por la misma red interna.  A) La imagen del servidor creada con el fichero _Dockerfile_ y B) un servicio creado con la image _Dockerfile.criticalCSS_. Usa por defecto la imagen `sui-tools/e2e-test`
-    * E2E : esta variable de entorno nos podría llegar a permitir cambiar la imagen de docker que queremos usar como en runner de tests e2e, por si hemos hecho una imagen custom por algún motivo.
+* *compose.criticaCSS.yml*: Raises two services, A) The image of the server created with the _Dockerfile_ and B) the image created with the _Dockerfile.criticalCSS_. Connects them on the same network and then runs the critical css generation process.
+    * APP_IMG: It is a critical environment variable, without it defined the whole process fails. And it refers to the docker IMG that we have created using the _Dockerfile_.
+* *compose.e2e.yml*: It is used to run the E2E tests and also raises two services that are then connected by the same internal network. A) The image of the server created with the _Dockerfile_ and B) a service created with the image _Dockerfile.criticalCSS_. Uses by default the image `sui-tools/e2e-test`
+    * E2E: this environment variable could allow us to change the docker image we want to use as an E2E test runner, in case we have made a custom image for some reason.
