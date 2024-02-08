@@ -1,26 +1,50 @@
-import {useContext, useEffect} from 'react'
+import {type MouseEvent, useCallback} from 'react'
 
-import Context from '@s-ui/react-context'
+import {useSuiContext} from '@s-ui/react-context'
 import Helmet from '@s-ui/react-head'
-import LayoutHeader from '@adv-ui/pet-layout-header'
+import {Link} from '@s-ui/react-router'
+import {MoviesListValueObject} from '@adv-ui/pet-domain/lib/movie/valueObjects/MoviesListValueObject'
 
-export default function HomePage(): JSX.Element {
-  const {domain} = useContext<any>(Context)
+import type {ContextType} from '../../contextFactory'
 
-  console.log('domain', domain) // eslint-disable-line no-console
-  console.log('domain config', domain.get('config')) // eslint-disable-line no-console
+export default function HomePage({
+  error,
+  movies
+}: {
+  error: Error
+  movies: ReturnType<MoviesListValueObject['toJSON']>['value']
+}): JSX.Element {
+  const {domain} = useSuiContext() as unknown as ContextType
+  const prefetch = useCallback(async (evt: MouseEvent<HTMLAnchorElement>) => {
+    const id = evt.currentTarget.getAttribute('data-id')
+    if (id === null) return
 
-  useEffect(() => {
-    domain.get('get_movie_detail_use_case').execute({id: 'tt0068646'})
-  }, [domain])
+    const [error, movie] = await domain.GetMovieDetailUseCase.execute({id})
+    if (error != null) return
+
+    new Image().src = `https://image.tmdb.org/t/p/w500${movie.image as string}`
+  }, [])
+
+  if (error !== null) return <h1>{error.message}</h1>
 
   return (
     <>
       <Helmet>
         <link rel="canonical" href="http://spa.mock/" />
       </Helmet>
-      <LayoutHeader name="Joan" lastname="Lion" dni={324324} />
-      <h1>Home page test title</h1>
+      <h1>Popular movies</h1>
+      {movies.map(movie => (
+        <p>
+          <Link to={`/movie/${movie.id}`} data-id={movie.id} onMouseEnter={prefetch}>
+            {movie.title}
+          </Link>
+        </p>
+      ))}
     </>
   )
+}
+
+HomePage.getInitialProps = async ({context}: {context: ContextType}) => {
+  const [error, movies] = await context.domain.GetAllMovieUseCase.execute()
+  return {error, movies: movies?.toJSON().value}
 }

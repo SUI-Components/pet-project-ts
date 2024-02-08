@@ -11,7 +11,7 @@ export default (
   <Route>
     <Route path="/">
       <IndexRoute getComponent={LoadHomePage} />
-      <Route path=":name" getComponent={LoadDetailPage} />
+      <Route path="movie/:id" getComponent={LoadDetailPage} />
     </Route>
   </Route>
 )

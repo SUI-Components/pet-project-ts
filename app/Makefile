@@ -37,7 +37,7 @@ dev_bundler: ## Start a SPA dev server to develop the webapp
 				NODE_ENV=development \
 				MOCK_API_REQUESTS=true \
 				MOCKS_API_PATH=$(MOCKS_API_PATH) \
-				npx sui-bundler dev
+				npx sui-bundler dev --link-all $(PWD)/../packages
 
 preview_resources: ## Start a local server to serve the content in ../resources folder
 	npx serve ../resources -p $(RESOURCES_PORT)

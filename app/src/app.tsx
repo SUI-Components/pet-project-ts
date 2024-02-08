@@ -10,16 +10,14 @@ import routes from './routes'
 
 import './index.scss'
 
-export default contextFactory().then(context => {
+export default contextFactory().then(async context => {
   match({routes}, async (err: Error | null, _: any, renderProps: any) => {
     if (err != null) console.error(err) // eslint-disable-line no-console
 
     const App = withContext(context)(Router)
 
     if (process.env.MOCK_API_REQUESTS === 'true') {
-      const mocker = await import('@adv-ui/pet-mocks').then(pkg =>
-        pkg.getMocker()
-      )
+      const mocker = await import('@adv-ui/pet-mocks').then(pkg => pkg.getMocker())
       mocker.start({onUnhandledRequest: 'bypass'})
     }
 

@@ -1,7 +1,30 @@
-import {useRouter} from '@s-ui/react-router'
+import Helmet from '@s-ui/react-head'
+import type {MovieEntity} from '@adv-ui/pet-domain/lib/movie/entities/MovieEntity'
 
-export default function HomePage(): JSX.Element {
-  const router = useRouter()
+import type {ContextType} from '../../contextFactory'
 
-  return <h1>Detail page for {router.params.name}</h1>
+export default function Detail({error, movie}: {error: Error; movie: ReturnType<MovieEntity['toJSON']>}): JSX.Element {
+  if (error !== null) return <h1>{error.message}</h1>
+  return (
+    <>
+      <Helmet>
+        <link rel="canonical" href="http://spa.mock/" />
+      </Helmet>
+      <nav>
+        <a href="/">Home</a>
+      </nav>
+      <h1>{movie.title}</h1>
+      <section>
+        <aside>
+          <img src={`https://image.tmdb.org/t/p/w500${movie.image}`} />
+        </aside>
+        <p>{movie.description}</p>
+      </section>
+    </>
+  )
+}
+
+Detail.getInitialProps = async ({context, routeInfo}: {context: ContextType; routeInfo: {params: {id: string}}}) => {
+  const [error, movie] = await context.domain.GetMovieDetailUseCase.execute({id: routeInfo.params.id})
+  return {error, movie: movie?.toJSON()}
 }

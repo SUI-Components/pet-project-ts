@@ -9,7 +9,7 @@ TEST_FLAG ?=
 dev: ## Start a studio development mode
 	NODE_ENV=development npx sui-studio dev
 
-generate: ## Generate a new component
+generate: ## Generate a new component: make generate PREFIX=@adv-ui CATEGORY=atom COMPONENT=button
 	@: $(if $(and $(PREFIX),$(CATEGORY),$(COMPONENT)),, \
 		$(error "Missing one or more required parameters: PREFIX, CATEGORY, COMPONENT"))
 	npx sui-studio generate -P $(PREFIX) -S adv-ui --swc $(CATEGORY) $(COMPONENT)

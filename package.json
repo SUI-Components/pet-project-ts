@@ -35,6 +35,7 @@
     "@s-ui/lint": "typescript",
     "@s-ui/mono": "2",
     "@s-ui/precommit": "3",
+    "@types/react-dom": "^18.2.18",
     "typescript": "5.0",
     "ultra-runner": "^3.10.5"
   },
@@ -62,5 +63,9 @@
   },
   "msw": {
     "workerDirectory": "app/public"
+  },
+  "dependencies": {
+    "eslint": "8.56",
+    "string-dedent": "^3.0.1"
   }
 }
