@@ -143,3 +143,8 @@ Although we could use the Dockers files directly, the reality is that we almost 
     * APP_IMG: It is a critical environment variable, without it defined the whole process fails. And it refers to the docker IMG that we have created using the _Dockerfile_.
 * *compose.e2e.yml*: It is used to run the E2E tests and also raises two services that are then connected by the same internal network. A) The image of the server created with the _Dockerfile_ and B) a service created with the image _Dockerfile.criticalCSS_. Uses by default the image `sui-tools/e2e-test`
     * E2E: this environment variable could allow us to change the docker image we want to use as an E2E test runner, in case we have made a custom image for some reason.
+
+# Extras
+
+You can check
+- [Agreements, guides and troubleshooting](https://github.mpi-internal.com/scmspain/es-td-agreements/tree/master/30-Frontend)
