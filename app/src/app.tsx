@@ -17,9 +17,7 @@ export default contextFactory().then(context => {
     const App = withContext(context)(Router)
 
     if (process.env.MOCK_API_REQUESTS === 'true') {
-      const mocker = await import('@adv-ui/pet-mocks').then(pkg =>
-        pkg.getMocker()
-      )
+      const mocker = await import('@adv-ui/pet-mocks').then(pkg => pkg.getMocker())
       mocker.start({onUnhandledRequest: 'bypass'})
     }
 
