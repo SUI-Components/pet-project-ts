@@ -6,12 +6,12 @@ export const IDValueObjectValidation = z.object({
 
 export class IDValueObject {
   static create({value}: z.infer<typeof IDValueObjectValidation>) {
-    IDValueObjectValidation.parse(value)
-    // return new IDValueObject(value, false)
+    IDValueObjectValidation.parse({value})
+    return new IDValueObject(value, false)
   }
 
   static empty() {
-    // return new IDValueObject('', true)
+    return new IDValueObject('', true)
   }
 
   constructor(
@@ -28,6 +28,6 @@ export class IDValueObject {
   }
 
   toJSON() {
-    return {_value: this.value}
+    return {value: this.value}
   }
 }

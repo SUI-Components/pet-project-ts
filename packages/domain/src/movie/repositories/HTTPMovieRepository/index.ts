@@ -45,9 +45,9 @@ export default class HTTPMovieRepository implements MovieRepository {
       if (error !== null) return MoviesListValueObject.empty()
 
       return MoviesListValueObject.from({
-        value: moviesJSON.results.map(json =>
-          MovieEntity.create({...json, description: json.overview, image: json.poster_path, id: String(json.id)})
-        )
+        value: moviesJSON.results.map(json => {
+          return MovieEntity.create({...json, description: json.overview, image: json.poster_path, id: String(json.id)})
+        })
       })
     })
   }

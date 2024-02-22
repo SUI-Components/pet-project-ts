@@ -52,7 +52,7 @@ export class MovieEntity {
 
   toJSON() {
     return {
-      _id: this.id,
+      id: this.id,
       title: this.title,
       description: this.description,
       image: this.image
