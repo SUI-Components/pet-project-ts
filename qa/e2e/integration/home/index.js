@@ -5,7 +5,7 @@ describe('Home / ', function () {
     cy.visit(URLS.HOME)
   })
 
-  it('Should render Joan - Lion', function () {
-    cy.get('h1').should('be.visible').contains('Joan - Lion')
+  it('Should render Popular movies', function () {
+    cy.get('h1').should('be.visible').contains('Popular movies')
   })
 })

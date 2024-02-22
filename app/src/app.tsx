@@ -10,7 +10,7 @@ import routes from './routes'
 
 import './index.scss'
 
-export default contextFactory().then(context => {
+export default contextFactory().then(async context => {
   match({routes}, async (err: Error | null, _: any, renderProps: any) => {
     if (err != null) console.error(err) // eslint-disable-line no-console
 

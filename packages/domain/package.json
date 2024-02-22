@@ -8,6 +8,7 @@
     "Bussiness Logic"
   ],
   "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "scripts": {
     "lib": "make lib",
     "prepublishOnly": "make prepublishOnly",
@@ -19,14 +20,16 @@
     "test:server:watch": "make test_server_watch"
   },
   "dependencies": {
-    "@s-ui/decorators": "3",
-    "@s-ui/domain": "2"
+    "@s-ui/decorators": "^3.25.0",
+    "@s-ui/domain": "2",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@s-ui/js-compiler": "typescript",
     "@s-ui/mockmock": "2",
     "@s-ui/test": "typescript",
     "@types/chai": "4.3.6",
+    "@types/chai-dom": "^1.11.3",
     "@types/mocha": "10.0.2",
     "chai": "4.3.10"
   }

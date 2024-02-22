@@ -1,9 +1,9 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "@s-ui/bundler/tsconfig.json",
   "compilerOptions": {
     "types": ["node", "mocha", "chai", "chai-dom"],
     "outDir": "./lib",
-    "rootDir": "./src"
+    "rootDir": "."
   },
   "exclude": ["node_modules", "lib"]
 }
