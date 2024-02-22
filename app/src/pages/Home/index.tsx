@@ -15,15 +15,18 @@ export default function HomePage({
   movies: ReturnType<MoviesListValueObject['toJSON']>['value']
 }): JSX.Element {
   const {domain} = useSuiContext() as unknown as ContextType
-  const prefetch = useCallback(async (evt: MouseEvent<HTMLAnchorElement>) => {
-    const id = evt.currentTarget.getAttribute('data-id')
-    if (id === null) return
+  const prefetch = useCallback(
+    async (evt: MouseEvent<HTMLAnchorElement>) => {
+      const id = evt.currentTarget.getAttribute('data-id')
+      if (id === null) return
 
-    const [error, movie] = await domain.GetMovieDetailUseCase.execute({id})
-    if (error != null) return
+      const [error, movie] = await domain.GetMovieDetailUseCase.execute({id})
+      if (error != null) return
 
-    new Image().src = `https://image.tmdb.org/t/p/w500${movie.image as string}`
-  }, [])
+      new Image().src = `https://image.tmdb.org/t/p/w500${movie.image as string}`
+    },
+    [domain.GetMovieDetailUseCase]
+  )
 
   if (error !== null) return <h1>{error.message}</h1>
 
@@ -34,7 +37,7 @@ export default function HomePage({
       </Helmet>
       <h1>Popular movies</h1>
       {movies.map(movie => (
-        <p>
+        <p key={movie.id}>
           <Link to={`/movie/${movie.id}`} data-id={movie.id} onMouseEnter={prefetch}>
             {movie.title}
           </Link>

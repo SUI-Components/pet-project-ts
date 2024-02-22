@@ -1,4 +1,5 @@
 import Helmet from '@s-ui/react-head'
+import {Link} from '@s-ui/react-router'
 import type {MovieEntity} from '@adv-ui/pet-domain/lib/movie/entities/MovieEntity'
 
 import type {ContextType} from '../../contextFactory'
@@ -11,7 +12,7 @@ export default function Detail({error, movie}: {error: Error; movie: ReturnType<
         <link rel="canonical" href="http://spa.mock/" />
       </Helmet>
       <nav>
-        <a href="/">Home</a>
+        <Link to="/">Home</Link>
       </nav>
       <h1>{movie.title}</h1>
       <section>
