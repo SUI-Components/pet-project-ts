@@ -1,3 +1,5 @@
+/* eslint @typescript-eslint/restrict-template-expressions:0 */
+
 import {type MouseEvent, useCallback} from 'react'
 
 import {useSuiContext} from '@s-ui/react-context'

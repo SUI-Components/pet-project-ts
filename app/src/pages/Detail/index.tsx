@@ -1,3 +1,5 @@
+/* eslint @typescript-eslint/restrict-template-expressions:0 */
+
 import Helmet from '@s-ui/react-head'
 import {Link} from '@s-ui/react-router'
 import type {MovieEntity} from '@adv-ui/pet-domain/lib/movie/entities/MovieEntity'
