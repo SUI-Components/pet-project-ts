@@ -50,25 +50,28 @@ The TS configuration in the root of the repository has all its configuration del
 
 # How to Work with the Repository?
 
-In the root of the project, there is a Makefile that contains the three most important commands for working with the repository.
+## Run inside app folder, next commands:
 
+Launches the application in dev mode:
 ```
 $ make dev
 ```
 
-Launches the application in dev mode with all the packages linked.
+Launches the application in dev mode with all the packages linked:
+```
+$ make dev_link_all
+```
 
+Launches all the application's tests with a single command:
 ```
 $ make test
 ```
 
-Launches all the application's tests with a single command.
-
+Our old friend `npm run co`:
 ```
 $ make co
 ```
 
-Our old friend `npm run co`
 
 # App and Packages 
 
@@ -94,11 +97,15 @@ As main packages we have:
 * JS: We already have a global sui-js where we try to include those small utilities that we share but never have clear where they go. This is the same but at the project level.
 * Literals: Contains the application's translation dictionary. The command `make lib` creates a copy of the literals to be used as an npm package
 * Styles: Probably only contains a sass file with the site theme.
-* UI: It is the studio of the application. You have a `components` folder with all the components. The most important make commands in this package are:
-    * `make dev`: Raises the studio in development mode. In
+* UI: It is the studio of the application. You have a `components` folder with all the components.
 
- principle, the domain is NOT linked.
-    * `make generate`: Generates a new component in our studio. It is important to define three environment variables when you use it -> `make generate PREFIX=adv-ui CATEGORY=atom COMPONENT=card`
+### Package UI (Studio and components)
+
+The most important make commands in this package are, run inside `packages/ui` folder:
+  * `make start`: Raises the studio in development mode. In principle, the domain is NOT linked.
+  * `make generate`: Generates a new component in our studio. It is important to define three environment variables when you use it -> `make generate PREFIX=adv-ui CATEGORY=atom COMPONENT=card`
+  * `make dev COMPONENT=atom/card`: Raises studio only with one component.
+  * `make dev COMPONENT=atom/card BUNDLE_ARGS="-l ../domain"`: Raises studio only with one component and domain linked.
 
 ## Widgets
 
@@ -136,3 +143,8 @@ Although we could use the Dockers files directly, the reality is that we almost 
     * APP_IMG: It is a critical environment variable, without it defined the whole process fails. And it refers to the docker IMG that we have created using the _Dockerfile_.
 * *compose.e2e.yml*: It is used to run the E2E tests and also raises two services that are then connected by the same internal network. A) The image of the server created with the _Dockerfile_ and B) a service created with the image _Dockerfile.criticalCSS_. Uses by default the image `sui-tools/e2e-test`
     * E2E: this environment variable could allow us to change the docker image we want to use as an E2E test runner, in case we have made a custom image for some reason.
+
+# Extras
+
+You can check
+- [Agreements, guides and troubleshooting](https://github.mpi-internal.com/scmspain/es-td-agreements/tree/master/30-Frontend)
