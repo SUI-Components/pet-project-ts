@@ -49,6 +49,7 @@
   },
   "prettier": "./node_modules/@s-ui/lint/.prettierrc.js",
   "overrides": {
+    "eslint": "8.56",
     "@s-ui/bundler": "typescript",
     "@s-ui/helpers": "typescript",
     "@s-ui/hoc": "typescript",
@@ -65,7 +66,6 @@
     "workerDirectory": "app/public"
   },
   "dependencies": {
-    "eslint": "8.56",
     "string-dedent": "^3.0.1"
   }
 }
