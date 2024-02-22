@@ -49,6 +49,7 @@
   },
   "prettier": "./node_modules/@s-ui/lint/.prettierrc.js",
   "overrides": {
+    "react": "18",
     "eslint": "8.56",
     "@s-ui/bundler": "typescript",
     "@s-ui/helpers": "typescript",
