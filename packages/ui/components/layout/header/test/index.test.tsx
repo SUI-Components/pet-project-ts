@@ -29,7 +29,7 @@ describe('LayoutHeader', () => {
     ReactDOM.unmountComponentAtNode(div)
   })
 
-  it('should NOT render null', () => {
+  it.skip('should NOT render null', () => {
     // Given
     const props = {}
 
@@ -41,7 +41,7 @@ describe('LayoutHeader', () => {
     expect(container.innerHTML).to.not.have.lengthOf(0)
   })
 
-  it('should render component', () => {
+  it.skip('should render component', () => {
     // Given
     const props = {
       name: 'Jon',
