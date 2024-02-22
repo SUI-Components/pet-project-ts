@@ -1,5 +1,14 @@
 # CHANGELOG
 
+# 1.14.0 (2024-02-22)
+
+
+### Bug Fixes
+
+* lint errors ([28c6e21](https://github.mpi-internal.com/scmspain/frontend-all--pet-project-ts/commit/28c6e211b4f539bd9839237c5df6f443c285fa61))
+
+
+
 ## 1.13.0 (2023-12-28)
 
 * release(packages/domain): v1.13.0 ([c399438](https://github.mpi-internal.com/scmspain/frontend-all--pet-project-ts/commit/c399438))
