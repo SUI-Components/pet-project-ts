@@ -32,7 +32,7 @@
     "phoenix": "make phoenix"
   },
   "devDependencies": {
-    "@s-ui/lint": "typescript",
+    "@s-ui/lint": "typescript-support",
     "@s-ui/mono": "2",
     "@s-ui/precommit": "3",
     "@types/react-dom": "^18.2.19",
@@ -51,14 +51,14 @@
   "overrides": {
     "react": "18",
     "eslint": "8.56",
-    "@s-ui/bundler": "typescript",
-    "@s-ui/helpers": "typescript",
-    "@s-ui/hoc": "typescript",
-    "@s-ui/js-compiler": "typescript",
-    "@s-ui/react-context": "typescript",
-    "@s-ui/studio": "typescript",
-    "@s-ui/lint": "typescript",
-    "@s-ui/test": "typescript",
+    "@s-ui/bundler": "typescript-support",
+    "@s-ui/helpers": "typescript-support",
+    "@s-ui/hoc": "typescript-support",
+    "@s-ui/js-compiler": "typescript-support",
+    "@s-ui/react-context": "typescript-support",
+    "@s-ui/studio": "typescript-support",
+    "@s-ui/lint": "typescript-support",
+    "@s-ui/test": "typescript-support",
     "@s-ui/mock": "adr-mother-object",
     "typescript": "5.0",
     "glob-parent": "^6.0.1"
