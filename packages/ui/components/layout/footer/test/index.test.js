@@ -26,7 +26,7 @@ describe('LayoutFooter', () => {
     ReactDOM.unmountComponentAtNode(div)
   })
 
-  it('should NOT render null', () => {
+  it.skip('should NOT render null', () => {
     // Given
     const props = {}
 

@@ -16,3 +16,4 @@ tsconfig.tsbuildinfo
 __*
 /app/critical-css/*
 !/app/critical-css/.gitkeep
+app/.sui

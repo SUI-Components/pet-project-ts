@@ -1,11 +1,13 @@
 import {useEffect} from 'react'
 
-import domain from '@adv-ui/pet-domain'
+import {Domain} from '@adv-ui/pet-domain'
 //  import PropTypes from 'prop-types'
+
+const domain = Domain.create()
 
 export default function AtomButton() {
   useEffect(() => {
-    domain.get('get_movie_detail_use_case').execute({id: 1})
+    domain.GetMovieDetailUseCase.execute({id: 1})
   }, [])
 
   return (

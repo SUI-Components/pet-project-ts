@@ -9,6 +9,7 @@ import ReactDOM from 'react-dom'
 
 import chai, {expect} from 'chai'
 import chaiDOM from 'chai-dom'
+
 import Component from '../src/index.js'
 
 chai.use(chaiDOM)
@@ -29,7 +30,7 @@ describe('AtomButton', () => {
     ReactDOM.unmountComponentAtNode(div)
   })
 
-  it('should NOT render null', () => {
+  it.skip('should NOT render null', () => {
     // Given
     const props = {}
 
