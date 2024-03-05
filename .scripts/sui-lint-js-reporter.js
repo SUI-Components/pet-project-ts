@@ -54,16 +54,14 @@ export class JSReporter extends Reporter {
     const signals = []
     Object.entries(stats).forEach(entry => {
       const [rule, percentageOfFails] = entry
-      debugger
       const signal = {ruleName: rule, numberOfFails: percentageOfFails, repository}
       this.logger.webRuleFailed(signal)
       signals.push(signal)
     })
 
-    debugger
-    const p = new Table({title: 'List of Signals that will be send to DD'})
-    signals.forEach(signal => p.addRow(signal))
-    p.printTable()
+    // const p = new Table({title: 'List of Signals that will be send to DD'})
+    // signals.forEach(signal => p.addRow(signal))
+    // p.printTable()
 
 
   }
