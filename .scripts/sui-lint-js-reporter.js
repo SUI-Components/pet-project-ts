@@ -59,6 +59,8 @@ export class JSReporter extends Reporter {
       signals.push(signal)
     })
 
+    console.log(JSON.stringify(signals, null, 2))
+
     // const p = new Table({title: 'List of Signals that will be send to DD'})
     // signals.forEach(signal => p.addRow(signal))
     // p.printTable()
