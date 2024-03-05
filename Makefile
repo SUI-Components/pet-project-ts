@@ -27,8 +27,8 @@ prepush: test
 
 bundle_reporter: ## Bundle the reporter scripts to send sui-lint metrics to DD
 	rm -f .scripts/sui-lint-repository-reporter.bundle.js .scripts/sui-lint-repository-js.bundle.js
-	npx esbuild .scripts/sui-lint-js-reporter.js --bundle --platform=node --target=node10.4 > .scripts/sui-lint-js-reporter.bundle.js
-	npx esbuild .scripts/sui-lint-repository-reporter.js --bundle --platform=node --target=node10.4 > .scripts/sui-lint-repository-reporter.bundle.js
+	npx esbuild $(PWD)/.scripts/sui-lint-js-reporter.js --bundle --platform=node --target=node10.4 > .scripts/sui-lint-js-reporter.bundle.js
+	npx esbuild $(PWD)/.scripts/sui-lint-repository-reporter.js --bundle --platform=node --target=node10.4 > .scripts/sui-lint-repository-reporter.bundle.js
 
 
 phoenix: ## Remove and reinstall all dependencies from internet w/out local cache
