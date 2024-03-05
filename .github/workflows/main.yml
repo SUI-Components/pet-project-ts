@@ -15,7 +15,6 @@ env:
   GITHUB_USER: 'srv-scms-git-enb'
   GITHUB_TOKEN: ${{ github.token }}
   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   APPLICATION_NAME: "pet-movies" 
 
