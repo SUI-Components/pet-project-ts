@@ -16,6 +16,6 @@ runs:
         shell: bash
         run: make lint
         env:
-          LINT_JS_FLAGS: '--reporter /runner/_work/frontend-all--pet-project-ts/frontend-all--pet-project-ts/.scripts/sui-lint-js-reporter.bundle.js'
-          LINT_REPOSITORY_FLAGS: '--reporter /runner/_work/frontend-all--pet-project-ts/frontend-all--pet-project-ts/.scripts/sui-lint-repository-reporter.bundle.js'
+          LINT_JS_FLAGS: '--reporter .scripts/sui-lint-js-reporter.bundle.js'
+          LINT_REPOSITORY_FLAGS: '--reporter .scripts/sui-lint-repository-reporter.bundle.js'
         
