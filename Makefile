@@ -7,8 +7,9 @@ SHELL := /bin/bash
 co: ## Commit a new change using our wizard
 	npx sui-mono commit
 
-lint: 
-	npx sui-lint js
+lint: bundle_reporter ## Lint JS, Repository and Sass
+	npx sui-lint repository $(LINT_REPOSITORY_FLAGS)
+	npx sui-lint js $(LINT_JS_FLAGS)
 	npx sui-lint sass
 
 test:
@@ -23,6 +24,12 @@ postinstall: ## Execute any prepublishOnly taks in all packages
 	npx -y ultra-runner --raw --recursive prepublishOnly
 
 prepush: test
+
+bundle_reporter: ## Bundle the reporter scripts to send sui-lint metrics to DD
+	rm -f .scripts/sui-lint-repository-reporter.bundle.js .scripts/sui-lint-repository-js.bundle.js
+	npx esbuild .scripts/sui-lint-js-reporter.js --bundle --platform=node --target=node10.4 > .scripts/sui-lint-js-reporter.bundle.js
+	npx esbuild .scripts/sui-lint-repository-reporter.js --bundle --platform=node --target=node10.4 > .scripts/sui-lint-repository-reporter.bundle.js
+
 
 phoenix: ## Remove and reinstall all dependencies from internet w/out local cache
 	rm -Rf node_modules package-lock.json

@@ -1,4 +1,3 @@
-
 name: 'Lint monorepo'
 description: 'Lint monorepo using sui-lint'
 
@@ -16,3 +15,7 @@ runs:
       - name: Lint
         shell: bash
         run: make lint
+        env:
+          LINT_JS_FLAGS: '--reporter .scripts/sui-lint-js-reporter.bundle.js'
+          LINT_REPOSITORY_FLAGS: '--reporter .scripts/sui-lint-repository-reporter.bundle.js'
+        
