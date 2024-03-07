@@ -22,7 +22,7 @@ export class Reporter {
     const isHttp = cleanUrl.startsWith('https://')
 
     if (isHttp) {
-      return cleanUrl.split('/')[2]
+      return cleanUrl.split('/')[4]?.replace('.git', '')
     } else {
       const [, address] = cleanUrl.split('@')
       return address.split('/')[1].replace('.git', '')
