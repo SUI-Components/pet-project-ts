@@ -23,7 +23,10 @@ export class RepositoryReporter extends Reporter{
     const repository = await this._getRepository()
 
     this.#data.forEach(signal => {
-      this.logger.webGoldenPath({ruleName: signal.rule, value: signal.value, repository})
+      let val = signal.value
+      if(typeof val === 'boolean') { val = val === true ? 1 : 0 }
+
+      this.logger.webGoldenPath({ruleName: signal.rule, value: val, repository})
     })
   }
 
