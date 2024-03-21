@@ -68,6 +68,7 @@
     "workerDirectory": "app/public"
   },
   "dependencies": {
+    "@adv-ui/lint-reporters": "^1.1.0",
     "@adv-ui/logger": "2",
     "string-dedent": "3.0.1"
   }

@@ -16,6 +16,5 @@ runs:
         shell: bash
         run: make lint
         env:
-          LINT_JS_FLAGS: '--force-full-lint --reporter .scripts/sui-lint-js-reporter.bundle.js'
-          LINT_REPOSITORY_FLAGS: '--reporter .scripts/sui-lint-repository-reporter.bundle.js'
-        
+          LINT_JS_FLAGS: '--force-full-lint --reporter node_modules/@adv-ui/lint-reporters/umd/sui-lint-js-reporter.bundle.js'
+          LINT_REPOSITORY_FLAGS: '--reporter node_modules/@adv-ui/lint-reporters/umd/sui-lint-repository-reporter.bundle.js'
