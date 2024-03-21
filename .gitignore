@@ -17,3 +17,4 @@ __*
 /app/critical-css/*
 !/app/critical-css/.gitkeep
 app/.sui
+.scripts/*.bundle.js

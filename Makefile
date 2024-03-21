@@ -7,8 +7,9 @@ SHELL := /bin/bash
 co: ## Commit a new change using our wizard
 	npx sui-mono commit
 
-lint: 
-	npx sui-lint js
+lint: ## Lint JS, Repository and Sass
+	npx sui-lint repository $(LINT_REPOSITORY_FLAGS)
+	npx sui-lint js $(LINT_JS_FLAGS)
 	npx sui-lint sass
 
 test:
@@ -33,6 +34,3 @@ ci: ## Install dependecies using package-log
 
 help: ## show help
 	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
-
-
-
