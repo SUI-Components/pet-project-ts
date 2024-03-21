@@ -32,7 +32,7 @@
     "phoenix": "make phoenix"
   },
   "devDependencies": {
-    "@s-ui/lint": "beta",
+    "@s-ui/lint": "4",
     "@s-ui/mono": "2",
     "@s-ui/precommit": "3",
     "@types/react-dom": "^18.2.19",
@@ -58,7 +58,7 @@
     "@s-ui/js-compiler": "typescript-support",
     "@s-ui/react-context": "typescript-support",
     "@s-ui/studio": "typescript-support",
-    "@s-ui/lint": "beta",
+    "@s-ui/lint": "4",
     "@s-ui/test": "typescript-support",
     "@s-ui/mock": "adr-mother-object",
     "typescript": "5.0",
@@ -68,7 +68,7 @@
     "workerDirectory": "app/public"
   },
   "dependencies": {
-    "@adv-ui/lint-reporters": "^1.1.0",
+    "@adv-ui/lint-reporters": "1",
     "@adv-ui/logger": "2",
     "string-dedent": "3.0.1"
   }
