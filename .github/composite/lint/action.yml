@@ -1,6 +1,15 @@
 name: 'Lint monorepo'
 description: 'Lint monorepo using sui-lint'
 
+inputs:
+  lint-js-flags:
+    description: "Flags to be apply to sui-lint js when is executed"
+    required: false
+
+  lint-repository-flags:
+    description: "Flags to be apply to sui-lint repository when is executed"
+    required: false
+
 runs:
   using: composite
 
@@ -15,6 +24,6 @@ runs:
       - name: Lint
         shell: bash
         run: make lint
-        env:
-          LINT_JS_FLAGS: '--force-full-lint --reporter node_modules/@adv-ui/lint-reporters/umd/sui-lint-js-reporter.bundle.js'
-          LINT_REPOSITORY_FLAGS: '--reporter node_modules/@adv-ui/lint-reporters/umd/sui-lint-repository-reporter.bundle.js'
+          # env:
+          #   LINT_JS_FLAGS: ${{ inputs.lint-js-flags }}
+          #   LINT_REPOSITORY_FLAGS: ${{ inputs.lint-repository-flags }}

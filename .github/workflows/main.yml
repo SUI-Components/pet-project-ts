@@ -171,6 +171,12 @@ jobs:
         with:
           fetch-depth: 0
       - uses: ./.github/composite/lint
+        env:
+          LINT_JS_FLAGS: ${{ inputs.lint-js-flags }}
+          LINT_REPOSITORY_FLAGS: ${{ inputs.lint-repository-flags }}
+            # with:
+            #   lint-js-flags: "--force-full-lint --reporter node_modules/@adv-ui/lint-reporters/umd/sui-lint-js-reporter.bundle.js"
+            #   lint-repository-flags: "--reporter node_modules/@adv-ui/lint-reporters/umd/sui-lint-repository-reporter.bundle.js"
 
   test-domain:
     name: 🧪 Testing
