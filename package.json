@@ -35,10 +35,10 @@
     "@s-ui/lint": "4",
     "@s-ui/mono": "2",
     "@s-ui/precommit": "3",
-    "@types/react-dom": "^18.2.19",
-    "eslint-config-standard-react": "^13.0.0",
+    "@types/react-dom": "18.2.19",
+    "eslint-config-standard-react": "13.0.0",
     "typescript": "5.0",
-    "ultra-runner": "^3.10.5"
+    "ultra-runner": "3.10.5"
   },
   "eslintConfig": {
     "extends": [
@@ -62,7 +62,7 @@
     "@s-ui/test": "typescript-support",
     "@s-ui/mock": "adr-mother-object",
     "typescript": "5.0",
-    "glob-parent": "^6.0.1"
+    "glob-parent": "6.0.1"
   },
   "msw": {
     "workerDirectory": "app/public"
