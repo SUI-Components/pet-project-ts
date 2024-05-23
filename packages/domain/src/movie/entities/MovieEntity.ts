@@ -13,27 +13,27 @@ export const MovieEntityValidation = z.object({
 })
 
 export class MovieEntity {
-  static create({id, title, description, image}: z.infer<typeof MovieEntityValidation>) {
-    MovieEntityValidation.parse({id, title, description, image})
+  // static create({id, title, description, image}: z.infer<typeof MovieEntityValidation>) {
+  //   MovieEntityValidation.parse({id, title, description, image})
 
-    return new MovieEntity(
-      IDValueObject.create({value: id}),
-      TitleValueObject.create({value: title}),
-      DescriptionValueObject.create({value: description}),
-      ImageValueObject.create({value: image}),
-      false
-    )
-  }
+  //   return new MovieEntity(
+  //     IDValueObject.create({value: id}),
+  //     TitleValueObject.create({value: title}),
+  //     DescriptionValueObject.create({value: description}),
+  //     ImageValueObject.create({value: image}),
+  //     false
+  //   )
+  // }
 
-  static empty() {
-    return new MovieEntity(
-      IDValueObject.empty(),
-      TitleValueObject.empty(),
-      DescriptionValueObject.empty(),
-      ImageValueObject.empty(),
-      true
-    )
-  }
+  // static empty() {
+  //   return new MovieEntity(
+  //     IDValueObject.empty(),
+  //     TitleValueObject.empty(),
+  //     DescriptionValueObject.empty(),
+  //     ImageValueObject.empty(),
+  //     true
+  //   )
+  // }
 
   constructor(
     private readonly _id: IDValueObject,
