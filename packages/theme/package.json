@@ -1,0 +1,19 @@
+{
+  "name": "@adv-ui/pet-theme",
+  "version": "1.8.0",
+  "description": "Theme using SASS",
+  "author": "Web Platform <enablers-frontend@adevinta.com> (https://github.mpi-internal.com/scmspain/es-td-agreements/tree/master/30-Frontend)",
+  "license": "MIT",
+  "keywords": [
+    "SASS",
+    "Theme"
+  ],
+  "scripts": {
+    "lib": "make lib",
+    "lint": "make lint",
+    "prepublishOnly": "make prepublishOnly"
+  },
+  "dependencies": {
+    "@s-ui/theme": "8"
+  }
+}
