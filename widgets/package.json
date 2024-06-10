@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@adv-ui/pet-layout-header": "^1.3.0",
-    "@adv-ui/pet-styles": "^1.4.0",
+    "@adv-ui/pet-theme": "^1.4.0",
     "@s-ui/widget-embedder": "^6.2.0"
   },
   "config": {}
