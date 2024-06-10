@@ -1,5 +1,14 @@
 # CHANGELOG
 
+# 1.9.0 (2024-06-10)
+
+
+### Features
+
+* add theme ([f07b90f](https://github.mpi-internal.com/scmspain/frontend-all--pet-project-ts/commit/f07b90f20ef0093828464ce2e62d6462f8ec609a))
+
+
+
 # 1.8.0 (2023-12-19)
 
 
@@ -59,6 +68,3 @@
 ### Bug Fixes
 
 * **packages/styles:** bump minor ([4cc9dd5](https://github.mpi-internal.com/scmspain/frontend-all--pet-project-ts/commit/4cc9dd527f770584daad00765d7dc7d2d703e267))
-
-
-
