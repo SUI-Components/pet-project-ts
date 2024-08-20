@@ -291,6 +291,31 @@ jobs:
       artifactory-user: ${{ secrets.ARTIFACTORY_USER }}
       artifactory-pwd: ${{ secrets.ARTIFACTORY_PWD }}
 
+  lhci:
+    name: Lighthouse
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: run Lighthouse CI
+        run: |
+          npm install -g @lhci/cli@0.14.x
+          lhci autorun
+        env:
+          URL_APP: https://ms-${{ needs.compute.outputs.APPLICATION_NAME }}--sandbox-pr-${{ github.event.number }}.es-microtest-pre.schip.io
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lhci report
+          path: ./.lighthouseci
+          retention-days: 30
+
+
   comment-pr:
     name: 📄 Comment PR
     runs-on: medium
