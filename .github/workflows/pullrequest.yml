@@ -292,7 +292,7 @@ jobs:
       artifactory-pwd: ${{ secrets.ARTIFACTORY_PWD }}
 
   lhci:
-    name: Lighthouse
+    name: 🚦Lighthouse
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
