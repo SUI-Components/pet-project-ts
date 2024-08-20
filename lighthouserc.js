@@ -1,4 +1,4 @@
-const {URL_APP} = process.env
+const {URL_APP, GITHUB_TOKEN} = process.env
 
 module.exports = {
   ci: {
@@ -10,7 +10,9 @@ module.exports = {
     upload: {
       target: 'lhci',
       token: 'a8fcb41e-8af0-4374-8139-2a6849c43bb5',
-      serverBaseUrl: 'https://lhci-server.es-microtest-pro.schip.io/'
+      serverBaseUrl: 'https://lhci-server.es-microtest-pro.schip.io/',
+      githubToken: GITHUB_TOKEN,
+      githubApiHost: 'https://github.mpi-internal.com/'
     }
   }
 }
