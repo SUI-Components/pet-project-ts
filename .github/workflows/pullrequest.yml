@@ -296,8 +296,8 @@ jobs:
   lhci:
     name: 🚦Lighthouse
     runs-on: big
-    # needs:
-    #   - deploy
+    needs:
+      - compute
     steps:
       - uses: actions/checkout@v3
 
