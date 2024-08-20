@@ -294,6 +294,8 @@ jobs:
   lhci:
     name: 🚦Lighthouse
     runs-on: ubuntu-latest
+    needs:
+      - deploy
     steps:
       - uses: actions/checkout@v3
 
