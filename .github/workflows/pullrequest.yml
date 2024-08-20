@@ -308,7 +308,7 @@ jobs:
       - name: run Lighthouse CI
         run: |
           npm install -g @lhci/cli@0.14.x
-          lhci autorun
+          lhci autorun --verbose
         env:
           URL_APP: https://ms-${{ needs.compute.outputs.APPLICATION_NAME }}--sandbox-pr-${{ github.event.number }}.es-microtest-pre.schip.io
 
