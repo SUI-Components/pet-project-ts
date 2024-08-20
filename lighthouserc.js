@@ -1,8 +1,9 @@
-const {URL_APP, GITHUB_TOKEN} = process.env
+const {URL_APP, GITHUB_TOKEN, CHROME_PATH} = process.env
 
 module.exports = {
   ci: {
     collect: {
+      chromePath: CHROME_PATH,
       url: [
         URL_APP + '/',              // eslint-disable-line
         URL_APP + '/movie/955916']  // eslint-disable-line
