@@ -319,6 +319,7 @@ jobs:
         env:
           CHROME_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
           URL_APP: https://ms-${{ needs.compute.outputs.APPLICATION_NAME }}--sandbox-pr-${{ github.event.number }}.es-microtest-pre.schip.io
+          LHCI_BUILD_CONTEXT__ANCESTOR_HASH: ${{ github.event.before }}
 
       - uses: actions/upload-artifact@v3
         if: always()
