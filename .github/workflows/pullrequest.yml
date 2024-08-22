@@ -324,6 +324,15 @@ jobs:
           name: lhci report
           path: ./.lighthouseci
           retention-days: 30
+      
+      - name: Lighthouse CI Compare
+        uses: adevinta/actions-lighthouseci-compare@v1
+        with:
+          links-filepath: '.lighthouseci/links.json'
+          base-url: 'https://lhci-server.es-microtest-pro.schip.io/v1'
+          project-id: '33489a90-c163-458a-b86d-47555b419fa4'
+          current-commit-sha: ${{ github.sha }}
+          should-build-fail: false
 
 
   comment-pr:
