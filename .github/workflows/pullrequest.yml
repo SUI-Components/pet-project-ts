@@ -300,9 +300,17 @@ jobs:
       - compute
       # - deploy
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          fetch-depth: 0  # Trae todo el historial
+          fetch-tags: true  # Trae todas las etiquetas
+          ref: ${{ github.head_ref }}  # Checkout la rama del PR si es un pull request
+
+      - name: Fetch all branches
+        run: |
+          git fetch --all
+          git branch -a
 
       - name: Setup Chrome
         id: setup-chrome
