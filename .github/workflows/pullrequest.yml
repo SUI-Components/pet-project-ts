@@ -326,7 +326,7 @@ jobs:
           retention-days: 30
       
       - name: Lighthouse CI Compare
-        uses: adevinta/actions-lighthouseci-compare@v1
+        uses: adevinta/actions-lighthouseci-compare@v1.1.0
         with:
           links-filepath: '.lighthouseci/links.json'
           base-url: 'https://lhci-server.es-microtest-pro.schip.io/v1'
