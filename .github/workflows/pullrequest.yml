@@ -303,14 +303,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Trae todo el historial
-          fetch-tags: true  # Trae todas las etiquetas
-          ref: ${{ github.head_ref }}  # Checkout la rama del PR si es un pull request
-
-      - name: Fetch all branches
-        run: |
-          git fetch --all
-          git branch -a
+          fetch-depth: 0
 
       - name: Setup Chrome
         id: setup-chrome
@@ -320,17 +313,6 @@ jobs:
         with:
           node-version-file: '.nvmrc'
 
-      - name: Set LHCI_BUILD_CONTEXT__ANCESTOR_HASH
-        run: |
-          CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-          echo "CURRENT_BRANCH $CURRENT_BRANCH"
-
-          FORK_POINT=$(git merge-base master $CURRENT_BRANCH)
-          echo "FORK_POINT $FORK_POINT"
-
-          echo "LHCI_BUILD_CONTEXT__ANCESTOR_HASH=$FORK_POINT" >> $GITHUB_ENV
-        shell: bash
-
       - name: run Lighthouse CI
         run: |
           npm install -g @lhci/cli@0.14.x
@@ -338,6 +320,7 @@ jobs:
         env:
           CHROME_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
           URL_APP: https://ms-${{ needs.compute.outputs.APPLICATION_NAME }}--sandbox-pr-${{ github.event.number }}.es-microtest-pre.schip.io
+          LHCI_BUILD_CONTEXT__ANCESTOR_HASH: ${{ github.event.pull_request.base.sha }}
 
       - uses: actions/upload-artifact@v3
         if: always()
