@@ -328,17 +328,17 @@ jobs:
     needs:
       - compute
       - critical-css
-    strategy:
-      matrix:
-        include:
-          - environment: 'pre'
-            stage: 'development'
-          - environment: 'pro'
-            stage: 'production'
+    # strategy:
+    #   matrix:
+    #     include:
+    #       - environment: 'pre'
+    #         stage: 'development'
+    #       - environment: 'pro'
+    #         stage: 'production'
     uses: scmspain/platform-common--actions/.github/workflows/validate-and-publish.yml@v0
     with:
-      environments: ${{ matrix.environment }}
-      image-tag: containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-${{ matrix.stage }}-with-critical-css:${{ github.sha }}
+      environments: pro 
+      image-tag: containers.mpi-internal.com/${{ github.repository }}-${{ needs.compute.outputs.APPLICATION_NAME }}-production-with-critical-css:${{ github.sha }}
       application-name: ms-${{ needs.compute.outputs.APPLICATION_NAME }}--sandbox
       bounded-context: ${{ needs.compute.outputs.BOUNDED_CONTEXT }}
     secrets:
