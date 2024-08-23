@@ -358,7 +358,7 @@ jobs:
       contents: read
     uses: scmspain/platform-common--actions/.github/workflows/deploy.yml@v0
     with:
-      environment: pre
+      environment: pro
       manifests-path: ${{ needs.validate-and-publish.outputs.manifests-path }}
       bounded-context: ${{ needs.compute.outputs.BOUNDED_CONTEXT }}
     secrets:
