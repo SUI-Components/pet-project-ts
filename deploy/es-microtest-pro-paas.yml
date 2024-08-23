@@ -47,7 +47,7 @@ annotations:
   ingress:
     nginx.ingress.kubernetes.io/whitelist-source-range: 0.0.0.0/0
     kubernetes.io/ingress.class: nginx
-    common-platform.io/allowlist-group: global-protect
+    common-platform.io/allowlist-group: global-protect, gha-runners
 
 extensions:
   tls:
