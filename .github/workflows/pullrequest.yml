@@ -335,7 +335,7 @@ jobs:
           links-filepath: '.lighthouseci/links.json'
           base-url: 'https://lhci-server.es-microtest-pro.schip.io/v1'
           project-id: '33489a90-c163-458a-b86d-47555b419fa4'
-          current-commit-sha: ${{ github.sha }}
+          current-commit-sha: ${{ github.event.pull_request.head.sha }}
           should-fail-build: true
 
 
