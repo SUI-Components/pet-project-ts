@@ -365,6 +365,51 @@ jobs:
       artifactory-user: ${{ secrets.ARTIFACTORY_USER }}
       artifactory-pwd: ${{ secrets.ARTIFACTORY_PWD }}
 
+  lhci:
+    name: 🚦Lighthouse
+    runs-on: big
+    needs:
+      - compute
+      # - deploy
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Chrome
+        id: setup-chrome
+        uses: scmspain/platform-common--actions/frontend/setup-chrome@v0
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: run Lighthouse CI
+        run: |
+          npm install -g @lhci/cli@0.14.x
+          lhci autorun --verbose
+        env:
+          CHROME_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
+          URL_APP: https://ms-pet-movies--sandbox.es-microtest-pro.schip.io
+          LHCI_BUILD_CONTEXT__ANCESTOR_HASH: ${{ github.event.before }}
+
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: lhci report
+          path: ./.lighthouseci
+          retention-days: 30
+      
+      - name: Lighthouse CI Compare
+        uses: adevinta/actions-lighthouseci-compare@v1.1.0
+        with:
+          links-filepath: '.lighthouseci/links.json'
+          base-url: 'https://lhci-server.es-microtest-pro.schip.io/v1'
+          project-id: '33489a90-c163-458a-b86d-47555b419fa4'
+          current-commit-sha: ${{ github.sha }}
+          should-fail-build: true
+
   notify:
     name: 📄 Notify
     runs-on: small
