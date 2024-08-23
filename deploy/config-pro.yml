@@ -1,3 +1,4 @@
 NODE_ENV: production
 STAGE: production
 CDN: /
+CONSOLE: true
