@@ -370,7 +370,7 @@ jobs:
     runs-on: big
     needs:
       - compute
-      # - deploy
+      - deploy
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
