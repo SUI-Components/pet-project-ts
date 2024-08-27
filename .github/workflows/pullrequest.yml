@@ -337,6 +337,7 @@ jobs:
           retention-days: 30
       
       - name: Lighthouse CI Compare
+        id: lhci-compare
         uses: adevinta/actions-lighthouseci-compare@v1.1.0
         with:
           links-filepath: '.lighthouseci/links.json'
@@ -345,6 +346,10 @@ jobs:
           current-commit-sha: ${{ github.event.pull_request.head.sha }}
           should-fail-build: true
 
+      - name: Add LHCI results
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: ${{ steps.lhci-compare.outputs.markdown }}
 
   comment-pr:
     name: 📄 Comment PR
@@ -357,3 +362,4 @@ jobs:
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: https://ms-${{ needs.compute.outputs.APPLICATION_NAME }}--sandbox-pr-${{ github.event.number }}.es-microtest-pre.schip.io
+
