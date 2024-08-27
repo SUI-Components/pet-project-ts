@@ -20,9 +20,3 @@ module.exports = {
     }
   }
 }
-
-// https://ms-pet-movies--sandbox-pr-35.es-microtest-pre.schip.io/movie/955916
-// https://ms-pet-movies--sandbox.es-microtest-pro.schip.io/movie/955916
-//
-// https://ms-pet-movies--sandbox-pr-35.es-microtest-pre.schip.io/
-// https://ms-pet-movies--sandbox.es-microtest-pro.schip.io/
